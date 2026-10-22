@@ -1,0 +1,39 @@
+page {
+  background: #f3f7f5;
+  color: #173437;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.page-shell {
+  padding: 32rpx;
+}
+
+.card {
+  background: #ffffff;
+  border: 1rpx solid #d8e4e1;
+  border-radius: 28rpx;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+
+.eyebrow {
+  color: #0d5c63;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: #617477;
+}
+
+.primary-button {
+  background: #0d5c63 !important;
+  color: #ffffff !important;
+  border-radius: 18rpx !important;
+}
+
+.primary-button[disabled] {
+  opacity: 0.55;
+}

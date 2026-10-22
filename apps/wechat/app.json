@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/home/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "医程共护",
+    "navigationBarBackgroundColor": "#0D5C63",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F3F7F5",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

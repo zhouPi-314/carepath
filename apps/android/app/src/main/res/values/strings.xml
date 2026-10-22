@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">医程共护</string>
+    <string name="notification_channel_name">治疗协同提醒</string>
+    <string name="notification_channel_description">提醒患者查看治疗任务</string>
+</resources>

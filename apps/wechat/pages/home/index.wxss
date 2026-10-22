@@ -1,0 +1,248 @@
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20rpx;
+  margin-bottom: 28rpx;
+}
+
+.page-title {
+  display: block;
+  font-size: 48rpx;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -1rpx;
+  margin-top: 10rpx;
+}
+
+.plan-name {
+  display: block;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.logout-button {
+  margin: 0;
+  padding: 0 24rpx;
+  line-height: 64rpx;
+  font-size: 24rpx;
+  border: 1rpx solid #d8e4e1;
+  border-radius: 14rpx;
+  background: #ffffff;
+  color: #0d5c63;
+}
+
+.warning,
+.error {
+  border-radius: 18rpx;
+  padding: 20rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  margin-bottom: 22rpx;
+}
+
+.warning {
+  color: #8c5a1f;
+  background: #fff3df;
+}
+
+.error {
+  color: #a83e32;
+  background: #fbebe8;
+}
+
+.hero-card {
+  color: #ffffff;
+  border-radius: 32rpx;
+  padding: 34rpx;
+  background: linear-gradient(135deg, #0d5c63, #173f43);
+}
+
+.hero-eyebrow {
+  display: block;
+  color: #efc47f;
+  font-size: 22rpx;
+  font-weight: 700;
+  letter-spacing: 2rpx;
+}
+
+.hero-title {
+  display: block;
+  font-size: 48rpx;
+  line-height: 1.25;
+  font-weight: 800;
+  margin: 16rpx 0;
+}
+
+.hero-copy {
+  display: block;
+  color: #c5e1dc;
+  font-size: 26rpx;
+  line-height: 1.65;
+}
+
+.progress-track {
+  height: 14rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin-top: 30rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999rpx;
+  background: #efc47f;
+}
+
+.hero-progress {
+  display: block;
+  color: #c5e1dc;
+  font-size: 23rpx;
+  margin-top: 12rpx;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14rpx;
+  margin-top: 22rpx;
+}
+
+.metric {
+  padding: 22rpx 18rpx;
+}
+
+.metric-value {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 800;
+}
+
+.metric-label {
+  display: block;
+  color: #617477;
+  font-size: 22rpx;
+  margin-top: 4rpx;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin: 38rpx 2rpx 18rpx;
+}
+
+.section-heading .muted {
+  font-size: 21rpx;
+  font-weight: 400;
+}
+
+.task-card,
+.medication-card,
+.alert-card {
+  margin-bottom: 16rpx;
+}
+
+.task-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.task-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-title,
+.med-name,
+.alert-title {
+  display: block;
+  font-size: 29rpx;
+  font-weight: 700;
+}
+
+.task-description,
+.med-copy,
+.alert-copy {
+  display: block;
+  font-size: 23rpx;
+  line-height: 1.6;
+  margin-top: 7rpx;
+}
+
+.task-state {
+  flex: 0 0 auto;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.task-state.done {
+  color: #248265;
+}
+
+.task-state.overdue {
+  color: #a83e32;
+}
+
+.task-state.pending {
+  color: #8c5a1f;
+}
+
+.task-date {
+  display: block;
+  font-size: 22rpx;
+  margin-top: 16rpx;
+}
+
+.task-button {
+  margin-top: 20rpx;
+  font-size: 26rpx;
+}
+
+.medication-card {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.med-mark {
+  width: 62rpx;
+  height: 62rpx;
+  flex: 0 0 62rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18rpx;
+  background: #e5f2f0;
+  color: #0d5c63;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.alert-card {
+  background: #fff7e9;
+  border-color: #ead8b6;
+}
+
+.alert-card.high {
+  background: #fbebe8;
+  border-color: #ecc6c0;
+}
+
+.loading-card {
+  text-align: center;
+  color: #617477;
+  margin-top: 24rpx;
+}
+
+.boundary {
+  display: block;
+  color: #788c8f;
+  font-size: 21rpx;
+  line-height: 1.7;
+  margin: 34rpx 4rpx;
+}

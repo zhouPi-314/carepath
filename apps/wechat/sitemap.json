@@ -1,0 +1,9 @@
+{
+  "desc": "CarePath demo sitemap",
+  "rules": [
+    {
+      "action": "disallow",
+      "page": "*"
+    }
+  ]
+}

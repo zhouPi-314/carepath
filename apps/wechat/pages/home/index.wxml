@@ -1,0 +1,103 @@
+<view class="page-shell">
+  <view class="header-row">
+    <view>
+      <text class="eyebrow">TREATMENT JOURNEY</text>
+      <text class="page-title">{{session.displayName}}的治疗进度</text>
+      <text class="muted plan-name">{{planTitle}}</text>
+    </view>
+    <button class="logout-button" bindtap="logout">退出</button>
+  </view>
+
+  <view wx:if="{{offlineWarning}}" class="warning">{{offlineWarning}}</view>
+  <view wx:if="{{error}}" class="error">{{error}}</view>
+
+  <view wx:if="{{dashboard}}">
+    <view class="hero-card">
+      <text class="hero-eyebrow">下一步</text>
+      <text class="hero-title">{{nextTask ? nextTask.title : '当前任务全部完成'}}</text>
+      <text class="hero-copy">{{summary}}</text>
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{progress}}%;"></view>
+      </view>
+      <text class="hero-progress">{{progress}}% 任务已完成</text>
+    </view>
+
+    <view class="metric-grid">
+      <view class="metric card">
+        <text class="metric-value">{{dashboard.tasks.length}}</text>
+        <text class="metric-label">协同任务</text>
+      </view>
+      <view class="metric card">
+        <text class="metric-value">{{dashboard.medications.length}}</text>
+        <text class="metric-label">用药安排</text>
+      </view>
+      <view class="metric card">
+        <text class="metric-value">{{openAlertCount}}</text>
+        <text class="metric-label">待处理</text>
+      </view>
+    </view>
+
+    <view class="section-heading">
+      <text>协同任务</text>
+      <text class="muted">按截止时间排序</text>
+    </view>
+
+    <view
+      wx:for="{{tasks}}"
+      wx:key="id"
+      class="card task-card"
+    >
+      <view class="task-top">
+        <view class="task-copy">
+          <text class="task-title">{{item.title}}</text>
+          <text class="muted task-description">{{item.description}}</text>
+        </view>
+        <text class="task-state {{item.stateClass}}">{{item.stateLabel}}</text>
+      </view>
+      <text class="muted task-date">{{item.dueLabel}}</text>
+      <button
+        wx:if="{{item.status !== 'COMPLETED'}}"
+        class="primary-button task-button"
+        data-id="{{item.id}}"
+        bindtap="completeTask"
+      >
+        标记为已完成
+      </button>
+    </view>
+
+    <view class="section-heading">
+      <text>用药安排</text>
+      <text class="muted">仅作计划与服药记录</text>
+    </view>
+    <view wx:for="{{dashboard.medications}}" wx:key="id" class="card medication-card">
+      <view class="med-mark">Rx</view>
+      <view>
+        <text class="med-name">{{item.drugName}}</text>
+        <text class="muted med-copy">{{item.doseText}} · {{item.frequencyText}}</text>
+      </view>
+    </view>
+
+    <block wx:if="{{dashboard.alerts.length}}">
+      <view class="section-heading">
+        <text>异常提醒</text>
+        <text class="muted">系统不会自动调整方案</text>
+      </view>
+      <view
+        wx:for="{{dashboard.alerts}}"
+        wx:key="id"
+        class="card alert-card {{item.severity === 'HIGH' ? 'high' : ''}}"
+      >
+        <text class="alert-title">{{item.title}}</text>
+        <text class="muted alert-copy">{{item.detail}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view wx:else class="card loading-card">
+    <text>{{loading ? '正在加载治疗进度…' : '暂无可显示数据'}}</text>
+  </view>
+
+  <text class="boundary">
+    当前为微信开发沙箱，使用合成病例；不提供诊断、处方、真实医保或监管结论。
+  </text>
+</view>

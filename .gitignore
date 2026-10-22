@@ -33,6 +33,8 @@ project.private.config.json
 *.log
 .superpowers/
 docs/qa/
+*.docx
+*.pdf
 
 # OS / editor
 .DS_Store
