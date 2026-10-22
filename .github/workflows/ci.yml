@@ -45,10 +45,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "24"
-      - name: Enable corepack and install pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
+      - name: Enable corepack (pnpm version pinned in package.json)
+        run: corepack enable
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Run tests
@@ -87,5 +85,7 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v4
+      - name: Make wrapper executable
+        run: chmod +x gradlew
       - name: Run pure logic module tests
-        run: ./gradlew :logic:test --no-daemon
+        run: ./gradlew :logic:test --no-daemon -Dorg.gradle.configureondemand=true
