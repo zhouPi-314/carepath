@@ -1,0 +1,93 @@
+from __future__ import annotations
+
+import os
+from pathlib import Path
+
+import pytest
+from httpx import ASGITransport, AsyncClient
+
+os.environ["APP_ENV"] = "test"
+os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///./carepath-test.db"
+os.environ["SECRET_KEY"] = "test-secret-key-with-at-least-32-characters"
+
+
+@pytest.fixture
+async def client() -> AsyncClient:
+    from carepath.db import Base, engine
+    from carepath.main import app
+    from carepath.seed import seed_database
+
+    await engine.dispose()
+    db_path = Path("carepath-test.db")
+    if db_path.exists():
+        db_path.unlink()
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    await seed_database()
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as test_client:
+        yield test_client
+
+    await engine.dispose()
+    if db_path.exists():
+        db_path.unlink()
+
+
+async def login(client: AsyncClient, username: str) -> dict:
+    response = await client.post(
+        "/api/v1/auth/login",
+        json={"username": username, "password": "CarePath123!"},
+    )
+    assert response.status_code == 200, response.text
+    return response.json()
+
+
+@pytest.mark.asyncio
+async def test_caregiver_and_doctor_complete_task_flow(client: AsyncClient) -> None:
+    caregiver = await login(client, "caregiver")
+    headers = {"Authorization": f"Bearer {caregiver['accessToken']}"}
+
+    dashboard = await client.get("/api/v1/patient/dashboard", headers=headers)
+    assert dashboard.status_code == 200, dashboard.text
+    tasks = dashboard.json()["tasks"]
+    target = next(task for task in tasks if task["status"] != "COMPLETED")
+
+    completed = await client.post(
+        f"/api/v1/tasks/{target['id']}/complete",
+        headers=headers,
+        json={"note": "家属确认已完成"},
+    )
+    assert completed.status_code == 200, completed.text
+    assert completed.json()["status"] == "COMPLETED"
+
+    doctor = await login(client, "doctor")
+    doctor_headers = {"Authorization": f"Bearer {doctor['accessToken']}"}
+    doctor_dashboard = await client.get("/api/v1/doctor/dashboard", headers=doctor_headers)
+    assert doctor_dashboard.status_code == 200
+    assert doctor_dashboard.json()["taskCompletionRate"] >= 0
+
+
+@pytest.mark.asyncio
+async def test_regulator_and_pharma_only_receive_aggregates(client: AsyncClient) -> None:
+    regulator = await login(client, "regulator")
+    regulator_headers = {"Authorization": f"Bearer {regulator['accessToken']}"}
+    metrics = await client.get("/api/v1/government/metrics", headers=regulator_headers)
+    assert metrics.status_code == 200, metrics.text
+    assert all("patientId" not in row for row in metrics.json()["regions"])
+
+    pharma = await login(client, "pharma")
+    pharma_headers = {"Authorization": f"Bearer {pharma['accessToken']}"}
+    demand = await client.get("/api/v1/pharma/demand", headers=pharma_headers)
+    assert demand.status_code == 200, demand.text
+    assert all("patientId" not in row for row in demand.json()["signals"])
+
+
+@pytest.mark.asyncio
+async def test_cross_role_route_is_denied(client: AsyncClient) -> None:
+    patient = await login(client, "patient")
+    response = await client.get(
+        "/api/v1/government/metrics",
+        headers={"Authorization": f"Bearer {patient['accessToken']}"},
+    )
+    assert response.status_code == 403

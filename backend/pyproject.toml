@@ -13,7 +13,7 @@ dependencies = [
   "asyncpg>=0.30,<1",
   "fastapi>=0.115,<1",
   "httpx>=0.28,<1",
-  "prometheus-fastapi-instrumentator>=7.0,<8",
+  "prometheus-client>=0.21,<1",
   "pydantic-settings>=2.7,<3",
   "pyjwt>=2.10,<3",
   "python-multipart>=0.0.20,<1",
@@ -46,3 +46,5 @@ target-version = "py313"
 select = ["E", "F", "I", "UP", "B", "ASYNC"]
 ignore = ["B008"]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ASYNC240"]
