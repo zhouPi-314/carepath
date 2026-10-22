@@ -25,7 +25,7 @@
 - [变更日志](CHANGELOG.md)
 - [行为准则](CODE_OF_CONDUCT.md)
 - [文档索引](docs/README.md)
-- [许可证决策记录](docs/decisions/0001-license-pending.md)（待项目所有者确认）
+- [许可证决策记录](docs/decisions/0001-license-apache-2.0.md)（Apache-2.0）
 
 ## 快速开始
 
@@ -101,9 +101,11 @@ cd apps/android
 
 详细拆解见 [`docs/plans/05-implementation-and-acceptance.md`](docs/plans/05-implementation-and-acceptance.md)。
 
-## 开源状态
+## 开源许可
 
-项目当前尚未选定开源许可证。没有明确许可证的公开仓库默认保留全部权利，不构成有效开源授权。正式发布前必须由项目所有者确认许可证；若需要明确专利授权，可优先评估 Apache-2.0，若只需最简宽松许可可评估 MIT。决策记录见 [`docs/decisions/0001-license-pending.md`](docs/decisions/0001-license-pending.md)。
+本项目采用 [Apache License 2.0](LICENSE)。你可以自由使用、修改和分发，但需保留版权与许可声明，并遵守其中的专利授权与免责条款。
+
+决策记录见 [`docs/decisions/0001-license-apache-2.0.md`](docs/decisions/0001-license-apache-2.0.md)。
 
 Word、PDF、原始构想和渲染 QA 文件归档在仓库外：
 

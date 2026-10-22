@@ -18,6 +18,6 @@
 - Vue 多角色 Web 工作台、Android 患者/家属端、微信小程序沙箱端。
 - Docker Compose（PostgreSQL、Redis、MinIO、后端、Web）与 Nginx 配置。
 
-### 待确认
+### 许可证
 
-- 开源许可证：未选定前不得宣称仓库已构成法律意义上的开源授权。
+- 项目所有者确认采用 **Apache License 2.0**，仓库根目录新增 `LICENSE` 标准文本；决策记录见 `docs/decisions/0001-license-apache-2.0.md`。

@@ -54,6 +54,10 @@ cd apps/android
 3. 文档中的“已完成”与测试输出一致。
 4. 关联 issue（如适用）。
 
+## 许可证
+
+本项目采用 [Apache License 2.0](LICENSE)。提交贡献即表示你同意按该许可证授权你的贡献；请勿提交你无权授权的第三方代码、素材或数据。
+
 ## 行为准则
 
 参与本项目即表示同意遵守 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
