@@ -82,3 +82,14 @@ GitHub 星标、版本和许可证会变化，正式商用前必须重新核验�
 - 离线、无障碍、错误恢复和隐私提示。
 
 调研结果记录在 `docs/research/competitive-matrix.md`，不得从非授权目标提取私有业务代码。
+
+## 7. 已实现适配契约（第 3 周）
+
+- `OfficialCatalogSource`（`backend/src/carepath/official_data/contracts.py`）：定义 `source_code`、`parser_version` 和 `parse(raw) -> ParsedDataset`。
+- `OfficialDatasetRepository`：定义 `exists_by_checksum` 与 `add`；SQLAlchemy 适配器位于 `repository.py`，领域层不依赖 ORM。
+- 四个来源解析器：`NmpaSource`、`NhsaSource`、`NhcSource`、`NbsSource`，只解析人工导出的 JSON 快照，不访问官网、不绕过 WAF/验证码/登录。
+- 校验规则：来源代码、标题、版本、https 来源链接、审核人、解析器版本、SHA-256 校验值，以及发布日期不得晚于生效日期。
+- 状态规则：记录缺字段或为空时 `UNVERIFIED`（优先）；生效日期超过 365 天为 `STALE`；否则 `VERIFIED`。
+- 管理端接口：`GET /api/v1/admin/official-datasets/sources` 列出来源与解析器版本；`POST /api/v1/admin/official-datasets/sources/{sourceCode}/import` 导入快照。重复校验值 409，非法快照 422，未知来源 404。
+- 测试夹具：`backend/tests/fixtures/official/*.json`；PostgreSQL 冒烟也会执行一次来源导入并验证重复导入 409。
+

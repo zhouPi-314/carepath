@@ -1,0 +1,17 @@
+{
+  "title": "国家卫生健康委医疗机构公开信息快照（测试夹具）",
+  "version": "fixture-2026-10",
+  "sourceUrl": "https://www.nhc.gov.cn/",
+  "publishedAt": "2026-10-01",
+  "effectiveAt": "2026-10-01",
+  "records": [
+    {
+      "institutionName": "海州市第一人民医院",
+      "regionCode": "310000"
+    },
+    {
+      "institutionName": "海州市康复医院",
+      "regionCode": "310000"
+    }
+  ]
+}

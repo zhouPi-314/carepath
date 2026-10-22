@@ -1,37 +1,7 @@
 from __future__ import annotations
 
-import os
-from pathlib import Path
-
 import pytest
-from httpx import ASGITransport, AsyncClient
-
-os.environ["APP_ENV"] = "test"
-os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///./carepath-test.db"
-os.environ["SECRET_KEY"] = "test-secret-key-with-at-least-32-characters"
-
-
-@pytest.fixture
-async def client() -> AsyncClient:
-    from carepath.db import Base, engine
-    from carepath.main import app
-    from carepath.seed import seed_database
-
-    await engine.dispose()
-    db_path = Path("carepath-test.db")
-    if db_path.exists():
-        db_path.unlink()
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    await seed_database()
-
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as test_client:
-        yield test_client
-
-    await engine.dispose()
-    if db_path.exists():
-        db_path.unlink()
+from httpx import AsyncClient
 
 
 async def login(client: AsyncClient, username: str) -> dict:

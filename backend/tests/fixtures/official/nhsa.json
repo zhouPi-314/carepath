@@ -1,0 +1,17 @@
+{
+  "title": "国家医疗保障局医保药品目录快照（测试夹具）",
+  "version": "fixture-2026-10",
+  "sourceUrl": "https://www.nhsa.gov.cn/",
+  "publishedAt": "2026-10-01",
+  "effectiveAt": "2026-10-01",
+  "records": [
+    {
+      "drugName": "示例降压片",
+      "insuranceLabel": "乙类（演示信息，不代表实际报销）"
+    },
+    {
+      "drugName": "示例康复用药",
+      "insuranceLabel": "自费（演示信息，不代表实际报销）"
+    }
+  ]
+}

@@ -158,6 +158,40 @@ async def _seed_and_exercise() -> None:
             _fail(f"duplicate checksum returned {duplicate.status_code}, expected 409")
         _ok("duplicate official dataset rejected with 409")
 
+        nmpa_payload = {
+            "title": "国家药品监督管理局公开药品目录快照（冒烟）",
+            "version": "smoke-2026-10",
+            "sourceUrl": "https://www.nmpa.gov.cn/",
+            "publishedAt": "2026-10-01",
+            "effectiveAt": "2026-10-01",
+            "records": [
+                {
+                    "approvalNumber": "国药准字H20260001",
+                    "name": "示例降压片",
+                    "manufacturer": "华康示范药业有限公司（虚构）",
+                }
+            ],
+        }
+        imported = await client.post(
+            "/api/v1/admin/official-datasets/sources/NMPA/import",
+            headers=admin_headers,
+            json={"payload": nmpa_payload},
+        )
+        if imported.status_code != 201:
+            _fail(f"source import returned {imported.status_code}: {imported.text[:200]}")
+        if imported.json()["status"] != "VERIFIED":
+            _fail("source import should be VERIFIED")
+        duplicate_import = await client.post(
+            "/api/v1/admin/official-datasets/sources/NMPA/import",
+            headers=admin_headers,
+            json={"payload": nmpa_payload},
+        )
+        if duplicate_import.status_code != 409:
+            _fail(
+                f"duplicate source import returned {duplicate_import.status_code}, expected 409"
+            )
+        _ok("official source import with duplicate rejection")
+
     await engine.dispose()
 
 

@@ -296,3 +296,13 @@ class OfficialDatasetCreate(CamelModel):
     checksum: str = Field(min_length=16, max_length=128)
     reviewer: str
     content: dict[str, Any] = Field(default_factory=dict)
+
+
+class OfficialSourceOut(CamelModel):
+    source_code: str
+    parser_version: str
+
+
+class OfficialSourceImport(CamelModel):
+    payload: dict[str, Any]
+    reviewer: str | None = Field(default=None, max_length=80)

@@ -1,0 +1,19 @@
+{
+  "title": "国家药品监督管理局公开药品目录快照（测试夹具）",
+  "version": "fixture-2026-10",
+  "sourceUrl": "https://www.nmpa.gov.cn/",
+  "publishedAt": "2026-10-01",
+  "effectiveAt": "2026-10-01",
+  "records": [
+    {
+      "approvalNumber": "国药准字H20260001",
+      "name": "示例降压片",
+      "manufacturer": "华康示范药业有限公司（虚构）"
+    },
+    {
+      "approvalNumber": "国药准字H20260002",
+      "name": "示例康复用药",
+      "manufacturer": "华康示范药业有限公司（虚构）"
+    }
+  ]
+}
