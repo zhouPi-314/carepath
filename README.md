@@ -14,8 +14,18 @@
 - `apps/wechat/`：原生微信小程序。
 - `docs/`：需求、架构、安全、调研、实施和验收文档。
 - `ops/`：容器化与本地运行配置。
+- `.github/`：issue/PR 模板与 CI 工作流。
 
 交接开发请先阅读 [HANDOFF_TO_DSH.md](HANDOFF_TO_DSH.md)。
+
+## 社区文档
+
+- [贡献指南](CONTRIBUTING.md)
+- [安全政策](SECURITY.md)
+- [变更日志](CHANGELOG.md)
+- [行为准则](CODE_OF_CONDUCT.md)
+- [文档索引](docs/README.md)
+- [许可证决策记录](docs/decisions/0001-license-pending.md)（待项目所有者确认）
 
 ## 快速开始
 
@@ -24,9 +34,9 @@
 ```powershell
 cd backend
 py -3.13 -m venv .venv
-.\.venv\Scripts\python -m pip install -e ".[dev]"
-.\.venv\Scripts\python -m carepath.seed
-.\.venv\Scripts\uvicorn carepath.main:app --reload --port 8000
+.\venv\Scripts\python -m pip install -e ".[dev]"
+.\venv\Scripts\python -m carepath.seed
+.\venv\Scripts\uvicorn carepath.main:app --reload --port 8000
 ```
 
 Web：
@@ -50,24 +60,50 @@ pnpm dev
 
 开发环境默认使用 SQLite 以便无 Docker 启动；设置 `DATABASE_URL=postgresql+asyncpg://...` 后使用 PostgreSQL。生产配置必须使用 PostgreSQL、HTTPS、真实密钥管理和正式身份提供方。
 
+## 测试
+
+仓库包含 GitHub Actions CI（`.github/workflows/ci.yml`），本地可执行相同检查：
+
+```powershell
+# 后端
+cd backend
+.\venv\Scripts\python -m pytest -q
+.\venv\Scripts\python -m ruff check src tests migrations
+
+# Web（pnpm 可通过 corepack 启用）
+cd apps/web
+pnpm test
+pnpm lint
+pnpm build
+
+# 微信
+cd apps/wechat
+npm test
+npm run check
+
+# Android 纯逻辑模块（JDK 17+）
+cd apps/android
+./gradlew :logic:test
+```
+
 ## 8 周开源路线
 
-| 周次 | 重点 |
-|---|---|
-| 1 | 仓库整理、许可证确认、GitHub 文档与 CI |
-| 2 | PostgreSQL 与小数据库功能对照 |
-| 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 |
-| 4 | 官方数据仓储与外部数据库端口 |
-| 5 | Web 主流程 E2E 与小型测试库 |
-| 6 | Android、微信小程序可运行验证 |
-| 7 | 安全、越权、授权撤销、断网补传与错误处理 |
-| 8 | v0.1.0 发布、变更日志、贡献与安全文档 |
+| 周次 | 重点 | 状态 |
+|---|---|---|
+| 1 | 仓库整理、许可证确认、GitHub 文档与 CI | 进行中 |
+| 2 | PostgreSQL 与小数据库功能对照 | 未开始 |
+| 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 | 未开始 |
+| 4 | 官方数据仓储与外部数据库端口 | 未开始 |
+| 5 | Web 主流程 E2E 与小型测试库 | 未开始 |
+| 6 | Android、微信小程序可运行验证 | 未开始 |
+| 7 | 安全、越权、授权撤销、断网补传与错误处理 | 未开始 |
+| 8 | v0.1.0 发布、变更日志、贡献与安全文档 | 未开始 |
 
 详细拆解见 [`docs/plans/05-implementation-and-acceptance.md`](docs/plans/05-implementation-and-acceptance.md)。
 
 ## 开源状态
 
-项目当前尚未选定开源许可证。没有明确许可证的公开仓库默认保留全部权利，不构成有效开源授权。正式发布前必须由项目所有者确认许可证；若需要明确专利授权，可优先评估 Apache-2.0，若只需最简宽松许可可评估 MIT。
+项目当前尚未选定开源许可证。没有明确许可证的公开仓库默认保留全部权利，不构成有效开源授权。正式发布前必须由项目所有者确认许可证；若需要明确专利授权，可优先评估 Apache-2.0，若只需最简宽松许可可评估 MIT。决策记录见 [`docs/decisions/0001-license-pending.md`](docs/decisions/0001-license-pending.md)。
 
 Word、PDF、原始构想和渲染 QA 文件归档在仓库外：
 

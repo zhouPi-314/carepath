@@ -18,9 +18,9 @@
 
 ```powershell
 cd backend
-.\.venv\Scripts\python -m pytest -q
-.\.venv\Scripts\ruff check src tests migrations
-.\.venv\Scripts\alembic.exe upgrade head
+.\venv\Scripts\python -m pytest -q
+.\venv\Scripts\python -m ruff check src tests migrations
+.\venv\Scripts\alembic.exe upgrade head
 ```
 
 Web：
@@ -50,18 +50,31 @@ npm run check
 
 ## 3. 8 周开源交付路线
 
-| 周次 | 目标 | 完成标准 |
-|---|---|---|
-| 第 1 周 | 仓库整理、许可证决策、GitHub 文档、CI | 新开发者可按 README 启动；CI 跑通现有检查 |
-| 第 2 周 | PostgreSQL 与小数据库集成 | Alembic 空库升级和 SQLite/PostgreSQL 对照测试通过 |
-| 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 |
-| 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 |
-| 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 |
-| 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 |
-| 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 |
-| 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 |
+| 周次 | 目标 | 完成标准 | 状态 |
+|---|---|---|---|
+| 第 1 周 | 仓库整理、许可证决策、GitHub 文档、CI | 新开发者可按 README 启动；CI 跑通现有检查 | 进行中 |
+| 第 2 周 | PostgreSQL 与小数据库集成 | Alembic 空库升级和 SQLite/PostgreSQL 对照测试通过 | 未开始 |
+| 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 | 未开始 |
+| 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 未开始 |
+| 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 未开始 |
+| 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 未开始 |
+| 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 未开始 |
+| 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 未开始 |
 
-## 4. 全链验收场景
+## 4. 第 1 周执行记录（2026-10-22）
+
+- [x] 完整阅读交接文档、README、规格和实施计划，核对 git status 与现有测试。
+- [x] 建立基线提交 `41ddd0b chore: prepare open-source project handoff`（73 个文件，仅源码与 Markdown；不含 .env、数据库、APK、构建产物、PDF/DOCX）。
+- [x] 新增 `CONTRIBUTING.md`、`SECURITY.md`、`CHANGELOG.md`、`CODE_OF_CONDUCT.md`。
+- [x] 新增 GitHub issue 模板（缺陷/功能/配置）与 PR 模板。
+- [x] 新增 `.github/workflows/ci.yml`：后端 pytest+ruff、Web test/lint/build、微信 test/check、Android `:logic:test`。
+- [x] 新增许可证决策记录 `docs/decisions/0001-license-pending.md`（待项目所有者确认，未单方面添加 LICENSE 文本）。
+- [ ] 许可证正式确认并添加 `LICENSE` 文本（等待项目所有者）。
+- [ ] 微信开发者工具自动预览（需开启 CLI 服务端口）。
+- [ ] Linux CI 实际跑通（提交后由 GitHub Actions 验证）。
+- [ ] Docker Compose 实际启动（本机无 Docker）。
+
+## 5. 全链验收场景
 
 1. 医生创建计划，患者确认，家属在授权范围内完成自护任务。
 2. 家属授权撤销后，Web、Android 和微信端均不能继续访问受限数据。
@@ -72,7 +85,7 @@ npm run check
 7. Android 断网显示缓存，恢复网络后任务只提交一次。
 8. 微信开发端无 AppID 时仍能使用沙箱账号，并明确显示边界。
 
-## 5. 完成定义
+## 6. 完成定义
 
 - 逻辑变更具有先失败后通过的测试。
 - API 变更同步 OpenAPI 与前端客户端。

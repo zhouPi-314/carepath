@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 项目交接文档
+    url: https://github.com/REPLACE_ORG/REPLACE_REPO/blob/feature/ycth-mvp/HANDOFF_TO_DSH.md
+    about: 开发上下文、当前状态与代码规范。
+  - name: 8 周实施计划
+    url: https://github.com/REPLACE_ORG/REPLACE_REPO/blob/feature/ycth-mvp/docs/plans/05-implementation-and-acceptance.md
+    about: 当前基线和分周任务。
