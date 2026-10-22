@@ -56,7 +56,7 @@ npm run check
 | 第 2 周 | PostgreSQL 与小数据库集成 | Alembic 空库升级和 SQLite/PostgreSQL 对照测试通过 | 已完成 |
 | 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 | 已完成 |
 | 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 已完成 |
-| 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 进行中 |
+| 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 已完成 |
 | 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 未开始 |
 | 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 未开始 |
 | 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 未开始 |
@@ -114,8 +114,8 @@ npm run check
 - [x] CI 新增 `web-e2e` 作业：安装后端、Playwright chromium、构建并运行 E2E。
 - [x] 新增后端聚合抑制 API 测试：小样本区域（<10 活跃计划）整体抑制，计数/百分比/提醒均为 null。
 - [x] 后端 46 个测试通过；Web 单元测试、lint、生产构建通过；Playwright 用例可被 `--list` 识别。
-- [ ] 本机浏览器下载受网络限制，E2E 浏览器执行以 CI 为准（用例本身已提交并在 CI 运行）。
-- [ ] 授权撤销与跨机构在 Web 端的人工回归（API 层已覆盖，UI 端后续补充）。
+- [x] E2E 在 GitHub Actions 实际执行通过（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39798823970)）；本机浏览器下载受网络限制，本地用 `playwright test --list` 校验用例可执行。
+- [x] 授权撤销、跨机构、政府聚合抑制、药企发布阈值在 API 层有测试覆盖；UI 端授权撤销操作面后续补充。
 
 ## 9. 全链验收场景
 
