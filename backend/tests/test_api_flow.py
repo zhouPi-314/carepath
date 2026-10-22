@@ -149,3 +149,49 @@ async def test_pharma_signals_respect_publish_threshold(client: AsyncClient) -> 
         assert signal["organizationCount"] >= 3
         assert signal["patientMonths"] >= 50
         assert "patientId" not in signal
+
+
+@pytest.mark.asyncio
+async def test_government_suppresses_small_region(client: AsyncClient) -> None:
+    from datetime import date
+
+    from carepath.db import SessionLocal
+    from carepath.models import Organization, TreatmentPlan
+
+    async with SessionLocal() as db:
+        organization = Organization(
+            id="org-small-region",
+            name="小样本医院",
+            type="HOSPITAL",
+            region_code="999999",
+            verified=False,
+        )
+        db.add(organization)
+        await db.flush()
+        db.add(
+            TreatmentPlan(
+                template_id="template-hypertension",
+                patient_id="patient-main",
+                doctor_id="user-doctor",
+                organization_id=organization.id,
+                title="小样本区域计划",
+                status="ACTIVE",
+                start_date=date.today(),
+                content={},
+            )
+        )
+        await db.commit()
+
+    regulator = await login(client, "regulator")
+    metrics = await client.get(
+        "/api/v1/government/metrics",
+        headers={"Authorization": f"Bearer {regulator['accessToken']}"},
+    )
+    assert metrics.status_code == 200, metrics.text
+    rows = {row["regionCode"]: row for row in metrics.json()["regions"]}
+
+    assert rows["999999"]["suppressed"] is True
+    assert rows["999999"]["activePlans"] is None
+    assert rows["999999"]["openAlerts"] is None
+    assert rows["999999"]["taskCompletionRate"] is None
+    assert rows["310000"]["suppressed"] is False

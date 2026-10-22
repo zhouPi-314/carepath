@@ -29,6 +29,12 @@
 - 新增 `carepath/integrations/`：HIS、医保、政务、供应链四个预留端口，超时/重试/幂等/审计策略，未配置时显式失败。
 - 新增 `GET /api/v1/admin/integrations` 能力查询与 12 个测试；后端测试总数 45。
 
+### 第 5 周：Web 主流程 E2E
+
+- 新增 Playwright 配置与 10 个 Web E2E 用例，覆盖六角色登录、患者任务、政府聚合与退出。
+- Web 预览服务器增加 API 代理；CI 新增 `web-e2e` 作业。
+- 后端新增小样本区域聚合抑制测试；后端测试总数 46。
+
 ### 既有基线（整理前已实现）
 
 - FastAPI 模块化单体、SQLAlchemy 模型、Alembic 初始迁移和合成演示数据。

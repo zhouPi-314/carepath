@@ -90,6 +90,36 @@ jobs:
       - name: Build production bundle
         run: pnpm build
 
+  web-e2e:
+    name: Web E2E (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install backend with dev extras
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install web dependencies
+        working-directory: apps/web
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright chromium
+        working-directory: apps/web
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Remove stale E2E database
+        run: rm -f backend/carepath-e2e.db
+      - name: Run Playwright flows
+        working-directory: apps/web
+        run: pnpm test:e2e
+
   wechat:
     name: WeChat miniprogram check
     runs-on: ubuntu-latest

@@ -81,6 +81,11 @@ cd apps/wechat
 npm test
 npm run check
 
+# Web E2E（需先安装 Playwright 浏览器）
+cd apps/web
+pnpm exec playwright install chromium
+pnpm test:e2e
+
 # PostgreSQL 冒烟（需要可用的 PostgreSQL）
 cd backend
 $env:CAREPATH_SMOKE_DATABASE_URL='postgresql+asyncpg://user:pass@127.0.0.1:5432/carepath_smoke'
@@ -99,7 +104,7 @@ cd apps/android
 | 2 | PostgreSQL 与小数据库功能对照 | 已完成 |
 | 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 | 已完成 |
 | 4 | 官方数据仓储与外部数据库端口 | 已完成 |
-| 5 | Web 主流程 E2E 与小型测试库 | 未开始 |
+| 5 | Web 主流程 E2E 与小型测试库 | 进行中 |
 | 6 | Android、微信小程序可运行验证 | 未开始 |
 | 7 | 安全、越权、授权撤销、断网补传与错误处理 | 未开始 |
 | 8 | v0.1.0 发布、变更日志、贡献与安全文档 | 未开始 |
