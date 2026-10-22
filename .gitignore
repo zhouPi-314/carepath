@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+.coverage
+htmlcov/
+backend/*.db
+
+# Node
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+
+# Android
+.gradle/
+**/build/
+local.properties
+*.jks
+*.keystore
+
+# WeChat
+miniprogram_npm/
+project.private.config.json
+
+# Runtime and secrets
+.env
+*.log
+.superpowers/
+docs/qa/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
