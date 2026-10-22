@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { defineConfig, devices } from "@playwright/test";
 
 const webDir = path.dirname(fileURLToPath(import.meta.url));
-const backendDir = path.resolve(webDir, "../backend");
+const backendDir = path.resolve(webDir, "../../backend");
 const venvPython = path.join(backendDir, ".venv", "Scripts", "python.exe");
 const backendPython = existsSync(venvPython) ? venvPython : "python";
 
