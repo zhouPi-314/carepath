@@ -54,7 +54,7 @@ npm run check
 |---|---|---|---|
 | 第 1 周 | 仓库整理、许可证决策、GitHub 文档、CI | 新开发者可按 README 启动；CI 跑通现有检查 | 进行中 |
 | 第 2 周 | PostgreSQL 与小数据库集成 | Alembic 空库升级和 SQLite/PostgreSQL 对照测试通过 | 已完成 |
-| 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 | 进行中 |
+| 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 | 已完成 |
 | 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 未开始 |
 | 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 未开始 |
 | 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 未开始 |
@@ -92,6 +92,7 @@ npm run check
 - [x] 校验与状态：https 来源链接、审核人、SHA-256、发布日期≤生效日期；`UNVERIFIED` 优先于 `STALE`（生效后 365 天）。
 - [x] 管理端接口：来源列表与按来源导入；重复 409、非法 422、未知来源 404、非管理员 403。
 - [x] 新增 18 个测试（单元 + API），后端共 33 个用例通过；SQLite 与 PostgreSQL 冒烟均通过。
+- [x] GitHub Actions 五个作业通过（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39775301487)）。
 - [ ] 真实官方数据人工快照导入（需项目所有者提供合法导出文件，不在本阶段伪造）。
 
 ## 7. 全链验收场景
