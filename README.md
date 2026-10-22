@@ -81,6 +81,11 @@ cd apps/wechat
 npm test
 npm run check
 
+# PostgreSQL 冒烟（需要可用的 PostgreSQL）
+cd backend
+$env:CAREPATH_SMOKE_DATABASE_URL='postgresql+asyncpg://user:pass@127.0.0.1:5432/carepath_smoke'
+.\venv\Scripts\python scripts\postgres_smoke.py
+
 # Android 纯逻辑模块（JDK 17+）
 cd apps/android
 ./gradlew :logic:test
@@ -91,7 +96,7 @@ cd apps/android
 | 周次 | 重点 | 状态 |
 |---|---|---|
 | 1 | 仓库整理、许可证确认、GitHub 文档与 CI | 进行中 |
-| 2 | PostgreSQL 与小数据库功能对照 | 未开始 |
+| 2 | PostgreSQL 与小数据库功能对照 | 进行中 |
 | 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 | 未开始 |
 | 4 | 官方数据仓储与外部数据库端口 | 未开始 |
 | 5 | Web 主流程 E2E 与小型测试库 | 未开始 |

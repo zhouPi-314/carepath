@@ -32,7 +32,41 @@ jobs:
           SECRET_KEY: test-secret-key-with-at-least-32-characters
         run: python -m pytest -q
       - name: Run ruff
-        run: python -m ruff check src tests migrations
+        run: python -m ruff check src tests migrations scripts
+
+  postgres-smoke:
+    name: PostgreSQL smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: carepath
+          POSTGRES_PASSWORD: carepath-smoke
+          POSTGRES_DB: carepath_smoke
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U carepath -d carepath_smoke"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install backend with dev extras
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Run PostgreSQL smoke
+        env:
+          CAREPATH_SMOKE_DATABASE_URL: postgresql+asyncpg://carepath:carepath-smoke@127.0.0.1:5432/carepath_smoke
+        run: python scripts/postgres_smoke.py
 
   web:
     name: Web test + lint + build

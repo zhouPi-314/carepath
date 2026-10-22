@@ -10,6 +10,13 @@
 - GitHub Actions CI 骨架（后端、Web、微信、Android 纯逻辑模块）。
 - 8 周开源路线与验收计划（见 `docs/plans/05-implementation-and-acceptance.md`）。
 
+### 第 2 周：小型数据库验证
+
+- 新增 PostgreSQL 冒烟脚本 `backend/scripts/postgres_smoke.py`（空库迁移、演示数据、登录、任务、聚合、重复导入 409）。
+- CI 增加 PostgreSQL 17 服务容器作业；后端 SQLite 测试启用外键校验。
+- 修复 `seed.py` 在 PostgreSQL 下的外键插入顺序问题（显式 flush）。
+- SQLite 功能测试新增家属授权撤销、跨院读取、重复快照、药企发布阈值四类场景。
+
 ### 既有基线（整理前已实现）
 
 - FastAPI 模块化单体、SQLAlchemy 模型、Alembic 初始迁移和合成演示数据。

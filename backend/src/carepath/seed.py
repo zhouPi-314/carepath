@@ -175,6 +175,9 @@ async def seed_database() -> None:
             region_code="310000",
         )
         db.add(patient)
+        # Flush before dependent rows: PostgreSQL enforces FK order while
+        # SQLite does not, so the portable seed must not rely on batching.
+        await db.flush()
         db.add(
             CaregiverGrant(
                 patient_id=patient.id,
@@ -296,6 +299,7 @@ async def seed_database() -> None:
             content=hypertension.content,
         )
         db.add(plan)
+        await db.flush()
         db.add(
             PatientConsent(
                 plan_id=plan.id,
@@ -465,6 +469,7 @@ async def seed_database() -> None:
                 official_statistics,
             ]
         )
+        await db.flush()
         product = DrugProduct(
             id="product-demo-1",
             organization_id=pharma.id,
