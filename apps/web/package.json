@@ -6,6 +6,7 @@
   "packageManager": "pnpm@11.28.5",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "preview": "vite preview",
     "build": "vue-tsc -b && vite build",
     "test": "vitest run",
     "lint": "eslint . --max-warnings=0",
