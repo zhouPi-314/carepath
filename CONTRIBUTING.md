@@ -56,7 +56,7 @@ cd apps/android
 
 ## 许可证
 
-本项目采用 [Apache License 2.0](LICENSE)。提交贡献即表示你同意按该许可证授权你的贡献；请勿提交你无权授权的第三方代码、素材或数据。
+本项目采用 **Apache-2.0 或 MIT 双许可**（见 [LICENSE-APACHE](LICENSE-APACHE) 与 [LICENSE-MIT](LICENSE-MIT)）。提交贡献即表示你同意按该双许可授权你的贡献；请勿提交你无权授权的第三方代码、素材或数据。
 
 ## 行为准则
 

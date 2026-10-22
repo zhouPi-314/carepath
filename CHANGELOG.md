@@ -17,6 +17,12 @@
 - 修复 `seed.py` 在 PostgreSQL 下的外键插入顺序问题（显式 flush）。
 - SQLite 功能测试新增家属授权撤销、跨院读取、重复快照、药企发布阈值四类场景。
 
+### 第 3 周：官方数据适配契约
+
+- 新增 `carepath/official_data`：`OfficialCatalogSource` 与 `OfficialDatasetRepository` 契约、校验/状态规则、四来源解析器、SQLAlchemy 仓储适配器和导入服务。
+- 管理端新增来源列表与按来源导入接口；重复校验值 409、非法快照 422、未知来源 404。
+- 新增四个来源的 JSON 测试夹具与 18 个测试，后端测试总数 33。
+
 ### 既有基线（整理前已实现）
 
 - FastAPI 模块化单体、SQLAlchemy 模型、Alembic 初始迁移和合成演示数据。
@@ -27,4 +33,4 @@
 
 ### 许可证
 
-- 项目所有者确认采用 **Apache License 2.0**，仓库根目录新增 `LICENSE` 标准文本；决策记录见 `docs/decisions/0001-license-apache-2.0.md`。
+- 项目所有者确认采用 **Apache-2.0 或 MIT 双许可**：新增 `LICENSE-APACHE` 与 `LICENSE-MIT`，使用者可任选其一；决策记录见 `docs/decisions/0001-license-dual.md`。

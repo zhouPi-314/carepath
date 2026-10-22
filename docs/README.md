@@ -12,6 +12,6 @@
 - `spec/04-official-data-and-rea.md`：官方数据与 REA 调研规范。
 - `plans/05-implementation-and-acceptance.md`：当前实现、命令和后续任务。
 - `research/competitive-matrix.md`：同类项目与公开产品矩阵。
-- `decisions/0001-license-apache-2.0.md`：开源许可证决策记录（Apache-2.0）。
+- `decisions/0001-license-dual.md`：开源许可证决策记录（Apache-2.0 OR MIT 双许可）。
 
 Word、PDF 和竞赛材料不进入当前开源主线，已归档到仓库外的 `医院治疗方案进度协同体02-archive`。

@@ -25,7 +25,7 @@
 - [变更日志](CHANGELOG.md)
 - [行为准则](CODE_OF_CONDUCT.md)
 - [文档索引](docs/README.md)
-- [许可证决策记录](docs/decisions/0001-license-apache-2.0.md)（Apache-2.0）
+- [许可证决策记录](docs/decisions/0001-license-dual.md)（Apache-2.0 OR MIT）
 
 ## 快速开始
 
@@ -97,7 +97,7 @@ cd apps/android
 |---|---|---|
 | 1 | 仓库整理、许可证确认、GitHub 文档与 CI | 进行中 |
 | 2 | PostgreSQL 与小数据库功能对照 | 已完成 |
-| 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 | 未开始 |
+| 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 | 进行中 |
 | 4 | 官方数据仓储与外部数据库端口 | 未开始 |
 | 5 | Web 主流程 E2E 与小型测试库 | 未开始 |
 | 6 | Android、微信小程序可运行验证 | 未开始 |
@@ -108,9 +108,12 @@ cd apps/android
 
 ## 开源许可
 
-本项目采用 [Apache License 2.0](LICENSE)。你可以自由使用、修改和分发，但需保留版权与许可声明，并遵守其中的专利授权与免责条款。
+本项目采用 **Apache-2.0 或 MIT 双许可**，使用者可任选其一：
 
-决策记录见 [`docs/decisions/0001-license-apache-2.0.md`](docs/decisions/0001-license-apache-2.0.md)。
+- [Apache License 2.0](LICENSE-APACHE)：包含明确的专利授权条款。
+- [MIT License](LICENSE-MIT)：最简宽松许可。
+
+决策记录见 [`docs/decisions/0001-license-dual.md`](docs/decisions/0001-license-dual.md)。
 
 Word、PDF、原始构想和渲染 QA 文件归档在仓库外：
 
