@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from carepath.audit import add_audit
 from carepath.db import get_db
 from carepath.deps import CurrentUser, require_roles
+from carepath.integrations.adapters import build_default_registry
 from carepath.models import OfficialDataset
 from carepath.official_data.contracts import (
     DuplicateSnapshotError,
@@ -39,6 +40,28 @@ async def list_official_datasets(
         )
     ).all()
     return [OfficialDatasetOut.model_validate(item) for item in datasets]
+
+
+@router.get("/integrations", response_model=dict)
+async def list_integrations(
+    current: CurrentUser = Depends(require_roles("SYSTEM_ADMIN")),
+) -> dict:
+    registry = build_default_registry()
+    return {
+        "integrations": [
+            {
+                "kind": descriptor.kind.value,
+                "label": descriptor.label,
+                "configured": descriptor.configured,
+                "capabilities": list(descriptor.capabilities),
+                "retryMaxAttempts": descriptor.retry_max_attempts,
+                "timeoutSeconds": descriptor.timeout_seconds,
+                "idempotencyRequired": descriptor.idempotency_required,
+            }
+            for descriptor in registry.describe()
+        ],
+        "disclaimer": "外部系统端口仅为预留契约；未获得合作授权前不伪造联调结果。",
+    }
 
 
 @router.get("/official-datasets/sources", response_model=list[OfficialSourceOut])

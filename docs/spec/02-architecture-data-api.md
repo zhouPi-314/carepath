@@ -146,3 +146,30 @@ PostgreSQL Redis MinIO
 ```
 
 Docker Compose 用于演示，不包含高可用、跨院专网、灾备和生产证书。
+
+## 9. 仓储与工作单元边界（第 4 周）
+
+- `carepath/repositories/`：`PatientRepository`、`TreatmentPlanRepository`、`CareTaskRepository` 封装查询，不处理事务。
+- `carepath/unit_of_work.py`：`SqlAlchemyUnitOfWork` 持有单个 `AsyncSession` 并暴露仓储；`commit`/`rollback` 由调用方决定，退出上下文时未提交的修改被丢弃。
+- `deps.get_unit_of_work`：FastAPI 请求级依赖。
+- 迁移范围：`POST /tasks/{taskId}/complete` 已改用 UoW；其余路由继续使用 `get_db`，按模块逐步迁移，不一次性重写。
+- 官方数据仓储保留在 `official_data/repository.py`，实现 `OfficialDatasetRepository` 契约。
+
+## 10. 外部系统端口（第 4 周）
+
+| 端口 | 用途 | 当前状态 |
+|---|---|---|
+| `HospitalInformationSystemPort` | 医院 HIS 患者/就诊/医嘱 | 预留，未配置 |
+| `MedicalInsurancePort` | 医保参保/结算状态 | 预留，未配置 |
+| `GovernmentDataPort` | 政务数据报送 | 预留，未配置 |
+| `SupplyChainPort` | 药企供应/产能 | 预留，未配置 |
+
+统一策略：
+
+- 超时：默认 5 秒，可按请求覆盖，使用 `asyncio.wait_for` 包装。
+- 重试：仅对 `TransientIntegrationError`（超时、5xx、连接重置）重试，默认最多 3 次，指数退避上限 2 秒；`PermanentIntegrationError` 不重试。
+- 幂等：写操作必须提供 `idempotencyKey`，缺失直接拒绝；`InMemoryIdempotencyStore` 仅用于测试和单进程演示，生产需持久化实现。
+- 审计：调用方在 UoW 内写入 `audit_events`（动作、资源、组织、请求 ID），不记录完整请求正文。
+- 未配置端口：默认注册表全部为 `UnconfiguredIntegration`，调用直接抛出 `IntegrationNotConfiguredError`，不返回伪造成功。
+- 能力查询：`GET /api/v1/admin/integrations` 返回端口、是否配置、能力、重试与超时策略。
+

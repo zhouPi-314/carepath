@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
@@ -12,6 +13,7 @@ from carepath.models import User
 from carepath.policies import Principal
 from carepath.security import create_access_token, create_refresh_token, verify_token
 from carepath.settings import get_settings
+from carepath.unit_of_work import SqlAlchemyUnitOfWork
 
 
 @dataclass(frozen=True)
@@ -97,6 +99,11 @@ def require_roles(*roles: str):
         return current
 
     return dependency
+
+
+async def get_unit_of_work() -> AsyncIterator[SqlAlchemyUnitOfWork]:
+    async with SqlAlchemyUnitOfWork() as unit_of_work:
+        yield unit_of_work
 
 
 def utcnow() -> datetime:

@@ -23,6 +23,12 @@
 - 管理端新增来源列表与按来源导入接口；重复校验值 409、非法快照 422、未知来源 404。
 - 新增四个来源的 JSON 测试夹具与 18 个测试，后端测试总数 33。
 
+### 第 4 周：仓储/工作单元与外部端口
+
+- 新增 `carepath/repositories/`（患者、治疗计划、任务）与 `SqlAlchemyUnitOfWork`；任务完成接口改用 UoW。
+- 新增 `carepath/integrations/`：HIS、医保、政务、供应链四个预留端口，超时/重试/幂等/审计策略，未配置时显式失败。
+- 新增 `GET /api/v1/admin/integrations` 能力查询与 12 个测试；后端测试总数 45。
+
 ### 既有基线（整理前已实现）
 
 - FastAPI 模块化单体、SQLAlchemy 模型、Alembic 初始迁移和合成演示数据。

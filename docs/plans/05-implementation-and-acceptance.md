@@ -55,7 +55,7 @@ npm run check
 | 第 1 周 | 仓库整理、许可证决策、GitHub 文档、CI | 新开发者可按 README 启动；CI 跑通现有检查 | 进行中 |
 | 第 2 周 | PostgreSQL 与小数据库集成 | Alembic 空库升级和 SQLite/PostgreSQL 对照测试通过 | 已完成 |
 | 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 | 已完成 |
-| 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 未开始 |
+| 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 进行中 |
 | 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 未开始 |
 | 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 未开始 |
 | 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 未开始 |
@@ -95,7 +95,18 @@ npm run check
 - [x] GitHub Actions 五个作业通过（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39775301487)）。
 - [ ] 真实官方数据人工快照导入（需项目所有者提供合法导出文件，不在本阶段伪造）。
 
-## 7. 全链验收场景
+## 7. 第 4 周执行记录（2026-10-22）
+
+- [x] 新增 `carepath/repositories/`：患者、治疗计划、协同任务三个聚合根的查询仓储。
+- [x] 新增 `carepath/unit_of_work.py` 与 `deps.get_unit_of_work`；`POST /tasks/{taskId}/complete` 已迁移到 UoW，任务状态、审计与 Outbox 在同一事务提交。
+- [x] 新增 3 个 UoW/仓储测试：查询范围、提交持久化、回滚丢弃。
+- [x] 新增 `carepath/integrations/`：HIS、医保、政务、供应链四个预留端口，超时/重试/幂等/审计策略，未配置端口显式失败。
+- [x] 新增 `GET /api/v1/admin/integrations` 能力查询；新增 9 个集成测试。
+- [x] 后端共 45 个测试通过；SQLite 与 PostgreSQL 冒烟均通过。
+- [ ] 其余路由迁移到 UoW（按模块逐步，不在本阶段一次性重写）。
+- [ ] 真实外部系统联调（需合作授权；未授权前保持未配置并记录）。
+
+## 8. 全链验收场景
 
 1. 医生创建计划，患者确认，家属在授权范围内完成自护任务。
 2. 家属授权撤销后，Web、Android 和微信端均不能继续访问受限数据。
@@ -106,7 +117,7 @@ npm run check
 7. Android 断网显示缓存，恢复网络后任务只提交一次。
 8. 微信开发端无 AppID 时仍能使用沙箱账号，并明确显示边界。
 
-## 8. 完成定义
+## 9. 完成定义
 
 - 逻辑变更具有先失败后通过的测试。
 - API 变更同步 OpenAPI 与前端客户端。

@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from carepath.audit import add_audit
 from carepath.db import get_db
-from carepath.deps import CurrentUser, get_current_user
+from carepath.deps import CurrentUser, get_current_user, get_unit_of_work
 from carepath.models import Alert, CareTask, Observation, OutboxEvent, TreatmentPlan
 from carepath.schemas import (
     AlertActionRequest,
@@ -19,6 +19,7 @@ from carepath.schemas import (
     TaskOut,
 )
 from carepath.services import build_patient_dashboard, ensure_patient_access, task_out
+from carepath.unit_of_work import SqlAlchemyUnitOfWork
 
 router = APIRouter(tags=["患者与家属"])
 
@@ -49,18 +50,19 @@ async def complete_task(
     task_id: str,
     payload: CompleteTaskRequest,
     current: CurrentUser = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db),
+    uow: SqlAlchemyUnitOfWork = Depends(get_unit_of_work),
 ) -> TaskOut:
-    task = await db.get(CareTask, task_id)
+    session = uow.session
+    task = await uow.care_tasks.get(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="任务不存在")
-    await ensure_patient_access(db, current, task.patient_id, "tasks:complete")
+    await ensure_patient_access(session, current, task.patient_id, "tasks:complete")
     if task.status != "COMPLETED":
         task.status = "COMPLETED"
         task.completed_at = datetime.now(UTC)
         task.completed_by = current.user.id
         add_audit(
-            db,
+            session,
             current,
             action="TASK_COMPLETE",
             resource_kind="care_task",
@@ -69,7 +71,7 @@ async def complete_task(
             organization_id=task.organization_id,
             detail={"note": payload.note},
         )
-        db.add(
+        session.add(
             OutboxEvent(
                 organization_id=task.organization_id,
                 patient_id=task.patient_id,
@@ -77,8 +79,8 @@ async def complete_task(
                 payload={"taskId": task.id, "planId": task.plan_id},
             )
         )
-        await db.commit()
-        await db.refresh(task)
+        await uow.commit()
+        await session.refresh(task)
     return task_out(task)
 
 
