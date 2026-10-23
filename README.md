@@ -1,10 +1,10 @@
-# 治疗方案进度协同平台
+# 医疗健康协同体平台
 
 [![CI](https://github.com/zhouPi-314/carepath/actions/workflows/ci.yml/badge.svg)](https://github.com/zhouPi-314/carepath/actions/workflows/ci.yml)
 [![License: Apache-2.0 OR MIT](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](LICENSE-APACHE)
 [![Version](https://img.shields.io/badge/version-v0.1.0-green.svg)](docs/release/v0.1.0.md)
 
-> 面向教学、科研协作与后续试点的治疗方案进度协同平台。使用合成病例与官方公开数据快照，**不提供诊断或治疗建议，不用于真实患者**。
+> 面向教学、科研协作与后续试点的医疗健康协同体平台。使用合成病例与官方公开数据快照，**不提供诊断或治疗建议，不用于真实患者**。
 
 A multi-role platform for coordinating treatment-plan progress across patients, caregivers, clinicians, hospitals, regulators and pharmaceutical companies. Synthetic data only; not for clinical use.
 
@@ -22,6 +22,8 @@ A multi-role platform for coordinating treatment-plan progress across patients, 
 | 政府 | 机构入驻认证、脱敏区域聚合与平台内审核 |
 | 用户（病患 / 家属） | 病患查看计划、完成任务、记录观察、与医生持续沟通；家属按授权查看进展并代办任务 |
 | 系统管理员 | 官方数据快照导入、外部端口能力查询 |
+
+细化协同：转诊支持「待接收 → 接收/拒绝/完成」状态流转；计划内消息支持已读/未读；社区配送单可关联药企产品并由药企确认；Android 与微信登录后按角色进入原生管理面板。
 
 ## 演示账号
 

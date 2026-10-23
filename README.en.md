@@ -1,4 +1,4 @@
-# Treatment Plan Coordination Platform
+# Medical & Health Collaboration Platform
 
 > Open-source platform for treatment-plan progress coordination. Synthetic data only; **not for clinical use**.
 
@@ -6,7 +6,7 @@
 
 ## What it is
 
-Treatment Plan Coordination Platform coordinates a treatment plan across patients, caregivers, clinicians, hospitals, regulators and pharmaceutical companies. It is a modular monolith with one API contract shared by a Vue 3 web workspace, a Kotlin Compose patient app and a native WeChat mini-program (sandbox).
+Medical & Health Collaboration Platform coordinates a treatment plan across patients, caregivers, clinicians, hospitals, regulators and pharmaceutical companies. It is a modular monolith with one API contract shared by a Vue 3 web workspace, a Kotlin Compose patient app and a native WeChat mini-program (sandbox).
 
 ## Features
 

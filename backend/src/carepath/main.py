@@ -23,6 +23,7 @@ from carepath.routers import (
     events,
     government,
     hospital_ops,
+    mobile,
     patient,
     pharma,
 )
@@ -50,9 +51,9 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="治疗方案进度协同平台 API",
+    title="医疗健康协同体平台 API",
     version=__version__,
-    description="治疗方案进度协同平台；不得用于真实诊疗。",
+    description="医疗健康协同体平台；不得用于真实诊疗。",
     lifespan=lifespan,
 )
 app.add_middleware(
@@ -135,6 +136,7 @@ for router in (
     clinicians.router,
     hospital_ops.router,
     community.router,
+    mobile.router,
     government.router,
     pharma.router,
     admin.router,

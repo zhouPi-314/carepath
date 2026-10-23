@@ -16,6 +16,7 @@ data class UserDto(
     val role: String,
     val organizationId: String? = null,
     val organizationName: String? = null,
+    val identityLabel: String? = null,
 )
 
 @Serializable
@@ -119,4 +120,26 @@ data class SessionSnapshot(
     val displayName: String,
     val role: String,
     val organizationName: String? = null,
+)
+
+
+@Serializable
+data class MobileMetricDto(
+    val label: String,
+    val value: Int,
+)
+
+@Serializable
+data class MobileItemDto(
+    val title: String,
+    val detail: String,
+)
+
+@Serializable
+data class MobileSummaryDto(
+    val role: String,
+    val identityLabel: String,
+    val heading: String,
+    val metrics: List<MobileMetricDto> = emptyList(),
+    val items: List<MobileItemDto> = emptyList(),
 )

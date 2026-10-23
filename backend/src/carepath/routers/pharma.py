@@ -10,6 +10,7 @@ from carepath.audit import add_audit
 from carepath.db import get_db
 from carepath.deps import CurrentUser, require_roles
 from carepath.models import (
+    DeliveryOrder,
     DrugProduct,
     MedicationSchedule,
     Organization,
@@ -21,6 +22,7 @@ from carepath.schemas import (
     DemandSignalOut,
     DrugProductOut,
     PharmaDashboard,
+    PharmaDeliveryOut,
     SupplyCapacityOut,
 )
 
@@ -180,4 +182,57 @@ async def create_capacity_report(
         capacity_units=report.capacity_units,
         status=report.status,
         created_at=report.created_at,
+    )
+
+
+@router.get("/deliveries", response_model=list[PharmaDeliveryOut])
+async def list_deliveries(
+    current: CurrentUser = Depends(require_roles("PHARMA")),
+    db: AsyncSession = Depends(get_db),
+) -> list[PharmaDeliveryOut]:
+    rows = (
+        await db.execute(
+            select(DeliveryOrder, DrugProduct)
+            .join(DrugProduct, DeliveryOrder.product_id == DrugProduct.id)
+            .where(DrugProduct.organization_id == current.user.organization_id)
+            .order_by(DeliveryOrder.created_at.desc())
+        )
+    ).all()
+    return [
+        PharmaDeliveryOut(
+            id=order.id,
+            patient_id=order.patient_id,
+            product_id=order.product_id,
+            product_name=product.name,
+            status=order.status,
+            address_region=order.address_region,
+            note=order.note,
+            created_at=order.created_at,
+        )
+        for order, product in rows
+    ]
+
+
+@router.post("/deliveries/{delivery_id}/confirm", response_model=PharmaDeliveryOut)
+async def confirm_delivery(
+    delivery_id: str,
+    current: CurrentUser = Depends(require_roles("PHARMA")),
+    db: AsyncSession = Depends(get_db),
+) -> PharmaDeliveryOut:
+    order = await db.get(DeliveryOrder, delivery_id)
+    product = await db.get(DrugProduct, order.product_id) if order and order.product_id else None
+    if not order or not product or product.organization_id != current.user.organization_id:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=403, detail="无权处理该配送单")
+    order.status = "CONFIRMED"
+    await db.commit()
+    return PharmaDeliveryOut(
+        id=order.id,
+        patient_id=order.patient_id,
+        product_id=order.product_id,
+        product_name=product.name,
+        status=order.status,
+        address_region=order.address_region,
+        note=order.note,
+        created_at=order.created_at,
     )

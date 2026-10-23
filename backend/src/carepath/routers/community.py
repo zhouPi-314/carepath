@@ -6,13 +6,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from carepath.db import get_db
 from carepath.deps import CurrentUser, require_roles
-from carepath.models import CommunityTask, DeliveryOrder, Volunteer
+from carepath.models import CommunityTask, DeliveryOrder, PatientTransfer, Volunteer
 from carepath.schemas import (
     CommunityDashboard,
     CommunityTaskCreate,
     CommunityTaskOut,
     DeliveryCreate,
     DeliveryOut,
+    TransferOut,
+    TransferStatusUpdate,
     VolunteerCreate,
     VolunteerOut,
 )
@@ -133,3 +135,37 @@ async def create_delivery(
     db.add(order)
     await db.commit()
     return DeliveryOut.model_validate(order)
+
+
+@router.get("/transfers", response_model=list[TransferOut])
+async def incoming_transfers(
+    current: CurrentUser = Depends(require_roles("COMMUNITY_ORG")),
+    db: AsyncSession = Depends(get_db),
+) -> list[TransferOut]:
+    rows = (
+        await db.scalars(
+            select(PatientTransfer)
+            .where(PatientTransfer.to_organization_id == _org_id(current))
+            .order_by(PatientTransfer.created_at.desc())
+        )
+    ).all()
+    return [TransferOut.model_validate(row) for row in rows]
+
+
+@router.post("/transfers/{transfer_id}/status", response_model=TransferOut)
+async def update_incoming_transfer(
+    transfer_id: str,
+    payload: TransferStatusUpdate,
+    current: CurrentUser = Depends(require_roles("COMMUNITY_ORG")),
+    db: AsyncSession = Depends(get_db),
+) -> TransferOut:
+    transfer = await db.get(PatientTransfer, transfer_id)
+    if not transfer:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="转诊记录不存在")
+    if transfer.to_organization_id != _org_id(current):
+        from fastapi import HTTPException
+        raise HTTPException(status_code=403, detail="仅接收机构可处理")
+    transfer.status = payload.status
+    await db.commit()
+    return TransferOut.model_validate(transfer)

@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    app_name: str = "治疗方案进度协同平台 API"
+    app_name: str = "医疗健康协同体平台 API"
     app_env: str = Field(default="development", alias="APP_ENV")
     database_url: str = Field(
         default="sqlite+aiosqlite:///./carepath.db",

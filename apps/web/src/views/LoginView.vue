@@ -6,6 +6,7 @@ import { ElMessage } from "element-plus";
 import { explainApiError } from "../lib/api";
 import { roleLabel, type Role } from "../lib/navigation";
 import { useSessionStore } from "../stores/session";
+import AppIcon from "../components/AppIcon.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -25,6 +26,14 @@ const demoAccounts: DemoAccount[] = [
 const username = ref(demoAccounts[0].username);
 const password = ref(demoAccounts[0].password);
 const error = ref("");
+
+function iconFor(role: Role) {
+  if (role === "DOCTOR" || role === "HOSPITAL_ADMIN") return "hospital";
+  if (role === "PHARMA") return "truck";
+  if (role === "COMMUNITY_ORG") return "people";
+  if (role === "REGULATOR") return "shield";
+  return "heart";
+}
 
 function choose(account: DemoAccount) {
   username.value = account.username;
@@ -49,8 +58,8 @@ async function submit() {
   <main class="login-page">
     <section class="login-story" aria-labelledby="product-title">
       <div class="brand-seal" aria-hidden="true">医</div>
-      <p class="eyebrow">Treatment Plan Coordination</p>
-      <h1 id="product-title">治疗方案协同平台</h1>
+      <p class="eyebrow">Medical & Health Collaboration</p>
+      <h1 id="product-title">医疗健康协同体平台</h1>
       <p class="tagline">
         把治疗计划、随访任务、家属授权与多方反馈放进同一条可追踪路径。
       </p>
@@ -81,6 +90,7 @@ async function submit() {
           :class="{ selected: username === account.username }"
           @click="choose(account)"
         >
+          <AppIcon class="role-icon" :name="iconFor(account.role)" :size="18" />
           <strong>{{ roleLabel(account.role) }}</strong>
           <span>{{ account.summary }}</span>
         </button>
@@ -213,6 +223,8 @@ h2 {
 }
 
 .role-card {
+  align-items: center;
+  justify-content: flex-start;
   text-align: left;
   border: 1px solid var(--cp-line);
   border-radius: 14px;
@@ -299,5 +311,11 @@ h2 {
   .login-story {
     min-height: 42vh;
   }
+}
+
+.role-icon {
+  color: var(--cp-primary);
+  flex: none;
+  margin-top: 2px;
 }
 </style>

@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 
 import { defaultSectionForRole, roleLabel, sectionLabels } from "../lib/navigation";
 import { useSessionStore } from "../stores/session";
+import AppIcon from "../components/AppIcon.vue";
 const AdminPanel = defineAsyncComponent(() => import("../components/AdminPanel.vue"));
 const DoctorPanel = defineAsyncComponent(() => import("../components/DoctorPanel.vue"));
 const GovernmentPanel = defineAsyncComponent(
@@ -55,15 +56,15 @@ async function logout() {
       <div class="brand-block">
         <div class="brand-mark" aria-hidden="true">医</div>
         <div>
-          <strong>治疗方案协同平台</strong>
-          <span>Treatment Plan Coordination</span>
+          <strong>医疗健康协同体平台</strong>
+          <span>Medical & Health Collaboration</span>
         </div>
       </div>
 
       <nav aria-label="工作台导航">
         <a class="nav-item active" href="#workspace">
-          <span class="nav-index">01</span>
-          {{ sectionLabels[section] }}
+          <AppIcon name="leaf" :size="18" />
+          <span>{{ sectionLabels[section] }}</span>
         </a>
       </nav>
 

@@ -4,6 +4,6 @@
   "version": "0.1.0",
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "check": "node --check app.js && node --check utils/api.js && node --check pages/login/index.js && node --check pages/home/index.js"
+    "check": "node --check app.js && node --check utils/api.js && node --check pages/login/index.js && node --check pages/home/index.js && node --check pages/manage/index.js"
   }
 }

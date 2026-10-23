@@ -1,0 +1,26 @@
+<view class="manage-page">
+  <view class="manage-header">
+    <text class="eyebrow">{{summary.identityLabel || "协同管理"}}</text>
+    <text class="title">{{summary.heading || "管理面板"}}</text>
+    <text class="subtitle">数据仅限当前组织范围</text>
+  </view>
+
+  <text wx:if="{{error}}" class="error">{{error}}</text>
+
+  <view wx:if="{{summary}}" class="metric-grid">
+    <view wx:for="{{summary.metrics}}" wx:key="label" class="metric">
+      <text class="metric-value">{{item.value}}</text>
+      <text class="metric-label">{{item.label}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{summary && summary.items.length}}" class="list-card">
+    <text class="list-title">近期事项</text>
+    <view wx:for="{{summary.items}}" wx:key="title" class="list-item">
+      <text class="item-title">{{item.title}}</text>
+      <text class="item-detail">{{item.detail}}</text>
+    </view>
+  </view>
+
+  <button class="logout-button" bindtap="logout">退出登录</button>
+</view>

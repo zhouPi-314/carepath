@@ -15,6 +15,11 @@ interface CarePathApi {
         @Header("Authorization") authorization: String,
     ): PatientDashboardDto
 
+    @GET("mobile/summary")
+    suspend fun mobileSummary(
+        @Header("Authorization") authorization: String,
+    ): MobileSummaryDto
+
     @POST("tasks/{taskId}/complete")
     suspend fun completeTask(
         @Header("Authorization") authorization: String,

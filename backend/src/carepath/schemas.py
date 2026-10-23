@@ -316,6 +316,11 @@ class TransferCreate(CamelModel):
     reason: str = Field(default="", max_length=500)
 
 
+class TransferStatusUpdate(CamelModel):
+    status: str = Field(pattern=r"^(ACCEPTED|REJECTED|COMPLETED)$")
+    note: str = Field(default="", max_length=500)
+
+
 class TransferOut(CamelModel):
     id: str
     patient_id: str
@@ -358,6 +363,7 @@ class MessageOut(CamelModel):
     sender_id: str
     sender_role: str
     content: str
+    read_at: datetime | None = None
     created_at: datetime
 
 
@@ -431,3 +437,32 @@ class CommunityDashboard(CamelModel):
     volunteers: list[VolunteerOut]
     tasks: list[CommunityTaskOut]
     deliveries: list[DeliveryOut]
+
+
+class PharmaDeliveryOut(CamelModel):
+    id: str
+    patient_id: str | None
+    product_id: str | None
+    product_name: str | None
+    status: str
+    address_region: str
+    note: str
+    created_at: datetime
+
+
+class MobileMetric(CamelModel):
+    label: str
+    value: int
+
+
+class MobileItem(CamelModel):
+    title: str
+    detail: str
+
+
+class MobileSummary(CamelModel):
+    role: str
+    identity_label: str
+    heading: str
+    metrics: list[MobileMetric]
+    items: list[MobileItem]

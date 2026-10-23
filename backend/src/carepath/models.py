@@ -359,6 +359,7 @@ class ConversationMessage(Base):
     sender_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
     sender_role: Mapped[str] = mapped_column(String(32))
     content: Mapped[str] = mapped_column(Text)
+    read_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 

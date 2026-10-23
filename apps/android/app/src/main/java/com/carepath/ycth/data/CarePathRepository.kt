@@ -18,10 +18,15 @@ class CarePathRepository @Inject constructor(
             cached?.let { json.decodeFromString<PatientDashboardDto>(it.payload) }
         }
 
-    suspend fun login(username: String, password: String): PatientDashboardDto {
+    suspend fun login(username: String, password: String): SessionSnapshot {
         val login = api.login(LoginRequest(username = username, password = password))
         sessionStore.save(login)
-        return refresh()
+        return requireNotNull(sessionStore.session()) { "登录状态保存失败" }
+    }
+
+    suspend fun mobileSummary(): MobileSummaryDto {
+        val token = requireNotNull(sessionStore.accessToken()) { "登录状态不存在" }
+        return api.mobileSummary("Bearer $token")
     }
 
     suspend fun restoreDashboard(): PatientDashboardDto? {

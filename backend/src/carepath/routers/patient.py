@@ -277,3 +277,29 @@ async def list_family_records(
         )
     ).all()
     return [TreatmentRecordOut.model_validate(row) for row in rows]
+
+
+@router.post("/plans/{plan_id}/messages/read")
+async def mark_messages_read(
+    plan_id: str,
+    current: CurrentUser = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    plan = await db.get(TreatmentPlan, plan_id)
+    if not plan:
+        raise HTTPException(status_code=404, detail="治疗计划不存在")
+    await _ensure_plan_access(db, current, plan)
+    rows = (
+        await db.scalars(
+            select(ConversationMessage).where(
+                ConversationMessage.plan_id == plan_id,
+                ConversationMessage.sender_id != current.user.id,
+                ConversationMessage.read_at.is_(None),
+            )
+        )
+    ).all()
+    now = datetime.now(UTC)
+    for row in rows:
+        row.read_at = now
+    await db.commit()
+    return {"updated": len(rows)}

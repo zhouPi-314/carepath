@@ -21,6 +21,7 @@ from carepath.schemas import (
     StaffCreate,
     TransferCreate,
     TransferOut,
+    TransferStatusUpdate,
     TreatmentRecordCreate,
     TreatmentRecordOut,
 )
@@ -245,3 +246,33 @@ async def list_treatment_records(
         )
     ).all()
     return [TreatmentRecordOut.model_validate(row) for row in rows]
+
+
+@router.post("/transfers/{transfer_id}/status", response_model=TransferOut)
+async def update_transfer_status(
+    transfer_id: str,
+    payload: TransferStatusUpdate,
+    current: CurrentUser = Depends(require_roles("HOSPITAL_ADMIN", "DOCTOR")),
+    db: AsyncSession = Depends(get_db),
+) -> TransferOut:
+    transfer = await db.get(PatientTransfer, transfer_id)
+    if not transfer:
+        raise HTTPException(status_code=404, detail="转诊记录不存在")
+    org_id = _organization_id(current)
+    if transfer.to_organization_id != org_id and transfer.from_organization_id != org_id:
+        raise HTTPException(status_code=403, detail="无权处理该转诊")
+    if payload.status == "ACCEPTED" and transfer.to_organization_id != org_id:
+        raise HTTPException(status_code=403, detail="仅接收机构可确认接收")
+    transfer.status = payload.status
+    add_audit(
+        db,
+        current,
+        action="TRANSFER_STATUS_UPDATE",
+        resource_kind="patient_transfer",
+        resource_id=transfer.id,
+        patient_id=transfer.patient_id,
+        organization_id=org_id,
+        detail={"status": payload.status, "note": payload.note},
+    )
+    await db.commit()
+    return TransferOut.model_validate(transfer)

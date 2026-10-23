@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "治疗方案进度协同平台"
+title: "医疗健康协同体平台"
 type: software
 version: 0.1.0
 date-released: 2026-10-23
@@ -8,4 +8,4 @@ license: Apache-2.0
 repository-code: "https://github.com/zhouPi-314/carepath"
 abstract: "A multi-role platform for treatment-plan progress coordination. Synthetic data only; not for clinical use. Dual-licensed under Apache-2.0 or MIT."
 authors:
-  - name: "Treatment Plan Coordination Platform contributors"
+  - name: "Medical & Health Collaboration Platform contributors"

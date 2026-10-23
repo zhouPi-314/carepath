@@ -52,6 +52,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.carepath.ycth.data.AlertDto
+import com.carepath.ycth.data.MobileSummaryDto
 import com.carepath.ycth.data.PatientDashboardDto
 import com.carepath.ycth.data.SessionSnapshot
 import com.carepath.ycth.data.TaskDto
@@ -85,12 +86,20 @@ fun CarePathApp(
                 onLogin = onLogin,
             )
         } else {
-            PatientHomeScreen(
-                state = state,
-                session = state.session,
-                onCompleteTask = onCompleteTask,
-                onLogout = onLogout,
-            )
+            val isUser = state.session?.role == "PATIENT" || state.session?.role == "CAREGIVER"
+            if (!isUser) {
+                ManagementScreen(
+                    state = state,
+                    onLogout = onLogout,
+                )
+            } else {
+                PatientHomeScreen(
+                    state = state,
+                    session = state.session,
+                    onCompleteTask = onCompleteTask,
+                    onLogout = onLogout,
+                )
+            }
         }
     }
 }
@@ -134,7 +143,7 @@ private fun LoginScreen(
             }
             Spacer(Modifier.height(24.dp))
             Text(
-                text = "治疗方案协同平台",
+                text = "医疗健康协同体平台",
                 style = MaterialTheme.typography.headlineLarge,
                 color = Color(0xFF173437),
             )
@@ -227,6 +236,71 @@ private fun LoginScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+private fun ManagementScreen(
+    state: CarePathUiState,
+    onLogout: () -> Unit,
+) {
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = {
+            TopAppBar(
+                title = { Text("医疗健康协同体平台") },
+                actions = {
+                    IconButton(onClick = onLogout) {
+                        Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = "退出登录")
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        val summary: MobileSummaryDto? = state.summary
+        if (summary == null) {
+            Box(
+                Modifier.fillMaxSize().padding(padding),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(padding).padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                item {
+                    Text(summary.heading, style = MaterialTheme.typography.headlineSmall)
+                    Text(
+                        summary.identityLabel + " · 仅限本组织数据",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                item {
+                    Column {
+                        summary.metrics.forEach { metric ->
+                            Text(
+                                metric.label + "：" + metric.value,
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                        }
+                    }
+                }
+                items(summary.items) { item ->
+                    Column {
+                        Text(item.title, style = MaterialTheme.typography.titleMedium)
+                        Text(
+                            item.detail,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun PatientHomeScreen(
     state: CarePathUiState,
     session: SessionSnapshot,
@@ -252,7 +326,7 @@ private fun PatientHomeScreen(
                 title = {
                     Column {
                         Text(
-                            text = "治疗方案协同平台",
+                            text = "医疗健康协同体平台",
                             style = MaterialTheme.typography.titleLarge,
                         )
                         Text(

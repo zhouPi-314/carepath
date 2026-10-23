@@ -1,0 +1,101 @@
+.manage-page {
+  padding: 48rpx 32rpx 80rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+}
+
+.eyebrow {
+  color: #2f8f6b;
+  font-size: 22rpx;
+  letter-spacing: 2rpx;
+  text-transform: uppercase;
+}
+
+.title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #1d3b33;
+  margin-top: 8rpx;
+}
+
+.subtitle {
+  display: block;
+  color: #5f7a6e;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+}
+
+.metric {
+  background: #ffffff;
+  border: 1rpx solid #dcefe4;
+  border-radius: 24rpx;
+  padding: 24rpx 16rpx;
+  text-align: center;
+  box-shadow: 0 12rpx 30rpx rgba(47, 143, 107, 0.08);
+}
+
+.metric-value {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #2f8f6b;
+}
+
+.metric-label {
+  display: block;
+  font-size: 22rpx;
+  color: #5f7a6e;
+  margin-top: 6rpx;
+}
+
+.list-card {
+  background: #ffffff;
+  border: 1rpx solid #dcefe4;
+  border-radius: 24rpx;
+  padding: 28rpx;
+}
+
+.list-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1d3b33;
+}
+
+.list-item {
+  border-top: 1rpx solid #eef7f1;
+  padding: 20rpx 0;
+}
+
+.item-title {
+  display: block;
+  font-size: 27rpx;
+  color: #1d3b33;
+}
+
+.item-detail {
+  display: block;
+  font-size: 23rpx;
+  color: #5f7a6e;
+  margin-top: 6rpx;
+}
+
+.error {
+  color: #c0504d;
+  font-size: 24rpx;
+}
+
+.logout-button {
+  margin-top: 16rpx;
+  background: #eaf7f0;
+  color: #2f8f6b;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+}

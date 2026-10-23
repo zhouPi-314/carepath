@@ -72,7 +72,7 @@ function failWith(message) {
 }
 
 const dashboard = {
-  patient: { displayName: "陈安" },
+  patient: { displayName: "陈安", role: "PATIENT" },
   plan: { title: "高血压计划", content: { summary: "演示摘要" } },
   tasks: [
     {
@@ -99,14 +99,14 @@ test("login stores sandbox session and opens home", async () => {
   reset();
   respondWith({
     accessToken: "token-1",
-    user: { displayName: "陈安" },
+    user: { displayName: "陈安", role: "PATIENT" },
   });
   const page = instantiate(loadPage("pages/login/index.js"));
 
   await page.submit();
 
   assert.equal(storage.get("carepath.accessToken"), "token-1");
-  assert.deepEqual(storage.get("carepath.session"), { displayName: "陈安" });
+  assert.deepEqual(storage.get("carepath.session"), { displayName: "陈安", role: "PATIENT" });
   assert.equal(relaunched, "/pages/home/index");
   assert.equal(page.data.loading, false);
 });
@@ -126,7 +126,7 @@ test("login surfaces backend error without storing a session", async () => {
 test("home caches the dashboard and maps task state", async () => {
   reset();
   storage.set("carepath.accessToken", "token-1");
-  storage.set("carepath.session", { displayName: "陈安" });
+  storage.set("carepath.session", { displayName: "陈安", role: "PATIENT" });
   respondWith(dashboard);
   const page = instantiate(loadPage("pages/home/index.js"));
 
@@ -200,7 +200,7 @@ test("task completion failure keeps the view and reports the error", async () =>
 test("logout clears sandbox credentials and returns to login", () => {
   reset();
   storage.set("carepath.accessToken", "token-1");
-  storage.set("carepath.session", { displayName: "陈安" });
+  storage.set("carepath.session", { displayName: "陈安", role: "PATIENT" });
   storage.set("carepath.dashboard", dashboard);
   const page = instantiate(loadPage("pages/home/index.js"));
 
@@ -210,4 +210,19 @@ test("logout clears sandbox credentials and returns to login", () => {
   assert.equal(storage.has("carepath.session"), false);
   assert.equal(storage.has("carepath.dashboard"), false);
   assert.equal(relaunched, "/pages/login/index");
+});
+
+
+test("management roles open the native management panel", async () => {
+  reset();
+  respondWith({
+    accessToken: "token-2",
+    user: { displayName: "林医生", role: "DOCTOR" },
+  });
+  const page = instantiate(loadPage("pages/login/index.js"));
+
+  await page.submit();
+
+  assert.equal(storage.get("carepath.accessToken"), "token-2");
+  assert.equal(relaunched, "/pages/manage/index");
 });

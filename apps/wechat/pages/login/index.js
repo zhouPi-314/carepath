@@ -14,7 +14,9 @@ Page({
 
   onLoad() {
     if (wx.getStorageSync("carepath.accessToken")) {
-      wx.reLaunch({ url: "/pages/home/index" });
+      const session = wx.getStorageSync("carepath.session");
+      const isUser = session && (session.role === "PATIENT" || session.role === "CAREGIVER");
+      wx.reLaunch({ url: isUser ? "/pages/home/index" : "/pages/manage/index" });
     }
   },
 
@@ -48,7 +50,8 @@ Page({
       wx.setStorageSync("carepath.accessToken", session.accessToken);
       wx.setStorageSync("carepath.session", session.user);
       getApp().globalData.session = session.user;
-      wx.reLaunch({ url: "/pages/home/index" });
+      const isUser = session.user.role === "PATIENT" || session.user.role === "CAREGIVER";
+      wx.reLaunch({ url: isUser ? "/pages/home/index" : "/pages/manage/index" });
     } catch (error) {
       this.setData({ error: error.message || "登录失败" });
     } finally {
