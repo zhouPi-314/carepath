@@ -146,7 +146,10 @@ npm run check
 - [x] 新增 `docs/release/v0.1.0.md`：范围、安装、配置、演示账号、数据来源、验证证据、限制与许可证。
 - [x] 修正前序遗漏：README 第 1 周状态、`.venv` 路径笔误、Android 构建命令、缺少配置/数据来源/限制说明。
 - [x] 干净环境后端验证：新建临时 venv → `pip install -e ".[dev]"` → seed → uvicorn → `/health` 返回 0.1.0 → 患者登录 → **51 passed**。
-- [x] 最终 CI 七个作业通过（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39903495689)）；已创建并推送 `v0.1.0` 标签。
+- [x] 最终 CI 七个作业通过；已创建并推送 `v0.1.0` 标签。
+- [x] 发布后整理：README 中英双语重写、ROADMAP、故障排查、一键启动脚本；演示账号改为按角色区分密码。
+- [x] 仓库设置：`main` 为默认分支、启用 Discussions、设置 topics 与中英简介。
+- [x] 隐私检查：移除本机绝对路径；全部提交作者/提交者邮箱改为 GitHub noreply（历史已重写）。
 
 ## 12. 全链验收场景
 

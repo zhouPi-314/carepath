@@ -1,4 +1,4 @@
-param(
+﻿param(
     [int]$ApiPort = 8000,
     [int]$WebPort = 5173
 )

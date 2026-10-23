@@ -9,7 +9,7 @@ from carepath.logging_utils import mask_id_card, mask_phone, redact_mapping
 def test_redact_mapping_masks_credentials_and_nested_identifiers() -> None:
     payload = {
         "username": "patient",
-        "password": "CarePath123!",
+        "password": "Pa2026!care",
         "accessToken": "abc",
         "profile": {"phone": "13812345678", "recordNumber": "DEMO-1"},
         "items": [{"authorization": "Bearer x"}],
