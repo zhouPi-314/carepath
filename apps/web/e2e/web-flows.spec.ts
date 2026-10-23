@@ -2,12 +2,13 @@ import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
 const demoRoles = [
-  { username: "patient", role: "患者", heading: "的治疗进度" },
-  { username: "caregiver", role: "家属", heading: "的治疗进度" },
-  { username: "doctor", role: "医生", heading: "医生工作台" },
-  { username: "hospital", role: "医院", heading: "医院协同中心" },
-  { username: "regulator", role: "政府", heading: "区域监管沙箱" },
+  { username: "patient", role: "用户 · 病患", heading: "的治疗进度" },
+  { username: "caregiver", role: "用户 · 家属", heading: "的治疗进度" },
+  { username: "doctor", role: "医院 · 医生", heading: "医生工作台" },
+  { username: "hospital", role: "医院 · 管理", heading: "医院协同中心" },
+  { username: "regulator", role: "政府 · 入驻认证", heading: "区域监管沙箱" },
   { username: "pharma", role: "药企", heading: "药品需求与产能" },
+  { username: "community", role: "社区与志愿组织", heading: "社区照护与志愿调度" },
 ] as const;
 
 const demoPasswords: Record<string, string> = {
@@ -17,6 +18,7 @@ const demoPasswords: Record<string, string> = {
   hospital: "Ho2026!care",
   regulator: "Re2026!care",
   pharma: "Ph2026!care",
+  community: "Co2026!care",
 };
 
 async function login(page: Page, username: string) {
@@ -58,7 +60,7 @@ test("政府端展示区域聚合指标与最小发布单元", async ({ page }) 
 test("普通角色无法进入管理端接口页面之外的权限边界", async ({ page }) => {
   await login(page, "caregiver");
 
-  await expect(page.locator(".topbar")).toContainText("家属 workspace");
+  await expect(page.locator(".topbar")).toContainText("用户 · 家属 workspace");
   await expect(page.locator("h1.page-heading").first()).toContainText("的治疗进度");
 });
 
