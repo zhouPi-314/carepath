@@ -1,0 +1,22 @@
+title = "CarePath secret scanning"
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Synthetic demo credentials and test fixtures only"
+paths = [
+  '''backend/tests/.*''',
+  '''backend/scripts/.*''',
+  '''apps/wechat/tests/.*''',
+  '''docs/.*''',
+]
+regexes = [
+  '''CarePath123!''',
+  '''test-secret-key''',
+  '''e2e-secret-key''',
+  '''postgres-smoke-secret''',
+  '''development-only-secret-key''',
+  '''local-demo-secret-key''',
+  '''carepath-demo-password''',
+  '''carepath-demo-secret''',
+]

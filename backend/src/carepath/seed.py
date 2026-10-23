@@ -25,7 +25,8 @@ from carepath.models import (
 )
 from carepath.security import hash_password
 
-DEMO_PASSWORD = "CarePath123!"
+# Synthetic demo password for the sandbox; documented in README.
+DEMO_PASSWORD = "CarePath123!"  # nosec B105
 
 
 async def seed_database() -> None:

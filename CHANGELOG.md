@@ -40,6 +40,12 @@
 - CI Android 作业新增 `:app:assembleDebug`；本机 debug APK 构建成功。
 - 微信小程序新增 8 个沙箱流程测试（登录、首页缓存、离线回退、任务完成、退出），共 11 个 Node 测试。
 
+### 第 7 周：安全与错误处理
+
+- 新增日志脱敏工具与统一参数校验错误结构；请求日志不记录请求体。
+- 新增任务完成幂等重试测试；依赖升级消除 Python 已知漏洞，Node 侧修复 tinypool critical 告警。
+- CI 新增安全扫描作业：gitleaks、pip-audit、bandit、pnpm audit。
+
 ### 既有基线（整理前已实现）
 
 - FastAPI 模块化单体、SQLAlchemy 模型、Alembic 初始迁移和合成演示数据。

@@ -12,7 +12,8 @@ import jwt
 SCRYPT_N = 2**14
 SCRYPT_R = 8
 SCRYPT_P = 1
-TOKEN_ALGORITHM = "HS256"
+# JWT algorithm identifier, not a credential.
+TOKEN_ALGORITHM = "HS256"  # nosec B105
 
 
 def hash_password(password: str) -> str:
@@ -97,7 +98,7 @@ def create_access_token(
         organization_id=organization_id,
         secret_key=secret_key,
         expires_delta=expires_delta,
-        token_type="access",
+        token_type="access",  # nosec B106
         csrf_token=csrf_token,
     )
 
@@ -116,7 +117,7 @@ def create_refresh_token(
         organization_id=organization_id,
         secret_key=secret_key,
         expires_delta=expires_delta,
-        token_type="refresh",
+        token_type="refresh",  # nosec B106
     )
 
 

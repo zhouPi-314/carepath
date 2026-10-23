@@ -58,7 +58,7 @@ npm run check
 | 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 已完成 |
 | 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 已完成 |
 | 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 已完成 |
-| 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 未开始 |
+| 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 进行中 |
 | 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 未开始 |
 
 ## 4. 第 1 周执行记录（2026-10-22）
@@ -127,7 +127,19 @@ npm run check
 - [ ] 微信开发者工具人工预览（本机 CLI 服务端口未开启；不伪造自动预览结果）。
 - [ ] Android 仪器化测试（本阶段只要求 JVM 逻辑测试与 debug 构建）。
 
-## 10. 全链验收场景
+## 10. 第 7 周执行记录（2026-10-23）
+
+- [x] 新增 `carepath/logging_utils.py`：敏感字段递归脱敏、手机号/证件号掩码；请求日志记录脱敏查询参数，不记录请求体。
+- [x] 参数校验失败统一返回 `{code, message, requestId, details}`，`details` 不回显输入值。
+- [x] 新增断网重试幂等测试：任务完成重复提交只产生 1 条审计和 1 条 Outbox 事件。
+- [x] 既有覆盖：跨机构读取、家属授权撤销、重复快照导入、政府聚合抑制、药企发布阈值。
+- [x] 依赖升级消除已知漏洞：FastAPI 0.161、starlette 1.9、pytest 9.1、pytest-asyncio 1.4；`pip-audit` 0 漏洞。
+- [x] Node 依赖通过 `tinypool >= 2.1.2` override 消除 2 个 critical；剩余 3 个 moderate 由 high 级别门禁记录。
+- [x] `bandit` 0 未处理问题（4 个误报已用 `# nosec` 注明理由）。
+- [x] CI 新增 `Security scan` 作业：gitleaks、`pip-audit`、`bandit`、`pnpm audit --audit-level=high`。
+- [ ] gitleaks 在本机未安装，秘密扫描以 CI 结果为准。
+
+## 11. 全链验收场景
 
 1. 医生创建计划，患者确认，家属在授权范围内完成自护任务。
 2. 家属授权撤销后，Web、Android 和微信端均不能继续访问受限数据。
@@ -138,7 +150,7 @@ npm run check
 7. Android 断网显示缓存，恢复网络后任务只提交一次。
 8. 微信开发端无 AppID 时仍能使用沙箱账号，并明确显示边界。
 
-## 11. 完成定义
+## 12. 完成定义
 
 - 逻辑变更具有先失败后通过的测试。
 - API 变更同步 OpenAPI 与前端客户端。

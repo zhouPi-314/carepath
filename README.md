@@ -106,7 +106,7 @@ cd apps/android
 | 4 | 官方数据仓储与外部数据库端口 | 已完成 |
 | 5 | Web 主流程 E2E 与小型测试库 | 已完成 |
 | 6 | Android、微信小程序可运行验证 | 已完成 |
-| 7 | 安全、越权、授权撤销、断网补传与错误处理 | 未开始 |
+| 7 | 安全、越权、授权撤销、断网补传与错误处理 | 进行中 |
 | 8 | v0.1.0 发布、变更日志、贡献与安全文档 | 未开始 |
 
 详细拆解见 [`docs/plans/05-implementation-and-acceptance.md`](docs/plans/05-implementation-and-acceptance.md)。

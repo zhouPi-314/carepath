@@ -5,12 +5,14 @@ from contextlib import asynccontextmanager
 
 import structlog
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
 from sqlalchemy import func, select
 
 from carepath.db import SessionLocal, init_db
+from carepath.logging_utils import redact_mapping
 from carepath.models import User
 from carepath.routers import admin, auth, clinicians, events, government, patient, pharma
 from carepath.seed import seed_database
@@ -57,10 +59,39 @@ async def request_context(request: Request, call_next):
     request.state.request_id = request_id
     response = await call_next(request)
     REQUEST_COUNT.labels(request.method, str(response.status_code)).inc()
+    logger.info(
+        "request_completed",
+        method=request.method,
+        path=request.url.path,
+        status=response.status_code,
+        request_id=request_id,
+        query=redact_mapping(dict(request.query_params)),
+    )
     response.headers["X-Request-ID"] = request_id
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["Referrer-Policy"] = "no-referrer"
     return response
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_request(request: Request, exc: RequestValidationError) -> JSONResponse:
+    details = [
+        {
+            "loc": list(error.get("loc", [])),
+            "msg": error.get("msg", ""),
+            "type": error.get("type", ""),
+        }
+        for error in exc.errors()
+    ]
+    return JSONResponse(
+        status_code=422,
+        content={
+            "code": "INVALID_REQUEST",
+            "message": "请求参数不合法",
+            "requestId": getattr(request.state, "request_id", None),
+            "details": details,
+        },
+    )
 
 
 @app.exception_handler(Exception)

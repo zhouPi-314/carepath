@@ -32,3 +32,25 @@
 - 日志不包含临床正文、令牌、密码、真实身份证号或完整手机号。
 - 授权撤销后，Web、Android 与微信端均不得继续访问受限数据。
 - 政府聚合执行最小人数抑制；药企仅能访问达到发布阈值的聚合信号。
+
+## 日志与错误脱敏
+
+- 请求日志只记录方法、路径、状态码、请求 ID 和脱敏后的查询参数；不记录请求体。
+- `carepath.logging_utils` 对 `password`、`token`、`authorization`、`cookie`、`phone`、`idCard`、`recordNumber` 等字段统一掩码。
+- 参数校验失败返回统一结构 `{code, message, requestId, details}`，`details` 不回显输入值。
+
+## 自动化安全扫描
+
+CI 的 `Security scan` 作业执行：
+
+| 检查 | 工具 | 策略 |
+|---|---|---|
+| 秘密扫描 | gitleaks（`.gitleaks.toml`） | 只允许白名单内的合成演示值 |
+| Python 依赖漏洞 | `pip-audit` | 无已知漏洞 |
+| Python 静态扫描 | `bandit -q -r src` | 0 未处理问题（误报使用 `# nosec` 注明理由） |
+| Node 依赖漏洞 | `pnpm audit --audit-level=high` | 高/严重级别不得新增 |
+
+已知例外：
+
+- 追踪到的 3 个 moderate 级 npm 告警不阻断构建，但需在升级依赖时复核。
+- 演示密码、开发密钥、测试用密钥均为合成值，由白名单排除，不得在真实部署复用。
