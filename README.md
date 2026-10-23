@@ -1,6 +1,6 @@
 # 医疗健康协同体平台
 
-[![CI](https://github.com/zhouPi-314/carepath/actions/workflows/ci.yml/badge.svg)](https://github.com/zhouPi-314/carepath/actions/workflows/ci.yml)
+[![CI](https://github.com/zhouPi-314/health-collaboration-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/zhouPi-314/health-collaboration-platform/actions/workflows/ci.yml)
 [![License: Apache-2.0 OR MIT](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](LICENSE-APACHE)
 [![Version](https://img.shields.io/badge/version-v0.1.0-green.svg)](docs/release/v0.1.0.md)
 
@@ -193,8 +193,8 @@ CI 共 8 个作业：后端 pytest+ruff、PostgreSQL 冒烟、Docker Compose 冒
 - [贡献指南](CONTRIBUTING.md)
 - [行为准则](CODE_OF_CONDUCT.md)
 - [路线图](ROADMAP.md)
-- [讨论与建议](https://github.com/zhouPi-314/carepath/discussions)
-- [问题反馈](https://github.com/zhouPi-314/carepath/issues)
+- [讨论与建议](https://github.com/zhouPi-314/health-collaboration-platform/discussions)
+- [问题反馈](https://github.com/zhouPi-314/health-collaboration-platform/issues)
 - [故障排查](docs/troubleshooting.md)
 
 ## 安全与隐私

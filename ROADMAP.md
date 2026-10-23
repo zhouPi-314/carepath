@@ -48,5 +48,5 @@
 
 - 从 `good first issue` 或文档、测试夹具、适配器契约开始。
 - 提交前运行对应测试，见 [CONTRIBUTING.md](CONTRIBUTING.md)。
-- 想法与建议发到 [Discussions](https://github.com/zhouPi-314/carepath/discussions)，缺陷发 [Issues](https://github.com/zhouPi-314/carepath/issues)。
+- 想法与建议发到 [Discussions](https://github.com/zhouPi-314/health-collaboration-platform/discussions)，缺陷发 [Issues](https://github.com/zhouPi-314/health-collaboration-platform/issues)。
 - 涉及医院、医保、政务或药企真实数据时，请先确认授权与合规边界。

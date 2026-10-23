@@ -1,14 +1,14 @@
 blank_issues_enabled: false
 contact_links:
   - name: 讨论与建议
-    url: https://github.com/zhouPi-314/carepath/discussions
+    url: https://github.com/zhouPi-314/health-collaboration-platform/discussions
     about: 想法、使用问题与路线图讨论。
   - name: 路线图
-    url: https://github.com/zhouPi-314/carepath/blob/main/ROADMAP.md
+    url: https://github.com/zhouPi-314/health-collaboration-platform/blob/main/ROADMAP.md
     about: 已交付、近期、中期与长期计划。
   - name: 三端演示指南
-    url: https://github.com/zhouPi-314/carepath/blob/main/docs/demo-guide.md
+    url: https://github.com/zhouPi-314/health-collaboration-platform/blob/main/docs/demo-guide.md
     about: Web、Android、微信与多角色操作步骤。
   - name: 故障排查
-    url: https://github.com/zhouPi-314/carepath/blob/main/docs/troubleshooting.md
+    url: https://github.com/zhouPi-314/health-collaboration-platform/blob/main/docs/troubleshooting.md
     about: 启动、测试、Android、微信与 PostgreSQL 常见问题。

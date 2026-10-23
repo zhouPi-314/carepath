@@ -71,4 +71,4 @@ cd backend
 
 ## 仍然无法解决
 
-请附上：操作系统、命令、完整错误、是否使用合成数据。提交到 [Issues](https://github.com/zhouPi-314/carepath/issues)，不要粘贴令牌、密码或真实个人信息。
+请附上：操作系统、命令、完整错误、是否使用合成数据。提交到 [Issues](https://github.com/zhouPi-314/health-collaboration-platform/issues)，不要粘贴令牌、密码或真实个人信息。

@@ -79,7 +79,7 @@ See [ROADMAP.md](ROADMAP.md). Near-term: caregiver revocation UI, Docker Compose
 
 ## Contributing and feedback
 
-Issues, discussions and PRs are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); use [Discussions](https://github.com/zhouPi-314/carepath/discussions) for ideas and [Issues](https://github.com/zhouPi-314/carepath/issues) for bugs.
+Issues, discussions and PRs are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md); use [Discussions](https://github.com/zhouPi-314/health-collaboration-platform/discussions) for ideas and [Issues](https://github.com/zhouPi-314/health-collaboration-platform/issues) for bugs.
 
 ## License
 
