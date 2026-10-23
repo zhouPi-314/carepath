@@ -11,6 +11,7 @@
 - `spec/03-security-privacy-compliance.md`：安全、隐私、聚合和合规边界。
 - `spec/04-official-data-and-rea.md`：官方数据与 REA 调研规范。
 - `plans/05-implementation-and-acceptance.md`：当前实现、命令和后续任务。
+- `release/v0.1.0.md`：v0.1.0 发布说明、安装、配置、数据来源与限制。
 - `research/competitive-matrix.md`：同类项目与公开产品矩阵。
 - `decisions/0001-license-dual.md`：开源许可证决策记录（Apache-2.0 OR MIT 双许可）。
 

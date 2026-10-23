@@ -34,6 +34,16 @@ def test_mask_helpers_keep_edges() -> None:
 
 
 @pytest.mark.asyncio
+async def test_health_reports_release_version(client: AsyncClient) -> None:
+    from carepath import __version__
+
+    response = await client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json()["version"] == __version__
+
+
+@pytest.mark.asyncio
 async def test_invalid_request_has_unified_error_without_echoing_input(
     client: AsyncClient,
 ) -> None:

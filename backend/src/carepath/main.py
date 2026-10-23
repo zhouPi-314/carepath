@@ -11,6 +11,7 @@ from fastapi.responses import JSONResponse, Response
 from prometheus_client import CONTENT_TYPE_LATEST, Counter, generate_latest
 from sqlalchemy import func, select
 
+from carepath import __version__
 from carepath.db import SessionLocal, init_db
 from carepath.logging_utils import redact_mapping
 from carepath.models import User
@@ -40,7 +41,7 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(
     title="医程共护 CarePath API",
-    version="0.1.0",
+    version=__version__,
     description="治疗方案进度协同工程化 MVP；不得用于真实诊疗。",
     lifespan=lifespan,
 )
@@ -110,7 +111,7 @@ async def unhandled_exception(request: Request, exc: Exception) -> JSONResponse:
 
 @app.get("/health", tags=["运维"])
 async def health() -> dict[str, str]:
-    return {"status": "ok", "service": "carepath-api"}
+    return {"status": "ok", "service": "carepath-api", "version": __version__}
 
 
 @app.get("/metrics", include_in_schema=False)

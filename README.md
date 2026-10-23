@@ -4,7 +4,7 @@
 
 > 本项目使用合成病例和官方公开数据快照。它不提供诊断或治疗建议，不处理真实处方、医保结算或行政处置，也不得直接用于真实患者。竞赛和答辩材料不作为当前主线，只在后续需要时单独扩展。
 
-当前目标是在 **8 周内**整理为可公开协作的 GitHub 项目。项目文档只提交 Markdown 等适合版本控制的格式；Word、PDF 和竞赛材料已移出仓库，不参与当前主线。
+当前版本：**v0.1.0**（2026-10-23），发布说明见 [docs/release/v0.1.0.md](docs/release/v0.1.0.md)。项目在 8 周内整理为可公开协作的 GitHub 仓库。项目文档只提交 Markdown 等适合版本控制的格式；Word、PDF 和竞赛材料已移出仓库，不参与当前主线。
 
 ## 仓库结构
 
@@ -34,9 +34,9 @@
 ```powershell
 cd backend
 py -3.13 -m venv .venv
-.\venv\Scripts\python -m pip install -e ".[dev]"
-.\venv\Scripts\python -m carepath.seed
-.\venv\Scripts\uvicorn carepath.main:app --reload --port 8000
+.\.venv\Scripts\python -m pip install -e ".[dev]"
+.\.venv\Scripts\python -m carepath.seed
+.\.venv\Scripts\uvicorn carepath.main:app --reload --port 8000
 ```
 
 Web：
@@ -60,6 +60,30 @@ pnpm dev
 
 开发环境默认使用 SQLite 以便无 Docker 启动；设置 `DATABASE_URL=postgresql+asyncpg://...` 后使用 PostgreSQL。生产配置必须使用 PostgreSQL、HTTPS、真实密钥管理和正式身份提供方。
 
+## 配置
+
+| 变量 | 默认值 | 说明 |
+|---|---|---|
+| `APP_ENV` | `development` | `production` 时强制 PostgreSQL、显式密钥和安全 Cookie |
+| `DATABASE_URL` | `sqlite+aiosqlite:///./carepath.db` | 演示用 SQLite；生产用 PostgreSQL |
+| `SECRET_KEY` | 开发占位值 | 生产必须替换为随机密钥 |
+| `COOKIE_SECURE` | `false` | 生产必须为 `true`（HTTPS） |
+| `CORS_ORIGINS` | 本地 5173 | 逗号分隔的允许来源 |
+
+## 数据来源
+
+- 合成病例与演示机构、药品、任务数据。
+- 官方公开快照：NMPA 药品目录、NHSA 医保目录、NHC 医疗机构、NBS 区域人口；仓库仅含测试夹具，真实导入需人工合法获取。
+- 医保标签仅为信息展示，不代表实际报销。
+
+## 已知限制
+
+- Docker Compose 未在本机实际启动（无 Docker）；PostgreSQL 已用本机与 CI 冒烟验证。
+- 微信开发者工具自动预览未执行，需人工打开 `touristappid` 沙箱。
+- 本机 Windows 中文路径下 Gradle JUnit worker 受限，逻辑测试以 Linux CI 为准。
+- 未接入真实 HIS、医保、政务或供应链；端口为预留契约。
+- 本项目不等同于完成等保、PIPL 评估、互联网医院准入或医保对接。
+
 ## 测试
 
 仓库包含 GitHub Actions CI（`.github/workflows/ci.yml`），本地可执行相同检查：
@@ -67,8 +91,8 @@ pnpm dev
 ```powershell
 # 后端
 cd backend
-.\venv\Scripts\python -m pytest -q
-.\venv\Scripts\python -m ruff check src tests migrations
+.\.venv\Scripts\python -m pytest -q
+.\.venv\Scripts\python -m ruff check src tests migrations
 
 # Web（pnpm 可通过 corepack 启用）
 cd apps/web
@@ -89,7 +113,7 @@ pnpm test:e2e
 # PostgreSQL 冒烟（需要可用的 PostgreSQL）
 cd backend
 $env:CAREPATH_SMOKE_DATABASE_URL='postgresql+asyncpg://user:pass@127.0.0.1:5432/carepath_smoke'
-.\venv\Scripts\python scripts\postgres_smoke.py
+.\.venv\Scripts\python scripts\postgres_smoke.py
 
 # Android 纯逻辑模块（JDK 17+）
 cd apps/android
@@ -100,14 +124,14 @@ cd apps/android
 
 | 周次 | 重点 | 状态 |
 |---|---|---|
-| 1 | 仓库整理、许可证确认、GitHub 文档与 CI | 进行中 |
+| 1 | 仓库整理、许可证确认、GitHub 文档与 CI | 已完成 |
 | 2 | PostgreSQL 与小数据库功能对照 | 已完成 |
 | 3 | NMPA/NHSA/NHC/NBS 官方数据适配器契约 | 已完成 |
 | 4 | 官方数据仓储与外部数据库端口 | 已完成 |
 | 5 | Web 主流程 E2E 与小型测试库 | 已完成 |
 | 6 | Android、微信小程序可运行验证 | 已完成 |
 | 7 | 安全、越权、授权撤销、断网补传与错误处理 | 已完成 |
-| 8 | v0.1.0 发布、变更日志、贡献与安全文档 | 未开始 |
+| 8 | v0.1.0 发布、变更日志、贡献与安全文档 | 进行中 |
 
 详细拆解见 [`docs/plans/05-implementation-and-acceptance.md`](docs/plans/05-implementation-and-acceptance.md)。
 

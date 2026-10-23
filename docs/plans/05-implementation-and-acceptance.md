@@ -59,7 +59,7 @@ npm run check
 | 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 已完成 |
 | 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 已完成 |
 | 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 已完成 |
-| 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 未开始 |
+| 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 进行中 |
 
 ## 4. 第 1 周执行记录（2026-10-22）
 
@@ -139,7 +139,16 @@ npm run check
 - [x] CI 新增 `Security scan` 作业：gitleaks、`pip-audit`、`bandit`、`pnpm audit --audit-level=high`。
 - [x] GitHub Actions 七个作业通过，含新增 Security scan（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39889203163)）；本机未安装 gitleaks，秘密扫描以 CI 为准。
 
-## 11. 全链验收场景
+## 11. 第 8 周执行记录（2026-10-23）
+
+- [x] 版本固定为 0.1.0（后端、Web、微信、Android 一致）；`/health` 返回 `version` 字段。
+- [x] CHANGELOG 增加 `[0.1.0] - 2026-10-23` 条目，汇总 8 周变更、已知限制与许可证。
+- [x] 新增 `docs/release/v0.1.0.md`：范围、安装、配置、演示账号、数据来源、验证证据、限制与许可证。
+- [x] 修正前序遗漏：README 第 1 周状态、`.venv` 路径笔误、Android 构建命令、缺少配置/数据来源/限制说明。
+- [x] 干净环境后端验证：新建临时 venv → `pip install -e ".[dev]"` → seed → uvicorn → `/health` 返回 0.1.0 → 患者登录 → **51 passed**。
+- [ ] 最终 CI 全绿并创建 `v0.1.0` 标签（待 CI 完成后执行）。
+
+## 12. 全链验收场景
 
 1. 医生创建计划，患者确认，家属在授权范围内完成自护任务。
 2. 家属授权撤销后，Web、Android 和微信端均不能继续访问受限数据。
@@ -150,7 +159,7 @@ npm run check
 7. Android 断网显示缓存，恢复网络后任务只提交一次。
 8. 微信开发端无 AppID 时仍能使用沙箱账号，并明确显示边界。
 
-## 12. 完成定义
+## 13. 完成定义
 
 - 逻辑变更具有先失败后通过的测试。
 - API 变更同步 OpenAPI 与前端客户端。
