@@ -58,7 +58,7 @@ npm run check
 | 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 已完成 |
 | 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 已完成 |
 | 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 已完成 |
-| 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 进行中 |
+| 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 已完成 |
 | 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 未开始 |
 
 ## 4. 第 1 周执行记录（2026-10-22）
@@ -137,7 +137,7 @@ npm run check
 - [x] Node 依赖通过 `tinypool >= 2.1.2` override 消除 2 个 critical；剩余 3 个 moderate 由 high 级别门禁记录。
 - [x] `bandit` 0 未处理问题（4 个误报已用 `# nosec` 注明理由）。
 - [x] CI 新增 `Security scan` 作业：gitleaks、`pip-audit`、`bandit`、`pnpm audit --audit-level=high`。
-- [ ] gitleaks 在本机未安装，秘密扫描以 CI 结果为准。
+- [x] GitHub Actions 七个作业通过，含新增 Security scan（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39889203163)）；本机未安装 gitleaks，秘密扫描以 CI 为准。
 
 ## 11. 全链验收场景
 
