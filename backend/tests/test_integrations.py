@@ -125,7 +125,7 @@ def test_retry_policy_backs_off_with_a_cap() -> None:
 async def test_admin_sees_reserved_ports_and_patient_is_denied(client) -> None:
     admin = await client.post(
         "/api/v1/auth/login",
-        json={"username": "admin", "password": "CarePath123!"},
+        json={"username": "admin", "password": "Ad2026!care"},
     )
     assert admin.status_code == 200
     headers = {"Authorization": f"Bearer {admin.json()['accessToken']}"}
@@ -139,7 +139,7 @@ async def test_admin_sees_reserved_ports_and_patient_is_denied(client) -> None:
 
     patient = await client.post(
         "/api/v1/auth/login",
-        json={"username": "patient", "password": "CarePath123!"},
+        json={"username": "patient", "password": "Pa2026!care"},
     )
     denied = await client.get(
         "/api/v1/admin/integrations",

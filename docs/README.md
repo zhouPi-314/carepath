@@ -13,6 +13,9 @@
 - `plans/05-implementation-and-acceptance.md`：当前实现、命令和后续任务。
 - `release/v0.1.0.md`：v0.1.0 发布说明、安装、配置、数据来源与限制。
 - `research/competitive-matrix.md`：同类项目与公开产品矩阵。
+- `troubleshooting.md`：启动、测试、Android、微信、PostgreSQL 常见问题。
+- `../ROADMAP.md`：已交付、近期、中期、长期与明确不做。
+- `../README.en.md`：英文项目概览。
 - `decisions/0001-license-dual.md`：开源许可证决策记录（Apache-2.0 OR MIT 双许可）。
 
 Word、PDF 和竞赛材料不进入当前开源主线，已归档到仓库外的 `医院治疗方案进度协同体02-archive`。

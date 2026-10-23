@@ -183,9 +183,11 @@ async def test_service_marks_unverified_snapshot() -> None:
 
 
 async def _login(client, username: str) -> dict:
+    from carepath.seed import DEMO_PASSWORDS
+
     response = await client.post(
         "/api/v1/auth/login",
-        json={"username": username, "password": "CarePath123!"},
+        json={"username": username, "password": DEMO_PASSWORDS[username]},
     )
     assert response.status_code == 200, response.text
     return response.json()

@@ -44,7 +44,7 @@
     >
       进入医程共护
     </button>
-    <text class="demo-hint">演示密码：CarePath123!</text>
+    <text class="demo-hint">演示密码：患者 Pa2026!care / 家属 Ca2026!care</text>
   </view>
 
   <text class="boundary">当前为开发沙箱，使用合成病例；真实微信登录与订阅消息需后续配置 AppID。</text>

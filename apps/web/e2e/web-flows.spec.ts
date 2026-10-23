@@ -10,10 +10,19 @@ const demoRoles = [
   { username: "pharma", role: "药企", heading: "药品需求与产能" },
 ] as const;
 
+const demoPasswords: Record<string, string> = {
+  patient: "Pa2026!care",
+  caregiver: "Ca2026!care",
+  doctor: "Do2026!care",
+  hospital: "Ho2026!care",
+  regulator: "Re2026!care",
+  pharma: "Ph2026!care",
+};
+
 async function login(page: Page, username: string) {
   await page.goto("/login");
   await page.getByLabel("账号").fill(username);
-  await page.getByLabel("密码").fill("CarePath123!");
+  await page.getByLabel("密码").fill(demoPasswords[username]);
   await page.getByRole("button", { name: "进入医程共护" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.locator(".topbar")).toBeVisible();

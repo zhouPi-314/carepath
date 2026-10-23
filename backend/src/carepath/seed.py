@@ -25,8 +25,18 @@ from carepath.models import (
 )
 from carepath.security import hash_password
 
-# Synthetic demo password for the sandbox; documented in README.
-DEMO_PASSWORD = "CarePath123!"  # nosec B105
+# Per-role sandbox credentials: distinct first two letters, demo only.
+DEMO_PASSWORDS: dict[str, str] = {
+    "patient": "Pa2026!care",
+    "caregiver": "Ca2026!care",
+    "doctor": "Do2026!care",
+    "doctor_b": "Do2026!care",
+    "doctor_c": "Do2026!care",
+    "hospital": "Ho2026!care",
+    "regulator": "Re2026!care",
+    "pharma": "Ph2026!care",
+    "admin": "Ad2026!care",
+}  # nosec B105 - synthetic sandbox credentials, documented in README
 
 
 async def seed_database() -> None:
@@ -35,7 +45,9 @@ async def seed_database() -> None:
         if existing:
             return
 
-        password_hash = hash_password(DEMO_PASSWORD)
+        password_hashes = {
+            name: hash_password(password) for name, password in DEMO_PASSWORDS.items()
+        }
         hospital_a = Organization(
             id="org-hospital-a",
             name="海州市第一人民医院",
@@ -76,7 +88,7 @@ async def seed_database() -> None:
         patient_user = User(
             id="user-patient",
             username="patient",
-            password_hash=password_hash,
+            password_hash=password_hashes["patient"],
             display_name="陈安",
             role="PATIENT",
             phone_masked="138****1024",
@@ -85,7 +97,7 @@ async def seed_database() -> None:
         caregiver_user = User(
             id="user-caregiver",
             username="caregiver",
-            password_hash=password_hash,
+            password_hash=password_hashes["caregiver"],
             display_name="陈宁",
             role="CAREGIVER",
             phone_masked="139****2048",
@@ -94,7 +106,7 @@ async def seed_database() -> None:
         doctor_user = User(
             id="user-doctor",
             username="doctor",
-            password_hash=password_hash,
+            password_hash=password_hashes["doctor"],
             display_name="林医生",
             role="DOCTOR",
             organization_id=hospital_a.id,
@@ -103,7 +115,7 @@ async def seed_database() -> None:
         doctor_b = User(
             id="user-doctor-b",
             username="doctor_b",
-            password_hash=password_hash,
+            password_hash=password_hashes["doctor_b"],
             display_name="周医生",
             role="DOCTOR",
             organization_id=hospital_b.id,
@@ -112,7 +124,7 @@ async def seed_database() -> None:
         doctor_c = User(
             id="user-doctor-c",
             username="doctor_c",
-            password_hash=password_hash,
+            password_hash=password_hashes["doctor_c"],
             display_name="顾医生",
             role="DOCTOR",
             organization_id=hospital_c.id,
@@ -121,7 +133,7 @@ async def seed_database() -> None:
         hospital_admin = User(
             id="user-hospital",
             username="hospital",
-            password_hash=password_hash,
+            password_hash=password_hashes["hospital"],
             display_name="医院管理员",
             role="HOSPITAL_ADMIN",
             organization_id=hospital_a.id,
@@ -130,7 +142,7 @@ async def seed_database() -> None:
         regulator_user = User(
             id="user-regulator",
             username="regulator",
-            password_hash=password_hash,
+            password_hash=password_hashes["regulator"],
             display_name="监管审核员",
             role="REGULATOR",
             organization_id=regulator.id,
@@ -139,7 +151,7 @@ async def seed_database() -> None:
         pharma_user = User(
             id="user-pharma",
             username="pharma",
-            password_hash=password_hash,
+            password_hash=password_hashes["pharma"],
             display_name="药企计划员",
             role="PHARMA",
             organization_id=pharma.id,
@@ -148,7 +160,7 @@ async def seed_database() -> None:
         admin_user = User(
             id="user-admin",
             username="admin",
-            password_hash=password_hash,
+            password_hash=password_hashes["admin"],
             display_name="系统管理员",
             role="SYSTEM_ADMIN",
             seeded_demo=True,
@@ -533,7 +545,7 @@ async def seed_database() -> None:
             organization, doctor = org_doctor_pairs[index % len(org_doctor_pairs)]
             synthetic_user = User(
                 username=f"demo_patient_{index:02d}",
-                password_hash=password_hash,
+                password_hash=password_hashes["patient"],
                 display_name=f"{patient_names[index % len(patient_names)]}{index + 1:02d}",
                 role="PATIENT",
                 seeded_demo=True,

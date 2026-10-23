@@ -63,7 +63,7 @@ async def _seed_and_exercise() -> None:
     from carepath.db import SessionLocal, engine
     from carepath.main import app
     from carepath.models import OfficialDataset, TreatmentPlan, User
-    from carepath.seed import DEMO_PASSWORD, seed_database
+    from carepath.seed import DEMO_PASSWORDS, seed_database
 
     await seed_database()
 
@@ -83,7 +83,7 @@ async def _seed_and_exercise() -> None:
     async with AsyncClient(transport=transport, base_url="http://smoke") as client:
         login = await client.post(
             "/api/v1/auth/login",
-            json={"username": "patient", "password": DEMO_PASSWORD},
+            json={"username": "patient", "password": DEMO_PASSWORDS["patient"]},
         )
         if login.status_code != 200:
             _fail(f"patient login returned {login.status_code}: {login.text[:200]}")
@@ -112,7 +112,7 @@ async def _seed_and_exercise() -> None:
 
         regulator = await client.post(
             "/api/v1/auth/login",
-            json={"username": "regulator", "password": DEMO_PASSWORD},
+            json={"username": "regulator", "password": DEMO_PASSWORDS["regulator"]},
         )
         if regulator.status_code != 200:
             _fail("regulator login failed")
@@ -131,7 +131,7 @@ async def _seed_and_exercise() -> None:
 
         admin = await client.post(
             "/api/v1/auth/login",
-            json={"username": "admin", "password": DEMO_PASSWORD},
+            json={"username": "admin", "password": DEMO_PASSWORDS["admin"]},
         )
         if admin.status_code != 200:
             _fail("admin login failed")

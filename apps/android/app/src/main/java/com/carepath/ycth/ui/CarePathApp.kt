@@ -102,7 +102,7 @@ private fun LoginScreen(
     onLogin: (String, String) -> Unit,
 ) {
     var username by rememberSaveable { mutableStateOf("patient") }
-    var password by rememberSaveable { mutableStateOf("CarePath123!") }
+    var password by rememberSaveable { mutableStateOf("Pa2026!care") }
 
     LazyColumn(
         modifier = Modifier
@@ -207,7 +207,7 @@ private fun LoginScreen(
                         }
                     }
                     Text(
-                        text = "演示密码：CarePath123!",
+                        text = "演示密码：患者 Pa2026!care / 家属 Ca2026!care",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

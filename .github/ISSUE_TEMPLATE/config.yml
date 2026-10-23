@@ -1,8 +1,14 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 项目交接文档
-    url: https://github.com/REPLACE_ORG/REPLACE_REPO/blob/feature/ycth-mvp/HANDOFF_TO_DSH.md
+  - name: 讨论与建议
+    url: https://github.com/zhouPi-314/carepath/discussions
+    about: 想法、使用问题与路线图讨论。
+  - name: 开发交接说明
+    url: https://github.com/zhouPi-314/carepath/blob/main/HANDOFF_TO_DSH.md
     about: 开发上下文、当前状态与代码规范。
-  - name: 8 周实施计划
-    url: https://github.com/REPLACE_ORG/REPLACE_REPO/blob/feature/ycth-mvp/docs/plans/05-implementation-and-acceptance.md
-    about: 当前基线和分周任务。
+  - name: 路线图
+    url: https://github.com/zhouPi-314/carepath/blob/main/ROADMAP.md
+    about: 已交付、近期、中期与长期计划。
+  - name: 故障排查
+    url: https://github.com/zhouPi-314/carepath/blob/main/docs/troubleshooting.md
+    about: 启动、测试、Android、微信与 PostgreSQL 常见问题。

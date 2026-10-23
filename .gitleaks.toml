@@ -12,6 +12,7 @@ paths = [
 ]
 regexes = [
   '''CarePath123!''',
+  '''2026!care''',
   '''test-secret-key''',
   '''e2e-secret-key''',
   '''postgres-smoke-secret''',

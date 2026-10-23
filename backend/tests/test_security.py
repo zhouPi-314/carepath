@@ -13,10 +13,10 @@ from carepath.security import (
 
 
 def test_password_hash_round_trip_rejects_wrong_password() -> None:
-    encoded = hash_password("CarePath123!")
+    encoded = hash_password("Pa2026!care")
 
-    assert encoded != "CarePath123!"
-    assert verify_password("CarePath123!", encoded)
+    assert encoded != "Pa2026!care"
+    assert verify_password("Pa2026!care", encoded)
     assert not verify_password("wrong", encoded)
 
 

@@ -36,8 +36,8 @@ Android：
 
 ```powershell
 cd apps/android
-$env:JAVA_HOME='D:\Development\Android\AndroidStudio\jbr'
-& 'D:\Development\Cache\gradle\gradle-9.6.0\bin\gradle.bat' :app:assembleDebug
+.\gradlew.bat :app:assembleDebug   # Windows
+./gradlew :app:assembleDebug       # macOS / Linux
 ```
 
 微信：

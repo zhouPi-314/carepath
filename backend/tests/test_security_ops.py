@@ -71,7 +71,7 @@ async def test_task_completion_replay_is_idempotent(client: AsyncClient) -> None
 
     login = await client.post(
         "/api/v1/auth/login",
-        json={"username": "caregiver", "password": "CarePath123!"},
+        json={"username": "caregiver", "password": "Ca2026!care"},
     )
     assert login.status_code == 200, login.text
     headers = {"Authorization": f"Bearer {login.json()['accessToken']}"}

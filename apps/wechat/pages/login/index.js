@@ -3,12 +3,12 @@ const { request } = require("../../utils/api");
 Page({
   data: {
     username: "patient",
-    password: "CarePath123!",
+    password: "Pa2026!care",
     loading: false,
     error: "",
     accounts: [
-      { username: "patient", label: "患者" },
-      { username: "caregiver", label: "家属" },
+      { username: "patient", label: "患者", password: "Pa2026!care" },
+      { username: "caregiver", label: "家属", password: "Ca2026!care" },
     ],
   },
 
@@ -19,9 +19,11 @@ Page({
   },
 
   chooseAccount(event) {
+    const target = event.currentTarget.dataset.username;
+    const account = this.data.accounts.find((item) => item.username === target);
     this.setData({
-      username: event.currentTarget.dataset.username,
-      password: "CarePath123!",
+      username: target,
+      password: account ? account.password : "Pa2026!care",
       error: "",
     });
   },

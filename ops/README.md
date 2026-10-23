@@ -13,4 +13,4 @@ docker compose -f ops/docker-compose.yml up --build
 - API 文档：http://localhost:8000/docs
 - MinIO 控制台：http://localhost:9001
 
-演示账号密码均为 `CarePath123!`。Compose 只用于课程与竞赛演示，默认配置使用明确标注的开发密钥，不可直接用于生产。
+演示账号与按角色区分的密码见根目录 `README.md`。Compose 只用于演示，默认配置使用明确标注的开发密钥，不可直接用于生产。

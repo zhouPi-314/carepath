@@ -10,22 +10,24 @@ import { useSessionStore } from "../stores/session";
 const router = useRouter();
 const route = useRoute();
 const session = useSessionStore();
-const username = ref("patient");
-const password = ref("CarePath123!");
-const error = ref("");
+type DemoAccount = { username: string; password: string; role: Role; summary: string };
 
-const demoAccounts: Array<{ username: string; role: Role; summary: string }> = [
-  { username: "patient", role: "PATIENT", summary: "治疗计划与任务" },
-  { username: "caregiver", role: "CAREGIVER", summary: "授权范围内协同" },
-  { username: "doctor", role: "DOCTOR", summary: "患者计划与提醒" },
-  { username: "hospital", role: "HOSPITAL_ADMIN", summary: "院内协同统计" },
-  { username: "regulator", role: "REGULATOR", summary: "脱敏区域指标" },
-  { username: "pharma", role: "PHARMA", summary: "需求与产能反馈" },
+const demoAccounts: DemoAccount[] = [
+  { username: "patient", password: "Pa2026!care", role: "PATIENT", summary: "治疗计划与任务" },
+  { username: "caregiver", password: "Ca2026!care", role: "CAREGIVER", summary: "授权范围内协同" },
+  { username: "doctor", password: "Do2026!care", role: "DOCTOR", summary: "患者计划与提醒" },
+  { username: "hospital", password: "Ho2026!care", role: "HOSPITAL_ADMIN", summary: "院内协同统计" },
+  { username: "regulator", password: "Re2026!care", role: "REGULATOR", summary: "脱敏区域指标" },
+  { username: "pharma", password: "Ph2026!care", role: "PHARMA", summary: "需求与产能反馈" },
 ];
 
-function choose(usernameValue: string) {
-  username.value = usernameValue;
-  password.value = "CarePath123!";
+const username = ref(demoAccounts[0].username);
+const password = ref(demoAccounts[0].password);
+const error = ref("");
+
+function choose(account: DemoAccount) {
+  username.value = account.username;
+  password.value = account.password;
 }
 
 async function submit() {
@@ -76,7 +78,7 @@ async function submit() {
           type="button"
           class="role-card"
           :class="{ selected: username === account.username }"
-          @click="choose(account.username)"
+          @click="choose(account)"
         >
           <strong>{{ roleLabel(account.role) }}</strong>
           <span>{{ account.summary }}</span>
@@ -108,7 +110,7 @@ async function submit() {
           进入医程共护
         </el-button>
       </form>
-      <p class="demo-password">演示密码：CarePath123!</p>
+      <p class="demo-password">演示密码：各角色不同，选择角色后自动填入。</p>
     </section>
   </main>
 </template>
