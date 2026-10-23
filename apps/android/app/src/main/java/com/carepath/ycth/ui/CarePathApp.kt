@@ -134,7 +134,7 @@ private fun LoginScreen(
             }
             Spacer(Modifier.height(24.dp))
             Text(
-                text = "医程共护",
+                text = "治疗方案协同平台",
                 style = MaterialTheme.typography.headlineLarge,
                 color = Color(0xFF173437),
             )
@@ -203,7 +203,7 @@ private fun LoginScreen(
                                 color = Color.White,
                             )
                         } else {
-                            Text("进入医程共护")
+                            Text("进入平台")
                         }
                     }
                     Text(
@@ -252,7 +252,7 @@ private fun PatientHomeScreen(
                 title = {
                     Column {
                         Text(
-                            text = "医程共护",
+                            text = "治疗方案协同平台",
                             style = MaterialTheme.typography.titleLarge,
                         )
                         Text(

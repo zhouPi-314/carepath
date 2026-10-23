@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "carepath-api"
 version = "0.1.0"
-description = "CarePath treatment plan coordination MVP"
+description = "Multi-role treatment plan coordination platform"
 requires-python = ">=3.13,<3.15"
 dependencies = [
   "alembic>=1.14,<2",

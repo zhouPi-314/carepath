@@ -44,7 +44,7 @@ class ReminderWorker(
         )
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("医程共护任务提醒")
+            .setContentTitle("治疗方案协同平台任务提醒")
             .setContentText(inputData.getString(KEY_TITLE) ?: "请查看今天的治疗任务")
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

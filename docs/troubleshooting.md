@@ -36,7 +36,8 @@
 | 现象 | 原因 | 处理 |
 |---|---|---|
 | `compileSdk 37` 缺失 | Android SDK 未安装对应平台 | 用 sdkmanager 安装 `platforms;android-37` |
-| JUnit 测试进程找不到测试类 | Windows 中文路径 + Gradle 组合限制 | 将仓库放到 ASCII 路径，或以 CI（Ubuntu）结果为准 |
+| JUnit 测试进程找不到测试类 | Windows 中文路径 + Gradle 组合限制 | 运行 `scripts\test-android.ps1`（自动映射 ASCII 盘符）；或在 Linux CI 运行 |
+| APK 名称不是正式名称 | 本地直接构建 | 使用 `scripts\build-android.ps1`，产物为 `TreatmentPlanCoordinationPlatform-v0.1.0-debug.apk` |
 | 模拟器连不上后端 | 模拟器访问宿主机需 `10.0.2.2` | 默认 `BuildConfig.API_BASE_URL` 已使用 `http://10.0.2.2:8000/api/v1/` |
 | 构建内存不足 | Gradle 默认堆较小 | 在 `gradle.properties` 调整 `org.gradle.jvmargs` |
 
@@ -53,8 +54,20 @@
 | 现象 | 原因 | 处理 |
 |---|---|---|
 | `postgres_smoke.py` 跳过 | 未设置 `CAREPATH_SMOKE_DATABASE_URL` | 设置为 `postgresql+asyncpg://...` 后重试；脚本会清空目标 schema |
-| Docker Compose 未验证 | 本机未安装 Docker | 安装 Docker Desktop 后执行 `docker compose -f ops/docker-compose.yml up --build` |
+| Docker 引擎无法启动 | WSL2 未安装或未更新 | 管理员执行 `wsl --install --no-distribution`，按提示重启；再启动 Docker Desktop |
+| `docker-credential-desktop` 找不到 | Docker 的 bin 未加入 PATH | 将 `<Docker安装目录>\DockerDesktop\resources\bin` 加入 PATH，或重启终端 |
+| 拉取镜像超时/401 | Docker Hub 访问受限 | 在 `%USERPROFILE%\.docker\daemon.json` 配置 `registry-mirrors` 后重启 Docker Desktop |
+| 官方 `minio/minio` 镜像不存在 | 官方镜像已下架 | 使用仓库内的 `elestio/minio` 等价镜像（Compose 已配置） |
 | 生产环境启动被拒绝 | `APP_ENV=production` 校验 | 使用 PostgreSQL、显式 `SECRET_KEY` 与 `COOKIE_SECURE=true` |
+
+## 官方数据导入
+
+```powershell
+cd backend
+.\.venv\Scripts\python scripts\import_official_snapshot.py NMPA .\tests\fixtures\official\nmpa.json --reviewer "审核人"
+```
+
+快照格式与来源见 [official-data.md](official-data.md)。
 
 ## 仍然无法解决
 

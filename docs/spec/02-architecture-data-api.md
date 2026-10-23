@@ -1,4 +1,4 @@
-# 医程共护架构、数据与 API 规格
+# 治疗方案协同平台架构、数据与 API 规格
 
 ## 1. 架构选择
 
@@ -147,7 +147,7 @@ PostgreSQL Redis MinIO
 
 Docker Compose 用于演示，不包含高可用、跨院专网、灾备和生产证书。
 
-## 9. 仓储与工作单元边界（第 4 周）
+## 9. 仓储与工作单元边界
 
 - `carepath/repositories/`：`PatientRepository`、`TreatmentPlanRepository`、`CareTaskRepository` 封装查询，不处理事务。
 - `carepath/unit_of_work.py`：`SqlAlchemyUnitOfWork` 持有单个 `AsyncSession` 并暴露仓储；`commit`/`rollback` 由调用方决定，退出上下文时未提交的修改被丢弃。
@@ -155,7 +155,7 @@ Docker Compose 用于演示，不包含高可用、跨院专网、灾备和生�
 - 迁移范围：`POST /tasks/{taskId}/complete` 已改用 UoW；其余路由继续使用 `get_db`，按模块逐步迁移，不一次性重写。
 - 官方数据仓储保留在 `official_data/repository.py`，实现 `OfficialDatasetRepository` 契约。
 
-## 10. 外部系统端口（第 4 周）
+## 10. 外部系统端口
 
 | 端口 | 用途 | 当前状态 |
 |---|---|---|

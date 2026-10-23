@@ -6,7 +6,7 @@
 |---|---|---|---|
 | OpenEMR | 开源 EHR | 患者档案、预约、处方、FHIR、审计和多角色 | GPL-3.0；系统体量大，不适合作为首版底座 |
 | OpenMRS | 开源 EMR 平台 | 模块化、元数据和可配置表单 | 面向资源受限环境的平台复杂度较高 |
-| Medplum | FHIR 开发者平台 | OAuth/OIDC、FHIR API、React 组件和开发体验 | 完整 CDR 超出 MVP 范围 |
+| Medplum | FHIR 开发者平台 | OAuth/OIDC、FHIR API、React 组件和开发体验 | 完整 CDR 超出 平台 范围 |
 | HAPI FHIR | Java FHIR 服务 | 资源验证、互操作、服务端契约 | 引入 Java 服务会提高部署成本 |
 | Android FHIR SDK | Android 医疗 SDK | 离线优先、本地缓存、FHIR 移动端 | 首版只参考离线模式，不接入完整 FHIR Store |
 | OpenCare 类家庭照护项目 | 家庭协同 | 家属账号、任务、药物提醒、照护日志 | AGPL-3.0 且成熟度需进一步评估 |

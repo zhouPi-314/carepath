@@ -49,7 +49,7 @@ $webCommand = "pnpm dev --port $WebPort"
 Start-Process powershell.exe -ArgumentList @('-NoExit', '-Command', $webCommand) -WorkingDirectory $web
 
 Write-Host ''
-Write-Host 'CarePath 已启动：' -ForegroundColor Green
+Write-Host '治疗方案协同平台已启动：' -ForegroundColor Green
 Write-Host "  Web      http://localhost:$WebPort"
 Write-Host "  API 文档  http://127.0.0.1:$ApiPort/docs"
 Write-Host '  演示账号  patient / Pa2026!care 等，见 README.md'

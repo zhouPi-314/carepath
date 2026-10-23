@@ -48,8 +48,8 @@ async function submit() {
   <main class="login-page">
     <section class="login-story" aria-labelledby="product-title">
       <div class="brand-seal" aria-hidden="true">医</div>
-      <p class="eyebrow">CarePath Coordination</p>
-      <h1 id="product-title">医程共护</h1>
+      <p class="eyebrow">Treatment Plan Coordination</p>
+      <h1 id="product-title">治疗方案协同平台</h1>
       <p class="tagline">
         把治疗计划、随访任务、家属授权与多方反馈放进同一条可追踪路径。
       </p>
@@ -107,7 +107,7 @@ async function submit() {
           :loading="session.loading"
           class="login-button"
         >
-          进入医程共护
+          进入平台
         </el-button>
       </form>
       <p class="demo-password">演示密码：各角色不同，选择角色后自动填入。</p>

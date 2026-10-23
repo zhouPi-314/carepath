@@ -83,7 +83,7 @@ GitHub 星标、版本和许可证会变化，正式商用前必须重新核验�
 
 调研结果记录在 `docs/research/competitive-matrix.md`，不得从非授权目标提取私有业务代码。
 
-## 7. 已实现适配契约（第 3 周）
+## 7. 已实现适配契约
 
 - `OfficialCatalogSource`（`backend/src/carepath/official_data/contracts.py`）：定义 `source_code`、`parser_version` 和 `parse(raw) -> ParsedDataset`。
 - `OfficialDatasetRepository`：定义 `exists_by_checksum` 与 `add`；SQLAlchemy 适配器位于 `repository.py`，领域层不依赖 ORM。

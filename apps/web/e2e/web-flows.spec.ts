@@ -23,7 +23,7 @@ async function login(page: Page, username: string) {
   await page.goto("/login");
   await page.getByLabel("账号").fill(username);
   await page.getByLabel("密码").fill(demoPasswords[username]);
-  await page.getByRole("button", { name: "进入医程共护" }).click();
+  await page.getByRole("button", { name: "进入平台" }).click();
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.locator(".topbar")).toBeVisible();
 }

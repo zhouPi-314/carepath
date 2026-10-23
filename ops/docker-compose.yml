@@ -22,7 +22,8 @@ services:
       - redis-data:/data
 
   minio:
-    image: minio/minio:latest
+    # 官方 minio/minio 镜像已从公共仓库下架；使用维护中的等价打包镜像。
+    image: elestio/minio:latest
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-carepath}

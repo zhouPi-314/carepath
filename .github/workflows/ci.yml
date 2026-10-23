@@ -159,6 +159,29 @@ jobs:
         working-directory: apps/web
         run: pnpm test:e2e
 
+  compose-smoke:
+    name: Docker Compose smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start stack
+        run: docker compose -f ops/docker-compose.yml up --build -d
+      - name: Wait for health
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/health >/dev/null; then exit 0; fi
+            sleep 5
+          done
+          docker compose -f ops/docker-compose.yml logs
+          exit 1
+      - name: Log in through web proxy
+        run: |
+          printf '{"username":"patient","password":"Pa2026!care"}' > /tmp/login.json
+          curl -fsS -H 'Content-Type: application/json'             --data-binary @/tmp/login.json             http://127.0.0.1:8080/api/v1/auth/login | grep -q accessToken
+      - name: Shut down
+        if: always()
+        run: docker compose -f ops/docker-compose.yml down -v
+
   wechat:
     name: WeChat miniprogram check
     runs-on: ubuntu-latest
@@ -194,3 +217,10 @@ jobs:
         run: ./gradlew :logic:test --no-daemon -Dorg.gradle.configureondemand=true
       - name: Assemble debug APK
         run: ./gradlew :app:assembleDebug --no-daemon
+      - name: Rename debug APK
+        run: cp app/build/outputs/apk/debug/app-debug.apk TreatmentPlanCoordinationPlatform-v0.1.0-debug.apk
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-debug-apk
+          path: apps/android/TreatmentPlanCoordinationPlatform-v0.1.0-debug.apk

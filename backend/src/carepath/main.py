@@ -22,7 +22,7 @@ from carepath.settings import get_settings
 logger = structlog.get_logger()
 REQUEST_COUNT = Counter(
     "carepath_http_requests_total",
-    "Total HTTP requests handled by CarePath",
+    "Total HTTP requests handled by the platform",
     ["method", "status"],
 )
 
@@ -40,9 +40,9 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="医程共护 CarePath API",
+    title="治疗方案进度协同平台 API",
     version=__version__,
-    description="治疗方案进度协同工程化 MVP；不得用于真实诊疗。",
+    description="治疗方案进度协同平台；不得用于真实诊疗。",
     lifespan=lifespan,
 )
 app.add_middleware(

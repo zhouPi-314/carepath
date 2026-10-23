@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { defaultSectionForRole, roleLabel } from "./navigation";
 
 describe("role navigation", () => {
-  it("maps every MVP role to a Chinese label and first section", () => {
+  it("maps every role to a Chinese label and first section", () => {
     expect(roleLabel("PATIENT")).toBe("患者");
     expect(roleLabel("CAREGIVER")).toBe("家属");
     expect(roleLabel("DOCTOR")).toBe("医生");

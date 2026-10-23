@@ -54,7 +54,7 @@ def can_access(
     resource: Resource,
     grants: list[GrantLike],
 ) -> bool:
-    """Evaluate the intentionally small ABAC policy used by the MVP."""
+    """Evaluate the intentionally small ABAC policy used by the platform."""
     if principal.role == "PATIENT":
         return resource.owner_user_id == principal.user_id
 

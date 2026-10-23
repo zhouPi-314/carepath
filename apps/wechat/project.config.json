@@ -1,12 +1,13 @@
 {
-  "description": "医程共护微信小程序演示",
+  "description": "治疗方案协同平台微信小程序演示",
   "packOptions": {
     "ignore": [
       {
-        "type": "folder",
-        "value": "tests"
+        "value": "tests",
+        "type": "folder"
       }
-    ]
+    ],
+    "include": []
   },
   "setting": {
     "urlCheck": false,
@@ -14,12 +15,30 @@
     "enhance": true,
     "postcss": true,
     "minified": true,
-    "compileHotReLoad": true
+    "compileHotReLoad": true,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
   "compileType": "miniprogram",
   "libVersion": "3.7.12",
-  "appid": "touristappid",
-  "projectname": "carepath-wechat",
+  "appid": "wx6da836a0e3cfcd27",
+  "projectname": "treatment-plan-platform",
   "simulatorType": "wechat",
-  "condition": {}
+  "condition": {},
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }

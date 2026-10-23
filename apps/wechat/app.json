@@ -4,7 +4,7 @@
     "pages/home/index"
   ],
   "window": {
-    "navigationBarTitleText": "医程共护",
+    "navigationBarTitleText": "治疗方案协同平台",
     "navigationBarBackgroundColor": "#0D5C63",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F3F7F5",

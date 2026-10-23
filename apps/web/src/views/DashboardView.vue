@@ -48,8 +48,8 @@ async function logout() {
       <div class="brand-block">
         <div class="brand-mark" aria-hidden="true">医</div>
         <div>
-          <strong>医程共护</strong>
-          <span>CarePath</span>
+          <strong>治疗方案协同平台</strong>
+          <span>Treatment Plan Coordination</span>
         </div>
       </div>
 

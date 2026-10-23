@@ -1,7 +1,7 @@
 <view class="login-page">
   <view class="brand-mark">医</view>
   <text class="eyebrow">CAREPATH SANDBOX</text>
-  <text class="title">医程共护</text>
+  <text class="title">治疗方案协同平台</text>
   <text class="subtitle">把治疗计划、随访任务和家属协同放进同一条可追踪路径。</text>
 
   <view class="card login-card">
@@ -42,7 +42,7 @@
       disabled="{{loading}}"
       bindtap="submit"
     >
-      进入医程共护
+      进入治疗方案协同平台
     </button>
     <text class="demo-hint">演示密码：患者 Pa2026!care / 家属 Ca2026!care</text>
   </view>

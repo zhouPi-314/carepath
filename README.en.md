@@ -1,12 +1,12 @@
-# CarePath
+# Treatment Plan Coordination Platform
 
-> Open-source MVP for treatment-plan progress coordination. Synthetic data only; **not for clinical use**.
+> Open-source platform for treatment-plan progress coordination. Synthetic data only; **not for clinical use**.
 
 [中文说明](README.md)
 
 ## What it is
 
-CarePath coordinates a treatment plan across patients, caregivers, clinicians, hospitals, regulators and pharmaceutical companies. It is a modular monolith with one API contract shared by a Vue 3 web workspace, a Kotlin Compose patient app and a native WeChat mini-program (sandbox).
+Treatment Plan Coordination Platform coordinates a treatment plan across patients, caregivers, clinicians, hospitals, regulators and pharmaceutical companies. It is a modular monolith with one API contract shared by a Vue 3 web workspace, a Kotlin Compose patient app and a native WeChat mini-program (sandbox).
 
 ## Features
 

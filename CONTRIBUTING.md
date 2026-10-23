@@ -1,17 +1,16 @@
 # 贡献指南
 
-感谢您对医程共护 CarePath 的关注。本项目处于开源 MVP 整理阶段，欢迎以问题、讨论、代码和文档方式参与。
+感谢参与治疗方案协同平台的建设。本项目欢迎问题反馈、讨论、代码与文档贡献。
 
 ## 快速开始
 
-请先阅读 [README.md](README.md) 和 [HANDOFF_TO_DSH.md](HANDOFF_TO_DSH.md)，并按 README 在本机启动后端与 Web。
+请先阅读 [README.md](README.md) 与 [docs/demo-guide.md](docs/demo-guide.md)，在本机启动后端与 Web 后再进行开发。
 
 ## 分支与提交
 
-- 当前主线分支：`feature/ycth-mvp`（整理完成后将合并到默认分支）。
+- 默认分支为 `main`；功能开发请从 `main` 创建特性分支。
 - 提交信息使用 Conventional Commits：`feat:`、`fix:`、`chore:`、`docs:`、`test:`、`refactor:` 等。
-- 每次改动应附带对应测试：后端 `pytest`、Web `vitest`、微信 `npm test`、Android `logic` 模块 JUnit。
-- 不混入无关重构；小步提交。
+- 每次改动附带对应测试；不混入无关重构，小步提交。
 
 ## 代码与文档规范
 
@@ -21,15 +20,15 @@
 - 数据库变化必须补 Alembic 迁移。
 - 使用合成数据和官方公开数据快照，不引入真实患者信息。
 - 文档先写结论，再写依据、边界和风险；“已完成”必须与真实命令输出一致。
-- 不新增 Word/PDF 生成、竞赛演示页面、微服务或 AI 诊断。
+- 不新增 Word/PDF 生成、演示专用页面、微服务或诊断建议功能。
 
 ## 测试命令
 
 ```powershell
 # 后端
 cd backend
-.\venv\Scripts\python -m pytest -q
-.\venv\Scripts\python -m ruff check src tests migrations
+.\.venv\Scripts\python -m pytest -q
+.\.venv\Scripts\python -m ruff check src tests migrations scripts
 
 # Web
 cd apps/web
@@ -42,9 +41,10 @@ cd apps/wechat
 npm test
 npm run check
 
-# Android（纯逻辑模块 JUnit，需 JDK 17+）
+# Android（JDK 17+）
 cd apps/android
-./gradlew :logic:test
+.\gradlew.bat :logic:test
+.\gradlew.bat :app:assembleDebug
 ```
 
 ## 提交前检查
@@ -56,8 +56,4 @@ cd apps/android
 
 ## 许可证
 
-本项目采用 **Apache-2.0 或 MIT 双许可**（见 [LICENSE-APACHE](LICENSE-APACHE) 与 [LICENSE-MIT](LICENSE-MIT)）。提交贡献即表示你同意按该双许可授权你的贡献；请勿提交你无权授权的第三方代码、素材或数据。
-
-## 行为准则
-
-参与本项目即表示同意遵守 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+本项目采用 **Apache-2.0 或 MIT 双许可**（见 [LICENSE-APACHE](LICENSE-APACHE) 与 [LICENSE-MIT](LICENSE-MIT)）。提交贡献即表示你同意按该双许可授权你的贡献；请勿提交无权授权的第三方代码、素材或数据。

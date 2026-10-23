@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CarePathAndroid"
+rootProject.name = "TreatmentPlanCoordinationAndroid"
 include(":app")
 include(":logic")
