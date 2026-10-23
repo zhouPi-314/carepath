@@ -153,3 +153,5 @@ jobs:
         run: chmod +x gradlew
       - name: Run pure logic module tests
         run: ./gradlew :logic:test --no-daemon -Dorg.gradle.configureondemand=true
+      - name: Assemble debug APK
+        run: ./gradlew :app:assembleDebug --no-daemon

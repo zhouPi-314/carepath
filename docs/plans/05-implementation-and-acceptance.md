@@ -57,7 +57,7 @@ npm run check
 | 第 3 周 | 官方数据适配接口 | NMPA/NHSA/NHC/NBS 导入器契约、快照校验和错误状态测试 | 已完成 |
 | 第 4 周 | 外部数据库/仓库端口 | 聚合根 UnitOfWork/Repository 接口，SQLAlchemy 实现可替换 | 已完成 |
 | 第 5 周 | Web 主流程与 E2E | 六类账号关键路径通过 Playwright 和小型测试库 | 已完成 |
-| 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 未开始 |
+| 第 6 周 | Android 与微信可运行验证 | Android APK 构建、JUnit；微信开发者工具完成沙箱流程 | 进行中 |
 | 第 7 周 | 安全、错误处理和文档 | 越权、授权撤销、重复导入、断网补传测试通过 | 未开始 |
 | 第 8 周 | v0.1.0 发布准备 | 版本号、变更日志、贡献指南、安全政策、演示数据和截图 | 未开始 |
 
@@ -117,7 +117,16 @@ npm run check
 - [x] E2E 在 GitHub Actions 实际执行通过（[运行记录](https://github.com/zhouPi-314/carepath/actions/runs/39798823970)）；本机浏览器下载受网络限制，本地用 `playwright test --list` 校验用例可执行。
 - [x] 授权撤销、跨机构、政府聚合抑制、药企发布阈值在 API 层有测试覆盖；UI 端授权撤销操作面后续补充。
 
-## 9. 全链验收场景
+## 9. 第 6 周执行记录（2026-10-22）
+
+- [x] 本机 `:app:assembleDebug` 构建成功，APK 输出 `apps/android/app/build/outputs/apk/debug/app-debug.apk`。
+- [x] CI Android 作业新增 `:app:assembleDebug`，与 `:logic:test` 同环境复现。
+- [x] 微信新增 8 个沙箱流程测试（共 11 个）：登录成功/失败、首页缓存与任务映射、后端不可用缓存回退、无缓存错误、任务完成幂等提交、完成失败提示、退出清理。
+- [x] 微信 `npm test` 11 passed，`npm run check` 通过；无 AppID 的 `touristappid` 沙箱边界保持不变。
+- [ ] 微信开发者工具人工预览（本机 CLI 服务端口未开启；不伪造自动预览结果）。
+- [ ] Android 仪器化测试（本阶段只要求 JVM 逻辑测试与 debug 构建）。
+
+## 10. 全链验收场景
 
 1. 医生创建计划，患者确认，家属在授权范围内完成自护任务。
 2. 家属授权撤销后，Web、Android 和微信端均不能继续访问受限数据。
@@ -128,7 +137,7 @@ npm run check
 7. Android 断网显示缓存，恢复网络后任务只提交一次。
 8. 微信开发端无 AppID 时仍能使用沙箱账号，并明确显示边界。
 
-## 10. 完成定义
+## 11. 完成定义
 
 - 逻辑变更具有先失败后通过的测试。
 - API 变更同步 OpenAPI 与前端客户端。
