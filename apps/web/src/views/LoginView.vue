@@ -17,8 +17,9 @@ const demoAccounts: DemoAccount[] = [
   { username: "caregiver", password: "Ca2026!care", role: "CAREGIVER", summary: "授权范围内协同" },
   { username: "doctor", password: "Do2026!care", role: "DOCTOR", summary: "患者计划与提醒" },
   { username: "hospital", password: "Ho2026!care", role: "HOSPITAL_ADMIN", summary: "院内协同统计" },
-  { username: "regulator", password: "Re2026!care", role: "REGULATOR", summary: "脱敏区域指标" },
-  { username: "pharma", password: "Ph2026!care", role: "PHARMA", summary: "需求与产能反馈" },
+  { username: "regulator", password: "Re2026!care", role: "REGULATOR", summary: "入驻认证与区域指标" },
+  { username: "pharma", password: "Ph2026!care", role: "PHARMA", summary: "药品供应与产能" },
+  { username: "community", password: "Co2026!care", role: "COMMUNITY_ORG", summary: "志愿调度与药品配送" },
 ];
 
 const username = ref(demoAccounts[0].username);
@@ -68,7 +69,7 @@ async function submit() {
       <div>
         <p class="eyebrow">Sandbox access</p>
         <h2 id="login-title">登录协同工作台</h2>
-        <p class="page-subtitle">选择演示身份，或输入已配置的账号。</p>
+        <p class="page-subtitle">选择角色入口，账号与演示密码自动填入；登录后显示病患 / 家属等身份标识。</p>
       </div>
 
       <div class="role-grid" aria-label="演示角色">

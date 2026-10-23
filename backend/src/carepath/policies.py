@@ -81,6 +81,13 @@ def can_access(
             and principal.organization_id == resource.organization_id
         )
 
+    if principal.role == "COMMUNITY_ORG":
+        return bool(
+            principal.organization_id
+            and principal.organization_id == resource.organization_id
+            and resource.kind.startswith(("community", "aggregate"))
+        )
+
     if principal.role == "REGULATOR":
         return resource.kind.startswith("aggregate") and action == Action.READ
 

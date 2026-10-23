@@ -39,6 +39,18 @@ def _set_auth_cookies(response: Response, access: str, refresh: str) -> None:
     )
 
 
+IDENTITY_LABELS = {
+    "PATIENT": "病患",
+    "CAREGIVER": "家属",
+    "DOCTOR": "医生",
+    "HOSPITAL_ADMIN": "医院管理员",
+    "REGULATOR": "政府",
+    "PHARMA": "药企",
+    "COMMUNITY_ORG": "社区与志愿组织",
+    "SYSTEM_ADMIN": "系统管理员",
+}
+
+
 async def _user_out(db: AsyncSession, user: User) -> UserOut:
     organization = (
         await db.get(Organization, user.organization_id)
@@ -52,6 +64,7 @@ async def _user_out(db: AsyncSession, user: User) -> UserOut:
         role=user.role,
         organization_id=user.organization_id,
         organization_name=organization.name if organization else None,
+        identity_label=IDENTITY_LABELS.get(user.role, user.role),
     )
 
 

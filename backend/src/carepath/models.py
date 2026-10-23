@@ -58,6 +58,10 @@ class PatientProfile(Base):
     display_name: Mapped[str] = mapped_column(String(80))
     record_number: Mapped[str] = mapped_column(String(64), unique=True, index=True)
     region_code: Mapped[str] = mapped_column(String(32), index=True)
+    care_level: Mapped[str] = mapped_column(
+        String(24), default="GENERAL", server_default="GENERAL", index=True
+    )
+    tags: Mapped[list[str]] = mapped_column(JSON, default=list, server_default="[]")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
@@ -315,3 +319,91 @@ class OutboxEvent(Base):
     status: Mapped[str] = mapped_column(String(24), default="PENDING", index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     delivered_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+
+class PatientTransfer(Base):
+    __tablename__ = "patient_transfers"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    patient_id: Mapped[str] = mapped_column(ForeignKey("patient_profiles.id"), index=True)
+    from_organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    to_organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    level: Mapped[str] = mapped_column(String(24), default="COMMUNITY", index=True)
+    status: Mapped[str] = mapped_column(String(24), default="PENDING", index=True)
+    reason: Mapped[str] = mapped_column(Text, default="")
+    created_by: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class TreatmentRecord(Base):
+    __tablename__ = "treatment_records"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    plan_id: Mapped[str] = mapped_column(ForeignKey("treatment_plans.id"), index=True)
+    patient_id: Mapped[str] = mapped_column(ForeignKey("patient_profiles.id"), index=True)
+    organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    author_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    record_type: Mapped[str] = mapped_column(String(32), default="PROGRESS", index=True)
+    title: Mapped[str] = mapped_column(String(160))
+    content: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
+    visibility: Mapped[str] = mapped_column(String(24), default="CARE_TEAM")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ConversationMessage(Base):
+    __tablename__ = "conversation_messages"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    plan_id: Mapped[str] = mapped_column(ForeignKey("treatment_plans.id"), index=True)
+    patient_id: Mapped[str] = mapped_column(ForeignKey("patient_profiles.id"), index=True)
+    sender_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    sender_role: Mapped[str] = mapped_column(String(32))
+    content: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class Volunteer(Base):
+    __tablename__ = "volunteers"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    name: Mapped[str] = mapped_column(String(80))
+    phone_masked: Mapped[str] = mapped_column(String(32), default="")
+    skills: Mapped[list[str]] = mapped_column(JSON, default=list)
+    status: Mapped[str] = mapped_column(String(24), default="ACTIVE", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class CommunityTask(Base):
+    __tablename__ = "community_tasks"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    patient_id: Mapped[str | None] = mapped_column(
+        ForeignKey("patient_profiles.id"), nullable=True, index=True
+    )
+    title: Mapped[str] = mapped_column(String(160))
+    category: Mapped[str] = mapped_column(String(32), default="VISIT", index=True)
+    status: Mapped[str] = mapped_column(String(24), default="OPEN", index=True)
+    assignee_id: Mapped[str | None] = mapped_column(
+        ForeignKey("volunteers.id"), nullable=True, index=True
+    )
+    due_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class DeliveryOrder(Base):
+    __tablename__ = "delivery_orders"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    patient_id: Mapped[str | None] = mapped_column(
+        ForeignKey("patient_profiles.id"), nullable=True, index=True
+    )
+    product_id: Mapped[str | None] = mapped_column(
+        ForeignKey("drug_products.id"), nullable=True, index=True
+    )
+    status: Mapped[str] = mapped_column(String(24), default="PENDING", index=True)
+    address_region: Mapped[str] = mapped_column(String(32), default="")
+    note: Mapped[str] = mapped_column(Text, default="")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)

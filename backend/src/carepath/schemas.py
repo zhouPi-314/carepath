@@ -35,6 +35,7 @@ class UserOut(CamelModel):
     role: str
     organization_id: str | None
     organization_name: str | None = None
+    identity_label: str | None = None
 
 
 class LoginResponse(CamelModel):
@@ -306,3 +307,127 @@ class OfficialSourceOut(CamelModel):
 class OfficialSourceImport(CamelModel):
     payload: dict[str, Any]
     reviewer: str | None = Field(default=None, max_length=80)
+
+
+class TransferCreate(CamelModel):
+    patient_id: str
+    to_organization_id: str
+    level: str = Field(default="COMMUNITY", max_length=24)
+    reason: str = Field(default="", max_length=500)
+
+
+class TransferOut(CamelModel):
+    id: str
+    patient_id: str
+    from_organization_id: str
+    to_organization_id: str
+    level: str
+    status: str
+    reason: str
+    created_at: datetime
+
+
+class TreatmentRecordCreate(CamelModel):
+    plan_id: str
+    record_type: str = Field(default="PROGRESS", max_length=32)
+    title: str = Field(min_length=2, max_length=160)
+    summary: str = Field(default="", max_length=2000)
+    visibility: str = Field(default="CARE_TEAM_AND_FAMILY", max_length=24)
+
+
+class TreatmentRecordOut(CamelModel):
+    id: str
+    plan_id: str
+    patient_id: str
+    organization_id: str
+    author_id: str
+    record_type: str
+    title: str
+    content: dict[str, Any]
+    visibility: str
+    created_at: datetime
+
+
+class MessageCreate(CamelModel):
+    content: str = Field(min_length=1, max_length=2000)
+
+
+class MessageOut(CamelModel):
+    id: str
+    plan_id: str
+    sender_id: str
+    sender_role: str
+    content: str
+    created_at: datetime
+
+
+class StaffCreate(CamelModel):
+    username: str = Field(min_length=3, max_length=80)
+    display_name: str = Field(min_length=1, max_length=80)
+    password: str = Field(min_length=8, max_length=128)
+    role: str = Field(pattern=r"^(DOCTOR|HOSPITAL_ADMIN)$")
+
+
+class PatientTagsUpdate(CamelModel):
+    care_level: str = Field(default="GENERAL", max_length=24)
+    tags: list[str] = Field(default_factory=list)
+
+
+class VolunteerCreate(CamelModel):
+    name: str = Field(min_length=1, max_length=80)
+    phone_masked: str = Field(default="", max_length=32)
+    skills: list[str] = Field(default_factory=list)
+
+
+class VolunteerOut(CamelModel):
+    id: str
+    name: str
+    phone_masked: str
+    skills: list[str]
+    status: str
+
+
+class CommunityTaskCreate(CamelModel):
+    title: str = Field(min_length=2, max_length=160)
+    category: str = Field(default="VISIT", max_length=32)
+    patient_id: str | None = None
+    assignee_id: str | None = None
+    due_at: datetime | None = None
+
+
+class CommunityTaskOut(CamelModel):
+    id: str
+    title: str
+    category: str
+    status: str
+    patient_id: str | None
+    assignee_id: str | None
+    due_at: datetime | None
+    created_at: datetime
+
+
+class DeliveryCreate(CamelModel):
+    patient_id: str | None = None
+    product_id: str | None = None
+    address_region: str = Field(default="", max_length=32)
+    note: str = Field(default="", max_length=500)
+
+
+class DeliveryOut(CamelModel):
+    id: str
+    patient_id: str | None
+    product_id: str | None
+    status: str
+    address_region: str
+    note: str
+    created_at: datetime
+
+
+class CommunityDashboard(CamelModel):
+    organization_id: str
+    volunteer_count: int
+    open_task_count: int
+    pending_delivery_count: int
+    volunteers: list[VolunteerOut]
+    tasks: list[CommunityTaskOut]
+    deliveries: list[DeliveryOut]

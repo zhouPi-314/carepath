@@ -10,6 +10,9 @@ from carepath.models import (
     CaregiverGrant,
     CarePlanTemplate,
     CareTask,
+    CommunityTask,
+    ConversationMessage,
+    DeliveryOrder,
     DrugProduct,
     MedicationLog,
     MedicationSchedule,
@@ -18,10 +21,13 @@ from carepath.models import (
     Organization,
     PatientConsent,
     PatientProfile,
+    PatientTransfer,
     ReviewCase,
     SupplyCapacityReport,
     TreatmentPlan,
+    TreatmentRecord,
     User,
+    Volunteer,
 )
 from carepath.security import hash_password
 
@@ -35,6 +41,7 @@ DEMO_PASSWORDS: dict[str, str] = {
     "hospital": "Ho2026!care",
     "regulator": "Re2026!care",
     "pharma": "Ph2026!care",
+    "community": "Co2026!care",
     "admin": "Ad2026!care",
 }  # nosec B105 - synthetic sandbox credentials, documented in README
 
@@ -83,7 +90,14 @@ async def seed_database() -> None:
             region_code="310000",
             verified=True,
         )
-        db.add_all([hospital_a, hospital_b, hospital_c, regulator, pharma])
+        community_org = Organization(
+            id="org-community",
+            name="海州市社区照护志愿服务中心",
+            type="COMMUNITY_ORG",
+            region_code="310000",
+            verified=True,
+        )
+        db.add_all([hospital_a, hospital_b, hospital_c, regulator, pharma, community_org])
 
         patient_user = User(
             id="user-patient",
@@ -157,6 +171,15 @@ async def seed_database() -> None:
             organization_id=pharma.id,
             seeded_demo=True,
         )
+        community_user = User(
+            id="user-community",
+            username="community",
+            password_hash=password_hashes["community"],
+            display_name="社区照护协调员",
+            role="COMMUNITY_ORG",
+            organization_id=community_org.id,
+            seeded_demo=True,
+        )
         admin_user = User(
             id="user-admin",
             username="admin",
@@ -175,6 +198,7 @@ async def seed_database() -> None:
                 hospital_admin,
                 regulator_user,
                 pharma_user,
+                community_user,
                 admin_user,
             ]
         )
@@ -518,6 +542,99 @@ async def seed_database() -> None:
                     type="PROFILE_UPDATE",
                     subject="医院协同科室信息变更",
                     status="PENDING",
+                ),
+            ]
+        )
+
+        patient.care_level = "CHRONIC"
+        patient.tags = ["高血压", "慢病随访", "可自理"]
+        db.add(
+            TreatmentRecord(
+                plan_id=plan.id,
+                patient_id=patient.id,
+                organization_id=hospital_a.id,
+                author_id=doctor_user.id,
+                record_type="PROGRESS",
+                title="启动期评估",
+                content={
+                    "summary": "血压控制尚可，继续每日监测，两周后复诊。",
+                    "visibility": "CARE_TEAM_AND_FAMILY",
+                },
+                visibility="CARE_TEAM_AND_FAMILY",
+            )
+        )
+        db.add(
+            ConversationMessage(
+                plan_id=plan.id,
+                patient_id=patient.id,
+                sender_id=patient_user.id,
+                sender_role="PATIENT",
+                content="最近晨起血压 138/86，无头晕，需要提前复诊吗？",
+            )
+        )
+        db.add(
+            ConversationMessage(
+                plan_id=plan.id,
+                patient_id=patient.id,
+                sender_id=doctor_user.id,
+                sender_role="DOCTOR",
+                content="暂不需要提前复诊，继续记录；如持续高于 150/95 请联系我。",
+            )
+        )
+        db.add(
+            PatientTransfer(
+                patient_id=patient.id,
+                from_organization_id=hospital_a.id,
+                to_organization_id=community_org.id,
+                level="COMMUNITY",
+                status="COMPLETED",
+                reason="稳定期下沉社区随访",
+                created_by=doctor_user.id,
+            )
+        )
+        volunteer_one = Volunteer(
+            id="volunteer-1",
+            organization_id=community_org.id,
+            name="社区志愿者甲",
+            phone_masked="137****0001",
+            skills=["血压测量", "用药提醒"],
+        )
+        volunteer_two = Volunteer(
+            id="volunteer-2",
+            organization_id=community_org.id,
+            name="社区志愿者乙",
+            phone_masked="137****0002",
+            skills=["陪诊", "药品配送"],
+        )
+        db.add_all([volunteer_one, volunteer_two])
+        await db.flush()
+        db.add_all(
+            [
+                CommunityTask(
+                    organization_id=community_org.id,
+                    patient_id=patient.id,
+                    title="上门血压测量与用药提醒",
+                    category="VISIT",
+                    status="OPEN",
+                    assignee_id=volunteer_one.id,
+                    due_at=now + timedelta(days=1),
+                ),
+                CommunityTask(
+                    organization_id=community_org.id,
+                    patient_id=patient.id,
+                    title="协助领取慢病药品并配送",
+                    category="DELIVERY",
+                    status="OPEN",
+                    assignee_id=volunteer_two.id,
+                    due_at=now + timedelta(days=2),
+                ),
+                DeliveryOrder(
+                    organization_id=community_org.id,
+                    patient_id=patient.id,
+                    product_id=None,
+                    status="PENDING",
+                    address_region="310000",
+                    note="社区志愿者上门配送，需核对用药清单。",
                 ),
             ]
         )

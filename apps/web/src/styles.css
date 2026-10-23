@@ -5,15 +5,15 @@
   background: #f3f7f5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --cp-ink: #173437;
-  --cp-muted: #617477;
-  --cp-primary: #0d5c63;
-  --cp-primary-soft: #e5f2f0;
-  --cp-accent: #c77932;
-  --cp-line: #d8e4e1;
+  --cp-ink: #16343d;
+  --cp-muted: #5f7a82;
+  --cp-primary: #0f8b8d;
+  --cp-primary-soft: #e7f7f5;
+  --cp-accent: #ff8f6b;
+  --cp-line: #dceceb;
   --cp-panel: #ffffff;
-  --cp-bg: #f3f7f5;
-  --cp-danger: #a83e32;
+  --cp-bg: #f5fbfa;
+  --cp-danger: #c0504d;
 }
 
 * {
@@ -25,7 +25,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(185, 221, 214, 0.34), transparent 30rem),
+    radial-gradient(circle at 12% 0%, rgba(126, 224, 216, 0.28), transparent 32rem),
+    radial-gradient(circle at 88% 8%, rgba(255, 173, 145, 0.18), transparent 26rem),
     var(--cp-bg);
 }
 

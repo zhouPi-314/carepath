@@ -7,6 +7,7 @@ export interface User {
   role: Role;
   organizationId: string | null;
   organizationName: string | null;
+  identityLabel?: string | null;
 }
 
 export interface LoginResponse {

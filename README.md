@@ -1,4 +1,4 @@
-# 基于多角色协同的治疗方案进度管理平台
+# 治疗方案进度协同平台
 
 [![CI](https://github.com/zhouPi-314/carepath/actions/workflows/ci.yml/badge.svg)](https://github.com/zhouPi-314/carepath/actions/workflows/ci.yml)
 [![License: Apache-2.0 OR MIT](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](LICENSE-APACHE)
@@ -16,25 +16,25 @@ A multi-role platform for coordinating treatment-plan progress across patients, 
 
 | 角色 | 能力 |
 |---|---|
-| 患者 | 查看计划与任务、完成自护任务、记录观察、查看提醒 |
-| 家属 | 在患者授权范围内查看与代办任务，授权撤销后立即失效 |
-| 医生 | 从已发布模板创建计划、查看患者队列与提醒 |
-| 医院管理员 | 院内成员、计划、任务完成率与提醒统计 |
-| 政府监管 | 区域脱敏聚合与平台内审核，小样本整体抑制 |
-| 药企 | 自有药品目录、区域需求信号（≥3 机构且 ≥50 患者月）、产能反馈 |
+| 医院（医生 / 院务管理） | 录入本院职工、标记病患与照护等级、分级转入、治疗记录写入与检索、患者队列与提醒 |
+| 社区与志愿组织 | 志愿者管理、社区随访与照护任务、药品配送调度 |
+| 药企 | 药品目录、区域需求信号（≥3 机构且 ≥50 患者月）、产能与供应反馈 |
+| 政府 | 机构入驻认证、脱敏区域聚合与平台内审核 |
+| 用户（病患 / 家属） | 病患查看计划、完成任务、记录观察、与医生持续沟通；家属按授权查看进展并代办任务 |
 | 系统管理员 | 官方数据快照导入、外部端口能力查询 |
 
 ## 演示账号
 
-六个业务角色 + 系统管理员，密码按角色区分（沙箱专用，部署前必须替换）：
+五个角色入口 + 系统管理员，密码按角色区分（沙箱专用，部署前必须替换）。登录页不区分病患与家属，登录后由医院数据标识身份：
 
 | 角色 | 账号 | 密码 |
 |---|---|---|
-| 患者 | `patient` | `Pa2026!care` |
-| 家属 | `caregiver` | `Ca2026!care` |
-| 医生 | `doctor` | `Do2026!care` |
-| 医院管理员 | `hospital` | `Ho2026!care` |
-| 政府监管 | `regulator` | `Re2026!care` |
+| 用户 · 病患 | `patient` | `Pa2026!care` |
+| 用户 · 家属 | `caregiver` | `Ca2026!care` |
+| 医院 · 医生 | `doctor` | `Do2026!care` |
+| 医院 · 管理 | `hospital` | `Ho2026!care` |
+| 社区与志愿组织 | `community` | `Co2026!care` |
+| 政府 · 入驻认证 | `regulator` | `Re2026!care` |
 | 药企 | `pharma` | `Ph2026!care` |
 | 系统管理员 | `admin` | `Ad2026!care` |
 
@@ -119,7 +119,7 @@ Web / Android / WeChat
 
 ```text
 backend/        FastAPI、SQLAlchemy、Alembic、测试与演示数据
-apps/web/       Vue 3 多角色工作台 + Playwright E2E
+apps/web/       Vue 3 协同工作台 + Playwright E2E
 apps/android/   Kotlin Compose 患者/家属端
 apps/wechat/    原生微信小程序（沙箱）
 docs/           规格、实施与验收、发布说明、演示指南、故障排查

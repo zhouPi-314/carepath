@@ -15,7 +15,17 @@ from carepath import __version__
 from carepath.db import SessionLocal, init_db
 from carepath.logging_utils import redact_mapping
 from carepath.models import User
-from carepath.routers import admin, auth, clinicians, events, government, patient, pharma
+from carepath.routers import (
+    admin,
+    auth,
+    clinicians,
+    community,
+    events,
+    government,
+    hospital_ops,
+    patient,
+    pharma,
+)
 from carepath.seed import seed_database
 from carepath.settings import get_settings
 
@@ -123,6 +133,8 @@ for router in (
     auth.router,
     patient.router,
     clinicians.router,
+    hospital_ops.router,
+    community.router,
     government.router,
     pharma.router,
     admin.router,

@@ -3,22 +3,39 @@ from __future__ import annotations
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from carepath.audit import add_audit
 from carepath.db import get_db
 from carepath.deps import CurrentUser, get_current_user, get_unit_of_work
-from carepath.models import Alert, CareTask, Observation, OutboxEvent, TreatmentPlan
+from carepath.models import (
+    Alert,
+    CareTask,
+    ConversationMessage,
+    Observation,
+    OutboxEvent,
+    TreatmentPlan,
+    TreatmentRecord,
+)
 from carepath.schemas import (
     AlertActionRequest,
     AlertOut,
     CompleteTaskRequest,
+    MessageCreate,
+    MessageOut,
     ObservationCreate,
     ObservationOut,
     PatientDashboard,
     TaskOut,
+    TreatmentRecordOut,
 )
-from carepath.services import build_patient_dashboard, ensure_patient_access, task_out
+from carepath.services import (
+    accessible_patient_ids,
+    build_patient_dashboard,
+    ensure_patient_access,
+    task_out,
+)
 from carepath.unit_of_work import SqlAlchemyUnitOfWork
 
 router = APIRouter(tags=["患者与家属"])
@@ -166,3 +183,97 @@ async def acknowledge_alert(
         status=alert.status,
         created_at=alert.created_at,
     )
+
+
+async def _ensure_plan_access(
+    db: AsyncSession,
+    current: CurrentUser,
+    plan: TreatmentPlan,
+) -> None:
+    if current.user.role in {"PATIENT", "CAREGIVER"}:
+        await ensure_patient_access(db, current, plan.patient_id, "tasks:read")
+        return
+    if current.user.role == "DOCTOR":
+        if plan.organization_id != current.user.organization_id:
+            raise HTTPException(status_code=403, detail="无权访问该计划")
+        return
+    if current.user.role == "HOSPITAL_ADMIN":
+        if plan.organization_id != current.user.organization_id:
+            raise HTTPException(status_code=403, detail="无权访问该计划")
+        return
+    raise HTTPException(status_code=403, detail="当前角色不得访问临床计划")
+
+
+@router.get("/plans/{plan_id}/messages", response_model=list[MessageOut])
+async def list_messages(
+    plan_id: str,
+    current: CurrentUser = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> list[MessageOut]:
+    plan = await db.get(TreatmentPlan, plan_id)
+    if not plan:
+        raise HTTPException(status_code=404, detail="治疗计划不存在")
+    await _ensure_plan_access(db, current, plan)
+    rows = (
+        await db.scalars(
+            select(ConversationMessage)
+            .where(ConversationMessage.plan_id == plan_id)
+            .order_by(ConversationMessage.created_at.asc())
+        )
+    ).all()
+    return [MessageOut.model_validate(row) for row in rows]
+
+
+@router.post("/plans/{plan_id}/messages", response_model=MessageOut, status_code=201)
+async def create_message(
+    plan_id: str,
+    payload: MessageCreate,
+    current: CurrentUser = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> MessageOut:
+    plan = await db.get(TreatmentPlan, plan_id)
+    if not plan:
+        raise HTTPException(status_code=404, detail="治疗计划不存在")
+    await _ensure_plan_access(db, current, plan)
+    message = ConversationMessage(
+        plan_id=plan.id,
+        patient_id=plan.patient_id,
+        sender_id=current.user.id,
+        sender_role=current.user.role,
+        content=payload.content,
+    )
+    db.add(message)
+    await db.flush()
+    add_audit(
+        db,
+        current,
+        action="MESSAGE_CREATE",
+        resource_kind="conversation_message",
+        resource_id=message.id,
+        patient_id=plan.patient_id,
+        organization_id=plan.organization_id,
+    )
+    await db.commit()
+    return MessageOut.model_validate(message)
+
+
+@router.get("/patient/records", response_model=list[TreatmentRecordOut])
+async def list_family_records(
+    current: CurrentUser = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> list[TreatmentRecordOut]:
+    patient_ids = await accessible_patient_ids(db, current)
+    if not patient_ids:
+        raise HTTPException(status_code=404, detail="未找到可访问患者")
+    patient_id = sorted(patient_ids)[0]
+    rows = (
+        await db.scalars(
+            select(TreatmentRecord)
+            .where(
+                TreatmentRecord.patient_id == patient_id,
+                TreatmentRecord.visibility.in_(("FAMILY", "CARE_TEAM_AND_FAMILY")),
+            )
+            .order_by(TreatmentRecord.created_at.desc())
+        )
+    ).all()
+    return [TreatmentRecordOut.model_validate(row) for row in rows]

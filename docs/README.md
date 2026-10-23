@@ -13,7 +13,8 @@
 - `spec/04-official-data-and-rea.md`：官方数据与 REA 调研规范。
 - `plans/05-implementation-and-acceptance.md`：实施范围、验收场景与验证命令。
 - `release/v0.1.0.md`：v0.1.0 发布说明、安装、配置、数据来源与限制。
-- `demo-guide.md`：Web、Android、微信三端与多角色操作清单。
+- `workflows.md`：五类角色与医院分级转入、社区照护、药企供应流程。
+- `demo-guide.md`：Web、Android、微信三端与角色操作清单。
 - `official-data.md`：官方公开数据快照格式、导入工具与状态规则。
 - `troubleshooting.md`：启动、测试、Android、微信、PostgreSQL 常见问题。
 - `research/competitive-matrix.md`：同类项目与公开产品矩阵。

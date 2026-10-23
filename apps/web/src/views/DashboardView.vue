@@ -12,6 +12,12 @@ const GovernmentPanel = defineAsyncComponent(
 const HospitalPanel = defineAsyncComponent(() => import("../components/HospitalPanel.vue"));
 const PatientPanel = defineAsyncComponent(() => import("../components/PatientPanel.vue"));
 const PharmaPanel = defineAsyncComponent(() => import("../components/PharmaPanel.vue"));
+const CommunityPanel = defineAsyncComponent(
+  () => import("../components/CommunityPanel.vue"),
+);
+const HospitalOpsPanel = defineAsyncComponent(
+  () => import("../components/HospitalOpsPanel.vue"),
+);
 
 const session = useSessionStore();
 const router = useRouter();
@@ -26,6 +32,7 @@ const panels = {
   hospital: HospitalPanel,
   government: GovernmentPanel,
   pharma: PharmaPanel,
+  community: CommunityPanel,
   admin: AdminPanel,
 };
 
@@ -71,6 +78,9 @@ async function logout() {
         <div>
           <p class="eyebrow">{{ roleLabel(session.user.role) }} workspace</p>
           <strong>{{ session.user.displayName }}</strong>
+          <span v-if="session.user.identityLabel" class="identity-badge">
+            {{ session.user.identityLabel }}
+          </span>
           <span v-if="session.user.organizationName" class="org-name">
             · {{ session.user.organizationName }}
           </span>
@@ -89,6 +99,7 @@ async function logout() {
 
       <main id="workspace" class="workspace">
         <component :is="panel" :key="section" />
+        <HospitalOpsPanel v-if="section === 'hospital'" />
       </main>
     </div>
   </div>
@@ -282,5 +293,14 @@ nav {
     width: 100%;
     justify-content: space-between;
   }
+}
+.identity-badge {
+  margin-left: 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--cp-primary-soft);
+  color: var(--cp-primary);
+  font-size: 11px;
+  font-weight: 700;
 }
 </style>
