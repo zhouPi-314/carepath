@@ -33,6 +33,7 @@ IDENTITY = {
     "REGULATOR": "政府",
     "PHARMA": "药企",
     "COMMUNITY_ORG": "社区与志愿组织",
+    "VOLUNTEER": "志愿者",
     "SYSTEM_ADMIN": "系统管理员",
 }
 
@@ -128,6 +129,37 @@ async def summary(
                 for record in records
             ]
             heading = "医院工作台"
+
+    elif role == "VOLUNTEER" and org_id:
+        volunteer = await db.scalar(select(Volunteer).where(Volunteer.user_id == current.user.id))
+        tasks = []
+        if volunteer:
+            tasks = (
+                await db.scalars(
+                    select(CommunityTask)
+                    .where(CommunityTask.assignee_id == volunteer.id)
+                    .order_by(CommunityTask.created_at.desc())
+                )
+            ).all()
+        deliveries = await _count(
+            db,
+            select(func.count(DeliveryOrder.id)).where(
+                DeliveryOrder.organization_id == org_id, DeliveryOrder.status == "PENDING"
+            ),
+        )
+        metrics = [
+            MobileMetric(label="我的任务", value=len(tasks)),
+            MobileMetric(
+                label="待完成",
+                value=sum(task.status == "OPEN" for task in tasks),
+            ),
+            MobileMetric(label="待配送", value=deliveries),
+        ]
+        items = [
+            MobileItem(title=task.title, detail=f"{task.category} · {task.status}")
+            for task in tasks
+        ]
+        heading = "志愿者任务"
 
     elif role == "COMMUNITY_ORG" and org_id:
         volunteers = await _count(

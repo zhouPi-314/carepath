@@ -1,4 +1,5 @@
-<view class="manage-page">
+<view class="manage-page role-{{roleClass}}">
+  <text class="platform">医疗健康保障协同平台</text>
   <view class="manage-header">
     <text class="eyebrow">{{summary.identityLabel || "协同管理"}}</text>
     <text class="title">{{summary.heading || "管理面板"}}</text>

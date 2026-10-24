@@ -51,9 +51,9 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="医疗健康协同体平台 API",
+    title="医疗健康保障协同平台 API",
     version=__version__,
-    description="医疗健康协同体平台；不得用于真实诊疗。",
+    description="医疗健康保障协同平台；不得用于真实诊疗。",
     lifespan=lifespan,
 )
 app.add_middleware(

@@ -9,6 +9,7 @@ const demoRoles = [
   { username: "regulator", role: "政府 · 入驻认证", heading: "区域监管沙箱" },
   { username: "pharma", role: "药企", heading: "药品需求与产能" },
   { username: "community", role: "社区与志愿组织", heading: "社区照护与志愿调度" },
+  { username: "volunteer", role: "志愿者", heading: "我的志愿任务" },
 ] as const;
 
 const demoPasswords: Record<string, string> = {
@@ -19,6 +20,7 @@ const demoPasswords: Record<string, string> = {
   regulator: "Re2026!care",
   pharma: "Ph2026!care",
   community: "Co2026!care",
+  volunteer: "Vo2026!care",
 };
 
 async function login(page: Page, username: string) {

@@ -1,124 +1,20 @@
-.login-page {
-  min-height: 100vh;
-  padding: 74rpx 36rpx 44rpx;
-  box-sizing: border-box;
-  background: linear-gradient(145deg, #0d5c63 0%, #11373b 62%, #0c2d31 100%);
-  color: #ffffff;
-}
-
-.brand-mark {
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 28rpx 28rpx 28rpx 8rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #efc47f;
-  color: #173437;
-  font-size: 48rpx;
-  font-weight: 800;
-}
-
-.eyebrow {
-  display: block;
-  color: #b9e5da;
-  margin-top: 38rpx;
-}
-
-.title {
-  display: block;
-  font-size: 84rpx;
-  line-height: 1.05;
-  letter-spacing: -6rpx;
-  font-weight: 800;
-  margin: 18rpx 0;
-}
-
-.subtitle {
-  display: block;
-  color: #d8efea;
-  font-size: 30rpx;
-  line-height: 1.7;
-}
-
-.login-card {
-  color: #173437;
-  margin-top: 48rpx;
-}
-
-.card-title {
-  display: block;
-  font-size: 34rpx;
-  font-weight: 700;
-  margin-bottom: 20rpx;
-}
-
-.role-row {
-  display: flex;
-  gap: 14rpx;
-  margin-bottom: 24rpx;
-}
-
-.role-chip {
-  margin: 0;
-  flex: 1;
-  border: 1rpx solid #d8e4e1;
-  background: #fbfdfc;
-  color: #446064;
-  border-radius: 16rpx;
-  font-size: 26rpx;
-  line-height: 70rpx;
-}
-
-.role-chip.selected {
-  border-color: #0d5c63;
-  color: #0d5c63;
-  background: #e5f2f0;
-  font-weight: 700;
-}
-
-.field-label {
-  display: block;
-  color: #5d7376;
-  font-size: 24rpx;
-  font-weight: 600;
-  margin: 20rpx 0 10rpx;
-}
-
-.field {
-  height: 84rpx;
-  border: 1rpx solid #c9d9d5;
-  border-radius: 16rpx;
-  padding: 0 20rpx;
-  background: #ffffff;
-}
-
-.error {
-  display: block;
-  color: #a83e32;
-  background: #fbebe8;
-  border-radius: 14rpx;
-  padding: 16rpx;
-  margin-top: 18rpx;
-  font-size: 24rpx;
-}
-
-.primary-button {
-  margin-top: 28rpx;
-}
-
-.demo-hint {
-  display: block;
-  color: #788c8f;
-  font-size: 22rpx;
-  margin-top: 18rpx;
-  text-align: center;
-}
-
-.boundary {
-  display: block;
-  color: #a8c9c4;
-  font-size: 22rpx;
-  line-height: 1.7;
-  margin-top: 28rpx;
-}
+page { background: #fbfefd; }
+.login-page { min-height: 100vh; padding: 64rpx 40rpx 80rpx; display: flex; flex-direction: column; gap: 36rpx; }
+.brand { display: flex; flex-direction: column; gap: 10rpx; }
+.brand-mark { width: 72rpx; height: 72rpx; border-radius: 24rpx; background: linear-gradient(135deg, #9be3cf, #b9e6f7); color: #2c5f53; display: grid; place-items: center; font-size: 36rpx; font-weight: 700; }
+.brand-title { font-size: 40rpx; font-weight: 700; color: #33454d; }
+.brand-note { font-size: 24rpx; color: #7a8f96; }
+.role-swiper { height: 300rpx; }
+.role-card { height: 280rpx; margin: 0 10rpx; background: #ffffff; border: 2rpx solid #e4f1eb; border-radius: 32rpx; padding: 32rpx; display: flex; flex-direction: column; gap: 8rpx; box-shadow: 0 16rpx 40rpx rgba(124, 203, 179, 0.12); }
+.role-icon { font-size: 36rpx; }
+.role-title { font-size: 32rpx; font-weight: 700; color: #33454d; }
+.role-desc { font-size: 24rpx; color: #7a8f96; }
+.account-row { display: flex; gap: 12rpx; margin-top: auto; }
+.account-chip { margin: 0; padding: 0 22rpx; height: 56rpx; line-height: 56rpx; font-size: 23rpx; border-radius: 999rpx; background: #eefaf5; color: #4c8a78; border: none; }
+.account-chip.active { background: #7ccbb3; color: #ffffff; }
+.form-card { background: #ffffff; border: 2rpx solid #e4f1eb; border-radius: 32rpx; padding: 32rpx; display: flex; flex-direction: column; gap: 22rpx; }
+.field { display: flex; flex-direction: column; gap: 8rpx; font-size: 24rpx; color: #7a8f96; }
+.field input { border: 2rpx solid #e4f1eb; border-radius: 18rpx; padding: 18rpx 22rpx; font-size: 28rpx; color: #33454d; background: #fbfefd; }
+.primary-button { border-radius: 999rpx; background: linear-gradient(135deg, #7ccbb3, #9ed8ef); color: #ffffff; font-size: 30rpx; }
+.error { color: #d07a75; font-size: 24rpx; }
+.hint { font-size: 22rpx; color: #9bb0b5; line-height: 1.6; }

@@ -47,6 +47,7 @@ IDENTITY_LABELS = {
     "REGULATOR": "政府",
     "PHARMA": "药企",
     "COMMUNITY_ORG": "社区与志愿组织",
+    "VOLUNTEER": "志愿者",
     "SYSTEM_ADMIN": "系统管理员",
 }
 

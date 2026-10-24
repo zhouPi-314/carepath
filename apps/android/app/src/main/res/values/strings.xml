@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">医疗健康协同体平台</string>
+    <string name="app_name">医疗健康保障协同平台</string>
     <string name="notification_channel_name">治疗协同提醒</string>
     <string name="notification_channel_description">提醒患者查看治疗任务</string>
 </resources>

@@ -5,7 +5,7 @@
     "pages/manage/index"
   ],
   "window": {
-    "navigationBarTitleText": "医疗健康协同体平台",
+    "navigationBarTitleText": "医疗健康保障协同平台",
     "navigationBarBackgroundColor": "#0D5C63",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F3F7F5",

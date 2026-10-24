@@ -169,3 +169,21 @@ async def update_incoming_transfer(
     transfer.status = payload.status
     await db.commit()
     return TransferOut.model_validate(transfer)
+
+
+@router.get("/my-tasks", response_model=list[CommunityTaskOut])
+async def my_tasks(
+    current: CurrentUser = Depends(require_roles("VOLUNTEER")),
+    db: AsyncSession = Depends(get_db),
+) -> list[CommunityTaskOut]:
+    volunteer = await db.scalar(select(Volunteer).where(Volunteer.user_id == current.user.id))
+    if not volunteer:
+        return []
+    rows = (
+        await db.scalars(
+            select(CommunityTask)
+            .where(CommunityTask.assignee_id == volunteer.id)
+            .order_by(CommunityTask.created_at.desc())
+        )
+    ).all()
+    return [CommunityTaskOut.model_validate(row) for row in rows]

@@ -5,16 +5,16 @@
   background: #f3f7f5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --cp-ink: #1d3b33;
-  --cp-muted: #5f7a6e;
-  --cp-primary: #2f8f6b;
-  --cp-primary-soft: #eaf7f0;
-  --cp-accent: #5fb7d4;
-  --cp-line: #dcefe4;
+  --cp-ink: #33454d;
+  --cp-muted: #7a8f96;
+  --cp-primary: #7ccbb3;
+  --cp-primary-soft: #eefaf5;
+  --cp-accent: #9ed8ef;
+  --cp-line: #e4f1eb;
   --cp-panel: #ffffff;
-  --cp-bg: #f7fcf8;
-  --cp-radius: 20px;
-  --cp-danger: #c0504d;
+  --cp-bg: #fbfefd;
+  --cp-radius: 22px;
+  --cp-danger: #d07a75;
 }
 
 * {
@@ -26,8 +26,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 10% 0%, rgba(160, 224, 190, 0.34), transparent 34rem),
-    radial-gradient(circle at 90% 6%, rgba(150, 210, 235, 0.22), transparent 28rem),
+    radial-gradient(circle at 8% 0%, rgba(196, 240, 220, 0.36), transparent 34rem),
+    radial-gradient(circle at 92% 4%, rgba(198, 232, 246, 0.28), transparent 30rem),
     var(--cp-bg);
 }
 
@@ -167,4 +167,78 @@ a {
   .page-heading {
     font-size: 24px;
   }
+}
+
+
+/* Role-specific light themes: same structure, distinct tone */
+.app-shell[data-role="PATIENT"],
+.app-shell[data-role="CAREGIVER"] {
+  --cp-primary: #6fc8b8;
+  --cp-primary-soft: #eaf9f6;
+  --cp-bg: #f7fdfc;
+}
+
+.app-shell[data-role="DOCTOR"] {
+  --cp-primary: #6fb4dc;
+  --cp-primary-soft: #eaf6fd;
+  --cp-bg: #f8fcfe;
+}
+
+.app-shell[data-role="HOSPITAL_ADMIN"] {
+  --cp-primary: #5f9fd8;
+  --cp-primary-soft: #e9f3fc;
+  --cp-bg: #f7fbfe;
+}
+
+.app-shell[data-role="COMMUNITY_ORG"] {
+  --cp-primary: #74c69d;
+  --cp-primary-soft: #edf9f2;
+  --cp-bg: #f9fdf9;
+}
+
+.app-shell[data-role="VOLUNTEER"] {
+  --cp-primary: #5ec2b0;
+  --cp-primary-soft: #e9f8f5;
+  --cp-bg: #f8fdfc;
+}
+
+.app-shell[data-role="PHARMA"] {
+  --cp-primary: #e8a29a;
+  --cp-primary-soft: #fff1ee;
+  --cp-bg: #fffaf9;
+}
+
+.app-shell[data-role="REGULATOR"] {
+  --cp-primary: #9b9ee8;
+  --cp-primary-soft: #f0f0fd;
+  --cp-bg: #fafaff;
+}
+
+.app-shell[data-role="SYSTEM_ADMIN"] {
+  --cp-primary: #9fb3c8;
+  --cp-primary-soft: #eef3f8;
+  --cp-bg: #fafcfe;
+}
+
+.app-shell[data-role="DOCTOR"] .sidebar,
+.app-shell[data-role="HOSPITAL_ADMIN"] .sidebar {
+  background: linear-gradient(180deg, #f2f9fe, #e8f3fb);
+}
+
+.app-shell[data-role="COMMUNITY_ORG"] .sidebar,
+.app-shell[data-role="VOLUNTEER"] .sidebar {
+  background: linear-gradient(180deg, #f3fcf6, #e7f7ee);
+}
+
+.app-shell[data-role="PHARMA"] .sidebar {
+  background: linear-gradient(180deg, #fff8f6, #ffede9);
+}
+
+.app-shell[data-role="REGULATOR"] .sidebar {
+  background: linear-gradient(180deg, #f7f7ff, #ededfc);
+}
+
+.app-shell[data-role] .safety-banner {
+  background: var(--cp-primary-soft);
+  color: var(--cp-muted);
 }

@@ -115,3 +115,20 @@ async def test_mobile_summary_is_role_aware(client: AsyncClient) -> None:
     )
     assert hospital_summary.status_code == 200
     assert hospital_summary.json()["role"] == "HOSPITAL_ADMIN"
+
+
+@pytest.mark.asyncio
+async def test_volunteer_has_role_summary_and_tasks(client: AsyncClient) -> None:
+    volunteer = await _login(client, "volunteer", "Vo2026!care")
+    headers = {"Authorization": f"Bearer {volunteer['accessToken']}"}
+
+    summary = await client.get("/api/v1/mobile/summary", headers=headers)
+    assert summary.status_code == 200, summary.text
+    body = summary.json()
+    assert body["role"] == "VOLUNTEER"
+    assert body["identityLabel"] == "志愿者"
+    assert body["items"]
+
+    tasks = await client.get("/api/v1/community/my-tasks", headers=headers)
+    assert tasks.status_code == 200, tasks.text
+    assert tasks.json()

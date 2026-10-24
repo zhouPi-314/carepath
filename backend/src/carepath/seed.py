@@ -42,6 +42,7 @@ DEMO_PASSWORDS: dict[str, str] = {
     "regulator": "Re2026!care",
     "pharma": "Ph2026!care",
     "community": "Co2026!care",
+    "volunteer": "Vo2026!care",
     "admin": "Ad2026!care",
 }  # nosec B105 - synthetic sandbox credentials, documented in README
 
@@ -171,6 +172,15 @@ async def seed_database() -> None:
             organization_id=pharma.id,
             seeded_demo=True,
         )
+        volunteer_user = User(
+            id="user-volunteer",
+            username="volunteer",
+            password_hash=password_hashes["volunteer"],
+            display_name="社区志愿者",
+            role="VOLUNTEER",
+            organization_id=community_org.id,
+            seeded_demo=True,
+        )
         community_user = User(
             id="user-community",
             username="community",
@@ -199,6 +209,7 @@ async def seed_database() -> None:
                 regulator_user,
                 pharma_user,
                 community_user,
+                volunteer_user,
                 admin_user,
             ]
         )
@@ -595,6 +606,7 @@ async def seed_database() -> None:
         volunteer_one = Volunteer(
             id="volunteer-1",
             organization_id=community_org.id,
+            user_id=volunteer_user.id,
             name="社区志愿者甲",
             phone_masked="137****0001",
             skills=["血压测量", "用药提醒"],

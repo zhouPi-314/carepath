@@ -99,3 +99,25 @@
   border-radius: 999rpx;
   font-size: 28rpx;
 }
+
+
+.platform {
+  color: #9bb0b5;
+  font-size: 22rpx;
+  letter-spacing: 1rpx;
+}
+
+.role-hospital .metric-value { color: #5f9fd8; }
+.role-doctor .metric-value { color: #6fb4dc; }
+.role-community_org .metric-value { color: #74c69d; }
+.role-volunteer .metric-value { color: #5ec2b0; }
+.role-pharma .metric-value { color: #e8a29a; }
+.role-regulator .metric-value { color: #9b9ee8; }
+.role-patient .metric-value,
+.role-caregiver .metric-value { color: #6fc8b8; }
+
+.role-hospital { background: #f7fbfe; }
+.role-community_org { background: #f9fdf9; }
+.role-volunteer { background: #f8fdfc; }
+.role-pharma { background: #fffaf9; }
+.role-regulator { background: #fafaff; }

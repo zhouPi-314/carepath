@@ -1,6 +1,7 @@
 package com.carepath.ycth.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
@@ -51,6 +55,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.carepath.ycth.data.AlertDto
 import com.carepath.ycth.data.MobileSummaryDto
 import com.carepath.ycth.data.PatientDashboardDto
@@ -63,9 +68,22 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-private val demoAccounts = listOf(
-    "patient" to "患者",
-    "caregiver" to "家属",
+private data class DemoAccount(val username: String, val password: String, val label: String)
+
+private data class DemoRole(val title: String, val accounts: List<DemoAccount>)
+
+private val demoRoles = listOf(
+    DemoRole("医院", listOf(
+        DemoAccount("doctor", "Do2026!care", "医生"),
+        DemoAccount("hospital", "Ho2026!care", "院务"),
+    )),
+    DemoRole("社区与志愿", listOf(
+        DemoAccount("community", "Co2026!care", "社区"),
+        DemoAccount("volunteer", "Vo2026!care", "志愿者"),
+    )),
+    DemoRole("药企", listOf(DemoAccount("pharma", "Ph2026!care", "药企"))),
+    DemoRole("政府", listOf(DemoAccount("regulator", "Re2026!care", "政府"))),
+    DemoRole("用户 / 居民", listOf(DemoAccount("patient", "Pa2026!care", "居民"))),
 )
 
 @Composable
@@ -110,15 +128,24 @@ private fun LoginScreen(
     error: String?,
     onLogin: (String, String) -> Unit,
 ) {
-    var username by rememberSaveable { mutableStateOf("patient") }
-    var password by rememberSaveable { mutableStateOf("Pa2026!care") }
+    var roleIndex by rememberSaveable { mutableStateOf(0) }
+    var accountIndex by rememberSaveable { mutableStateOf(0) }
+    var username by rememberSaveable { mutableStateOf(demoRoles[0].accounts[0].username) }
+    var password by rememberSaveable { mutableStateOf(demoRoles[0].accounts[0].password) }
+
+    fun selectAccount(role: Int, account: Int) {
+        roleIndex = role
+        accountIndex = account
+        username = demoRoles[role].accounts[account].username
+        password = demoRoles[role].accounts[account].password
+    }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    listOf(Color(0xFFF3F7F5), Color(0xFFE5F2F0)),
+                    listOf(Color(0xFFF9FEFC), Color(0xFFEAF8F4)),
                 ),
             ),
         contentPadding = androidx.compose.foundation.layout.PaddingValues(24.dp),
@@ -130,7 +157,7 @@ private fun LoginScreen(
                 modifier = Modifier
                     .size(64.dp)
                     .background(
-                        Color(0xFFEFC47F),
+                        Color(0xFFBCEBDD),
                         RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp, bottomEnd = 20.dp),
                     ),
                 contentAlignment = Alignment.Center,
@@ -138,17 +165,17 @@ private fun LoginScreen(
                 Text(
                     text = "医",
                     style = MaterialTheme.typography.headlineLarge,
-                    color = Color(0xFF173437),
+                    color = Color(0xFF2C5F53),
                 )
             }
             Spacer(Modifier.height(24.dp))
             Text(
-                text = "医疗健康协同体平台",
+                text = "医疗健康保障协同平台",
                 style = MaterialTheme.typography.headlineLarge,
                 color = Color(0xFF173437),
             )
             Text(
-                text = "把治疗计划、随访任务和家属协同放进同一条路径。",
+                text = "医院、社区、药企、政府与居民在同一条照护路径上协作。",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 10.dp),
@@ -165,14 +192,45 @@ private fun LoginScreen(
                     modifier = Modifier.padding(22.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Text("选择演示身份", style = MaterialTheme.typography.titleLarge)
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        demoAccounts.forEach { (account, label) ->
-                            TextButton(onClick = { username = account }) {
-                                Text(
-                                    if (username == account) "● $label" else label,
-                                    fontWeight = FontWeight.SemiBold,
-                                )
+                    Text("左右滑动选择角色", style = MaterialTheme.typography.titleLarge)
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        itemsIndexed(demoRoles) { index, role ->
+                            Card(
+                                modifier = Modifier
+                                    .width(170.dp)
+                                    .clickable { selectAccount(index, 0) },
+                                colors = CardDefaults.cardColors(
+                                    containerColor = if (roleIndex == index) {
+                                        Color(0xFFEAF9F6)
+                                    } else {
+                                        Color(0xFFFBFEFD)
+                                    },
+                                ),
+                                shape = RoundedCornerShape(18.dp),
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(14.dp),
+                                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                                ) {
+                                    Text(role.title, fontWeight = FontWeight.SemiBold)
+                                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                        role.accounts.forEachIndexed { accountIdx, account ->
+                                            TextButton(
+                                                onClick = { selectAccount(index, accountIdx) },
+                                                contentPadding = androidx.compose.foundation.layout.PaddingValues(4.dp),
+                                            ) {
+                                                Text(
+                                                    if (roleIndex == index && accountIndex == accountIdx) {
+                                                        "● " + account.label
+                                                    } else {
+                                                        account.label
+                                                    },
+                                                    fontSize = 12.sp,
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -216,7 +274,7 @@ private fun LoginScreen(
                         }
                     }
                     Text(
-                        text = "演示密码：患者 Pa2026!care / 家属 Ca2026!care",
+                        text = "用户 / 居民为统一入口；家属账号 caregiver / Ca2026!care 可手动输入。",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -244,7 +302,7 @@ private fun ManagementScreen(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("医疗健康协同体平台") },
+                title = { Text("医疗健康保障协同平台") },
                 actions = {
                     IconButton(onClick = onLogout) {
                         Icon(Icons.AutoMirrored.Outlined.Logout, contentDescription = "退出登录")
@@ -326,7 +384,7 @@ private fun PatientHomeScreen(
                 title = {
                     Column {
                         Text(
-                            text = "医疗健康协同体平台",
+                            text = "医疗健康保障协同平台",
                             style = MaterialTheme.typography.titleLarge,
                         )
                         Text(

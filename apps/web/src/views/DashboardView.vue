@@ -16,6 +16,9 @@ const PharmaPanel = defineAsyncComponent(() => import("../components/PharmaPanel
 const CommunityPanel = defineAsyncComponent(
   () => import("../components/CommunityPanel.vue"),
 );
+const VolunteerPanel = defineAsyncComponent(
+  () => import("../components/VolunteerPanel.vue"),
+);
 const HospitalOpsPanel = defineAsyncComponent(
   () => import("../components/HospitalOpsPanel.vue"),
 );
@@ -34,6 +37,7 @@ const panels = {
   government: GovernmentPanel,
   pharma: PharmaPanel,
   community: CommunityPanel,
+  volunteer: VolunteerPanel,
   admin: AdminPanel,
 };
 
@@ -51,12 +55,12 @@ async function logout() {
 </script>
 
 <template>
-  <div v-if="session.user" class="app-shell">
+  <div v-if="session.user" class="app-shell" :data-role="session.user.role">
     <aside class="sidebar">
       <div class="brand-block">
         <div class="brand-mark" aria-hidden="true">医</div>
         <div>
-          <strong>医疗健康协同体平台</strong>
+          <strong>医疗健康保障协同平台</strong>
           <span>Medical & Health Collaboration</span>
         </div>
       </div>

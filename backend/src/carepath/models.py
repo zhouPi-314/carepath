@@ -368,6 +368,9 @@ class Volunteer(Base):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id"), index=True)
+    user_id: Mapped[str | None] = mapped_column(
+        ForeignKey("users.id"), nullable=True, index=True
+    )
     name: Mapped[str] = mapped_column(String(80))
     phone_masked: Mapped[str] = mapped_column(String(32), default="")
     skills: Mapped[list[str]] = mapped_column(JSON, default=list)

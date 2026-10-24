@@ -1,10 +1,10 @@
-# 医疗健康协同体平台
+# 医疗健康保障协同平台
 
 [![CI](https://github.com/zhouPi-314/health-collaboration-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/zhouPi-314/health-collaboration-platform/actions/workflows/ci.yml)
 [![License: Apache-2.0 OR MIT](https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg)](LICENSE-APACHE)
 [![Version](https://img.shields.io/badge/version-v0.1.0-green.svg)](docs/release/v0.1.0.md)
 
-> 面向教学、科研协作与后续试点的医疗健康协同体平台。使用合成病例与官方公开数据快照，**不提供诊断或治疗建议，不用于真实患者**。
+> 面向教学、科研协作与后续试点的医疗健康保障协同平台。使用合成病例与官方公开数据快照，**不提供诊断或治疗建议，不用于真实患者**。
 
 A multi-role platform for coordinating treatment-plan progress across patients, caregivers, clinicians, hospitals, regulators and pharmaceutical companies. Synthetic data only; not for clinical use.
 
@@ -32,10 +32,11 @@ A multi-role platform for coordinating treatment-plan progress across patients, 
 | 角色 | 账号 | 密码 |
 |---|---|---|
 | 用户 · 病患 | `patient` | `Pa2026!care` |
-| 用户 · 家属 | `caregiver` | `Ca2026!care` |
+| 用户 · 家属（统一入口手动输入） | `caregiver` | `Ca2026!care` |
 | 医院 · 医生 | `doctor` | `Do2026!care` |
 | 医院 · 管理 | `hospital` | `Ho2026!care` |
 | 社区与志愿组织 | `community` | `Co2026!care` |
+| 志愿者 | `volunteer` | `Vo2026!care` |
 | 政府 · 入驻认证 | `regulator` | `Re2026!care` |
 | 药企 | `pharma` | `Ph2026!care` |
 | 系统管理员 | `admin` | `Ad2026!care` |

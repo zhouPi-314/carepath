@@ -3,6 +3,7 @@ const { request } = require("../../utils/api");
 Page({
   data: {
     summary: null,
+    roleClass: "user",
     loading: true,
     error: "",
   },
@@ -19,7 +20,7 @@ Page({
     this.setData({ loading: true, error: "" });
     try {
       const summary = await request("/mobile/summary");
-      this.setData({ summary });
+      this.setData({ summary, roleClass: (summary.role || "user").toLowerCase() });
     } catch (error) {
       this.setData({ error: error.message || "无法加载管理面板" });
     } finally {

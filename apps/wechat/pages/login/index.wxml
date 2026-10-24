@@ -1,51 +1,36 @@
 <view class="login-page">
-  <view class="brand-mark">医</view>
-  <text class="eyebrow">CAREPATH SANDBOX</text>
-  <text class="title">治疗方案协同平台</text>
-  <text class="subtitle">把治疗计划、随访任务和家属协同放进同一条可追踪路径。</text>
-
-  <view class="card login-card">
-    <text class="card-title">选择演示身份</text>
-    <view class="role-row">
-      <button
-        wx:for="{{accounts}}"
-        wx:key="username"
-        class="role-chip {{username === item.username ? 'selected' : ''}}"
-        data-username="{{item.username}}"
-        bindtap="chooseAccount"
-      >
-        {{item.label}}
-      </button>
-    </view>
-
-    <text class="field-label">账号</text>
-    <input
-      class="field"
-      value="{{username}}"
-      data-field="username"
-      bindinput="onInput"
-      placeholder="请输入账号"
-    />
-    <text class="field-label">密码</text>
-    <input
-      class="field"
-      password
-      value="{{password}}"
-      data-field="password"
-      bindinput="onInput"
-      placeholder="请输入密码"
-    />
-    <text wx:if="{{error}}" class="error">{{error}}</text>
-    <button
-      class="primary-button"
-      loading="{{loading}}"
-      disabled="{{loading}}"
-      bindtap="submit"
-    >
-      进入治疗方案协同平台
-    </button>
-    <text class="demo-hint">演示密码：患者 Pa2026!care / 家属 Ca2026!care</text>
+  <view class="brand">
+    <view class="brand-mark">医</view>
+    <text class="brand-title">医疗健康保障协同平台</text>
+    <text class="brand-note">医院 · 社区 · 药企 · 政府 · 居民</text>
   </view>
 
-  <text class="boundary">当前为开发沙箱，使用合成病例；真实微信登录与订阅消息需后续配置 AppID。</text>
+  <swiper class="role-swiper" bindchange="onRoleChange" previous-margin="24rpx" next-margin="24rpx">
+    <swiper-item wx:for="{{roles}}" wx:key="key">
+      <view class="role-card">
+        <text class="role-icon">{{item.icon}}</text>
+        <text class="role-title">{{item.title}}</text>
+        <text class="role-desc">{{item.desc}}</text>
+        <view class="account-row">
+          <button
+            wx:for="{{item.accounts}}"
+            wx:for-item="account"
+            wx:for-index="accountIndex"
+            wx:key="username"
+            class="account-chip {{activeRole === index && activeAccount === accountIndex ? 'active' : ''}}"
+            data-index="{{accountIndex}}"
+            bindtap="chooseAccount"
+          >{{account.label}}</button>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <view class="form-card">
+    <label class="field"><text>账号</text><input value="{{username}}" data-field="username" bindinput="onInput" /></label>
+    <label class="field"><text>密码</text><input password value="{{password}}" data-field="password" bindinput="onInput" /></label>
+    <text wx:if="{{error}}" class="error">{{error}}</text>
+    <button class="primary-button" loading="{{loading}}" bindtap="submit">进入平台</button>
+    <text class="hint">家属账号 caregiver / Ca2026!care 可在「用户 / 居民」入口手动输入，登录后由数据标识身份。</text>
+  </view>
 </view>

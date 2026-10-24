@@ -81,7 +81,8 @@ def can_access(
             and principal.organization_id == resource.organization_id
         )
 
-    if principal.role == "COMMUNITY_ORG":
+    if principal.role in {"COMMUNITY_ORG", "VOLUNTEER"}:
+
         return bool(
             principal.organization_id
             and principal.organization_id == resource.organization_id

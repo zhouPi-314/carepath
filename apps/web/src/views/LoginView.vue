@@ -14,13 +14,13 @@ const session = useSessionStore();
 type DemoAccount = { username: string; password: string; role: Role; summary: string };
 
 const demoAccounts: DemoAccount[] = [
-  { username: "patient", password: "Pa2026!care", role: "PATIENT", summary: "治疗计划与任务" },
-  { username: "caregiver", password: "Ca2026!care", role: "CAREGIVER", summary: "授权范围内协同" },
+  { username: "patient", password: "Pa2026!care", role: "PATIENT", summary: "用户 / 居民统一入口，病患与家属由医院数据标识" },
   { username: "doctor", password: "Do2026!care", role: "DOCTOR", summary: "患者计划与提醒" },
   { username: "hospital", password: "Ho2026!care", role: "HOSPITAL_ADMIN", summary: "院内协同统计" },
   { username: "regulator", password: "Re2026!care", role: "REGULATOR", summary: "入驻认证与区域指标" },
   { username: "pharma", password: "Ph2026!care", role: "PHARMA", summary: "药品供应与产能" },
   { username: "community", password: "Co2026!care", role: "COMMUNITY_ORG", summary: "志愿调度与药品配送" },
+  { username: "volunteer", password: "Vo2026!care", role: "VOLUNTEER", summary: "我的志愿任务与配送" },
 ];
 
 const username = ref(demoAccounts[0].username);
@@ -59,7 +59,7 @@ async function submit() {
     <section class="login-story" aria-labelledby="product-title">
       <div class="brand-seal" aria-hidden="true">医</div>
       <p class="eyebrow">Medical & Health Collaboration</p>
-      <h1 id="product-title">医疗健康协同体平台</h1>
+      <h1 id="product-title">医疗健康保障协同平台</h1>
       <p class="tagline">
         把治疗计划、随访任务、家属授权与多方反馈放进同一条可追踪路径。
       </p>
